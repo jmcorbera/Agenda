@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 import modelo.Agenda;
+import modelo.ConvertorFecha;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaNacimiento;
 import presentacion.vista.VentanaPersona;
@@ -50,12 +51,17 @@ public class Controlador implements ActionListener {
 	private void guardarPersona(ActionEvent p) {
 		String nombre = this.ventanaPersona.getTxtNombre().getText();
 		String tel = ventanaPersona.getTxtTelefono().getText();
-		String nacimiento = ventanaNacimiento.getFecha();
+		String nacimiento = crearStringFecha();
 		String email = ventanaPersona.getTxtEmail().getText();
 		PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel, nacimiento, email);
 		this.agenda.agregarPersona(nuevaPersona);
 		this.refrescarTabla();
 		this.ventanaPersona.cerrar();
+	}
+
+	private String crearStringFecha() {
+		ConvertorFecha fecha = new ConvertorFecha(ventanaNacimiento.getFecha().getDate());
+		return fecha.getFecha();
 	}
 
 	private void mostrarReporte(ActionEvent r) {

@@ -1,6 +1,5 @@
 package presentacion.vista;
 
-import modelo.ConvertorFecha;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -72,9 +71,8 @@ public class VentanaNacimiento extends JFrame {
 		return btnAgregarNacimiento;
 	}
 
-	public String getFecha() {
-		ConvertorFecha fecha = new ConvertorFecha(dateChooser.getDate());
-		return fecha.getFecha();
+	public JDateChooser getFecha() {
+		return dateChooser;
 	}
 
 	public void cerrar() {
