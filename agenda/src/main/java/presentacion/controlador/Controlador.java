@@ -19,7 +19,6 @@ public class Controlador implements ActionListener {
 	private VentanaNacimiento ventanaNacimiento;
 
 	public Controlador(Vista vista, Agenda agenda) {
-
 		this.vista = vista;
 		this.vista.getBtnAgregar().addActionListener(a -> ventanaAgregarPersona(a));
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona(s));
@@ -52,7 +51,8 @@ public class Controlador implements ActionListener {
 		String nombre = this.ventanaPersona.getTxtNombre().getText();
 		String tel = ventanaPersona.getTxtTelefono().getText();
 		String nacimiento = ventanaNacimiento.getFecha();
-		PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel, nacimiento);
+		String email = ventanaPersona.getTxtEmail().getText();
+		PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel, nacimiento, email);
 		this.agenda.agregarPersona(nuevaPersona);
 		this.refrescarTabla();
 		this.ventanaPersona.cerrar();

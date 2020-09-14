@@ -139,7 +139,8 @@ public class Vista
 		{
 			String nombre = p.getNombre();
 			String tel = p.getTelefono();
-			Object[] fila = {nombre, tel};
+			String email = p.getEmail();
+			Object[] fila = {nombre, tel, email};
 			this.getModelPersonas().addRow(fila);
 		}
 		

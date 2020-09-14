@@ -13,7 +13,7 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(id, nombre, telefono, nacimiento) VALUES(?, ?, ?, ?)";
+	private static final String insert = "INSERT INTO personas(id, nombre, telefono, nacimiento, email) VALUES(?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE id = ?";
 	private static final String readall = "SELECT * FROM personas";
 		
@@ -37,6 +37,7 @@ public class PersonaDAOSQL implements PersonaDAO
 			else {
 				statement.setString(4, persona.getNacimiento());
 			}
+			statement.setString(5, persona.getEmail());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -106,6 +107,7 @@ public class PersonaDAOSQL implements PersonaDAO
 		String nombre = resultSet.getString("nombre");
 		String tel = resultSet.getString("telefono");
 		String nacimiento = resultSet.getString("nacimiento");
-		return new PersonaDTO(id, nombre, tel,nacimiento);
+		String email = resultSet.getString("email");
+		return new PersonaDTO(id, nombre, tel, nacimiento, email);
 	}
 }

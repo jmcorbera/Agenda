@@ -1,16 +1,27 @@
-DROP DATABASE grupo_8;
+DROP DATABASE IF EXISTS grupo_8;
 CREATE DATABASE `grupo_8`;
 USE grupo_8;
+
+CREATE TABLE `tipoContacto`
+(
+	`id` int(11) NOT NULL AUTO_INCREMENT,
+    `contacto` varchar(20) NOT NULL,
+    PRIMARY KEY(`id`)
+); 
+
 CREATE TABLE `personas`
 (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
   `telefono` varchar(20) NOT NULL,
   `nacimiento` date DEFAULT NULL, 
-  `email` varchar(20) NOT NULL,
-  `idDomicilio` INT (11) DEFAULT NULL, 
-  PRIMARY KEY (`id`)
+  `email` text DEFAULT NULL,
+  `contactoId` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`contactoId`) REFERENCES `tipoContacto`(`id`)
 );
+
+
 
 CREATE TABLE `domicilios`
 (
@@ -19,7 +30,8 @@ CREATE TABLE `domicilios`
 `provincia` varchar(45) NOT NULL,
 `localidad` varchar(45) DEFAULT NULL,
 `departamento` varchar(45) DEFAULT NULL,
-PRIMARY KEY (`id`)
+PRIMARY KEY (`id`),
+FOREIGN KEY (`id`) REFERENCES `personas`(`id`)
 );
 
 CREATE TABLE `paises`
@@ -52,3 +64,7 @@ CREATE TABLE `departamentos`
 PRIMARY KEY (`id`,`nombre`),
 FOREIGN KEY (`localidadId`) REFERENCES `localidades`(`id`)
 );
+
+INSERT INTO `tipoContacto` (`contacto`) VALUES ('Amigo');
+INSERT INTO `tipoContacto` (`contacto`) VALUES ('Familia');
+INSERT INTO `tipoContacto` (`contacto`) VALUES ('Trabajo');

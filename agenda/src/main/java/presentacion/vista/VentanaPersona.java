@@ -157,5 +157,9 @@ public class VentanaPersona extends JFrame
 	public JButton getBtnNacimiento() {
 		return btnNacimiento;
 	}
+
+	public JTextField getTxtEmail() {
+		return txtEmail;
+	}
 }
 
