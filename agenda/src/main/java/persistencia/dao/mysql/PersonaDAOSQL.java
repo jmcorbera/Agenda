@@ -13,8 +13,8 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(idPersona, nombre, telefono) VALUES(?, ?, ?)";
-	private static final String delete = "DELETE FROM personas WHERE idPersona = ?";
+	private static final String insert = "INSERT INTO personas(id, nombre, telefono, nacimiento) VALUES(?, ?, ?, ?)";
+	private static final String delete = "DELETE FROM personas WHERE id = ?";
 	private static final String readall = "SELECT * FROM personas";
 		
 	public boolean insert(PersonaDTO persona)
@@ -24,10 +24,19 @@ public class PersonaDAOSQL implements PersonaDAO
 		boolean isInsertExitoso = false;
 		try
 		{
+			
 			statement = conexion.prepareStatement(insert);
-			statement.setInt(1, persona.getIdPersona());
+		
+			statement.setInt(1, persona.getId());
 			statement.setString(2, persona.getNombre());
 			statement.setString(3, persona.getTelefono());
+			String fechaNacimiento = persona.getNacimiento();
+			if (fechaNacimiento.equals("")) {
+				statement.setString(4, null);
+			}
+			else {
+				statement.setString(4, persona.getNacimiento());
+			}
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -55,7 +64,7 @@ public class PersonaDAOSQL implements PersonaDAO
 		try 
 		{
 			statement = conexion.prepareStatement(delete);
-			statement.setString(1, Integer.toString(persona_a_eliminar.getIdPersona()));
+			statement.setString(1, Integer.toString(persona_a_eliminar.getId()));
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -93,9 +102,10 @@ public class PersonaDAOSQL implements PersonaDAO
 	
 	private PersonaDTO getPersonaDTO(ResultSet resultSet) throws SQLException
 	{
-		int id = resultSet.getInt("idPersona");
-		String nombre = resultSet.getString("Nombre");
-		String tel = resultSet.getString("Telefono");
-		return new PersonaDTO(id, nombre, tel);
+		int id = resultSet.getInt("id");
+		String nombre = resultSet.getString("nombre");
+		String tel = resultSet.getString("telefono");
+		String nacimiento = resultSet.getString("nacimiento");
+		return new PersonaDTO(id, nombre, tel,nacimiento);
 	}
 }
