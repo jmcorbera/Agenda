@@ -2,25 +2,29 @@ package dto;
 
 public class PersonaDTO 
 {
-	private int idPersona;
+	private int id;
 	private String nombre;
 	private String telefono;
+	private String nacimiento;
+	private String email;
 
-	public PersonaDTO(int idPersona, String nombre, String telefono)
+	public PersonaDTO(int id, String nombre, String telefono, String nacimiento, String email)
 	{
-		this.idPersona = idPersona;
+		this.id = id;
 		this.nombre = nombre;
 		this.telefono = telefono;
+		this.nacimiento = nacimiento;
+		this.email = email;
 	}
 	
-	public int getIdPersona() 
+	public int getId() 
 	{
-		return this.idPersona;
+		return this.id;
 	}
 
-	public void setIdPersona(int idPersona) 
+	public void setId(int idPersona) 
 	{
-		this.idPersona = idPersona;
+		this.id = idPersona;
 	}
 
 	public String getNombre() 
@@ -41,5 +45,13 @@ public class PersonaDTO
 	public void setTelefono(String telefono) 
 	{
 		this.telefono = telefono;
+	}
+
+	public String getNacimiento() {
+		return this.nacimiento;
+	}
+	
+	public String getEmail() {
+		return this.email;
 	}
 }
