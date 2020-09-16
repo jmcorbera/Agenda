@@ -25,7 +25,6 @@ public class ConvertorFechaTest {
 		ConvertorFecha convertor = new ConvertorFecha("");
 		convertor.setFecha(Date.valueOf("2020-12-01"));
 		assertEquals(convertor.getFecha(),"2020/12/01");
-		
 	}
 
 

@@ -13,12 +13,15 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(id, nombre, telefono, nacimiento, email) VALUES(?, ?, ?, ?, ?)";
+	private static final String insert = "INSERT INTO personas(nombre, telefono, nacimiento, email) VALUES(?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE id = ?";
 	private static final String readall = "SELECT * FROM personas";
 		
 	public boolean insert(PersonaDTO persona)
 	{
+		if(persona.getNombre().isEmpty() || persona.getTelefono().isEmpty() && persona.getEmail().isEmpty()) {
+			return false;
+		}
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
@@ -26,18 +29,16 @@ public class PersonaDAOSQL implements PersonaDAO
 		{
 			
 			statement = conexion.prepareStatement(insert);
-		
-			statement.setInt(1, persona.getId());
-			statement.setString(2, persona.getNombre());
-			statement.setString(3, persona.getTelefono());
+			statement.setString(1, persona.getNombre());
+			statement.setString(2, persona.getTelefono());
 			String fechaNacimiento = persona.getNacimiento();
 			if (fechaNacimiento.equals("")) {
-				statement.setString(4, null);
+				statement.setString(3, null);
 			}
 			else {
-				statement.setString(4, persona.getNacimiento());
+				statement.setString(3, persona.getNacimiento());
 			}
-			statement.setString(5, persona.getEmail());
+			statement.setString(4, persona.getEmail());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();

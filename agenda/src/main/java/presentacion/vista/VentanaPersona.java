@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class VentanaPersona extends JFrame 
 {
@@ -20,8 +19,9 @@ public class VentanaPersona extends JFrame
 	private JButton btnAgregarPersona;
 	private JButton btnNacimiento;
 	private JButton btnLocalidad;
+	private JButton btnEditarTipo;
 	private static VentanaPersona INSTANCE;
-	
+	private JComboBox<String> tipoContacto;
 	
 	public static VentanaPersona getInstance()
 	{
@@ -43,43 +43,46 @@ public class VentanaPersona extends JFrame
 		agregarTxts();
 		agregarBotones();
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Amigo", "Familia", "Trabajo"}));
-		comboBox.setBounds(133, 242, 89, 20);
-		panel.add(comboBox);
-		
-		
+		tipoContacto = new JComboBox<String>();
+		tipoContacto.setBounds(122, 177, 89, 20);
+		panel.add(tipoContacto);	
 	}
-
+	
+	public JComboBox<String> getJComboBoxTipoContacto(){
+		return tipoContacto;
+	}
+	
 	private void agregarBotones() {
 		btnAgregarPersona = new JButton("Agregar");
-		btnAgregarPersona.setBounds(212, 273, 89, 23);
+		btnAgregarPersona.setBounds(318, 214, 89, 23);
 		panel.add(btnAgregarPersona);
 		
+		btnEditarTipo = new JButton("Editar valores predeterminados");
+		btnEditarTipo.setBounds(221, 177, 183, 21);
+		panel.add(btnEditarTipo);
 	
 		
 		btnNacimiento = new JButton("Agregar");
-		
-		btnNacimiento.setBounds(133, 137, 89, 23);
+		btnNacimiento.setBounds(122, 137, 89, 23);
 		panel.add(btnNacimiento);
 		
 		btnLocalidad = new JButton("Agregar");
-		btnLocalidad.setBounds(133, 186, 89, 23);
+		btnLocalidad.setBounds(318, 137, 89, 23);
 		panel.add(btnLocalidad);
 	}
 
 	private void agregarTxts() {
 		txtNombre = new JTextField();
-		txtNombre.setBounds(133, 8, 164, 20);
+		txtNombre.setBounds(133, 8, 274, 17);
 		panel.add(txtNombre);
 		txtNombre.setColumns(10);
 		txtTelefono = new JTextField();
-		txtTelefono.setBounds(133, 49, 164, 20);
+		txtTelefono.setBounds(133, 49, 154, 17);
 		panel.add(txtTelefono);
 		txtTelefono.setColumns(10);
 		txtEmail = new JTextField();
 		txtEmail.setColumns(10);
-		txtEmail.setBounds(133, 92, 164, 20);
+		txtEmail.setBounds(133, 92, 274, 17);
 		panel.add(txtEmail);
 	}
 
@@ -101,11 +104,11 @@ public class VentanaPersona extends JFrame
 		panel.add(lblNacimiento);
 		
 		JLabel lblLocalidad = new JLabel("Localidad");
-		lblLocalidad.setBounds(10, 190, 46, 14);
+		lblLocalidad.setBounds(262, 141, 46, 14);
 		panel.add(lblLocalidad);
 		
 		JLabel lblTipoContacto = new JLabel("Tipo de Contacto");
-		lblTipoContacto.setBounds(10, 245, 89, 14);
+		lblTipoContacto.setBounds(10, 180, 89, 14);
 		panel.add(lblTipoContacto);
 	}
 
@@ -116,14 +119,14 @@ public class VentanaPersona extends JFrame
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 311, 301);
+		panel.setBounds(10, 11, 417, 237);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 342, 358);
+		setBounds(100, 100, 453, 297);
 		this.setVisible(false);
 	}
 	
@@ -147,6 +150,9 @@ public class VentanaPersona extends JFrame
 		return btnAgregarPersona;
 	}
 
+	public JButton getBtnEditarTipo() {
+		return btnEditarTipo;
+	}
 	public void cerrar()
 	{
 		this.txtNombre.setText(null);
