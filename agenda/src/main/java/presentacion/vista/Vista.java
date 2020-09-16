@@ -129,7 +129,6 @@ public class Vista
 		return nombreColumnas;
 	}
 
-
 	public void llenarTabla(List<PersonaDTO> personasEnTabla) {
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
 		this.getModelPersonas().setColumnCount(0);
@@ -143,6 +142,5 @@ public class Vista
 			Object[] fila = {nombre, tel, email};
 			this.getModelPersonas().addRow(fila);
 		}
-		
 	}
 }

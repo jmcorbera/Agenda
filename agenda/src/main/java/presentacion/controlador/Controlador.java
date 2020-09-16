@@ -228,7 +228,7 @@ public class Controlador implements ActionListener {
 	private static void mostrarMensaje(Component padre, String mensaje) {
 		JOptionPane.showMessageDialog(padre, mensaje);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	}
