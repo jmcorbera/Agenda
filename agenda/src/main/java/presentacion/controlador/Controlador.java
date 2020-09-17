@@ -4,6 +4,8 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -28,7 +30,7 @@ public class Controlador implements ActionListener {
 	private Agenda agenda;
 	private VentanaNacimiento ventanaNacimiento;
 	private VentanaTipoContacto ventanaTipoContacto;
-	private String[] mensajes = {"No ha seleccionado ningun contacto","El nombre es obligatorio!","Debe ingresar al menos una forma de contacto (Email o telefono)"};
+	private String[] mensajes = {"No ha seleccionado ningun contacto","El nombre es obligatorio!","Debe ingresar al menos una forma de contacto (Email o telefono)","El email ingresado es invalido"};
 
 	public Controlador(Vista vista, Agenda agenda) {
 		this.agenda = agenda;
@@ -127,6 +129,11 @@ public class Controlador implements ActionListener {
 			mostrarMensaje(ventanaPersona, mensajes[2]);
 			return;
 		}
+		if(!isValidEmail(email)) {
+			mostrarMensaje(ventanaPersona, mensajes[3]);
+			return;
+		}
+		
 		PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel, nacimiento, email);
 		this.agenda.agregarPersona(nuevaPersona);
 		this.refrescarTabla();
@@ -140,6 +147,12 @@ public class Controlador implements ActionListener {
 		}
 
 		this.refrescarTabla();
+	}
+	
+	public static boolean isValidEmail(String email) {
+		Pattern pattern = Pattern.compile("[a-z](\\.-_[a-z0-9]+)*[a-z0-9]*@[a-z]+(\\.[a-z]+)+");
+		Matcher mather = pattern.matcher(email);
+		return 	!mather.find() && !email.isEmpty() ? false : true;
 	}
 	
 	private void agregarContacto(VentanaNuevoContacto v, ActionEvent a) {
