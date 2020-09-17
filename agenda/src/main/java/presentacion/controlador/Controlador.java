@@ -68,7 +68,7 @@ public class Controlador implements ActionListener {
 	private void configurarVentanaPersona() {
 		this.ventanaPersona = VentanaPersona.getInstance();
 		mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
-		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona());
+		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(getPersonaAAgregar()));
 		this.ventanaPersona.getBtnNacimiento().addActionListener(n -> ventanaNacimiento.mostrarVentana());
 		this.ventanaPersona.getBtnEditarTipo().addActionListener(a -> ventanaTipoContacto.mostrarVentana());
 	}
@@ -185,11 +185,22 @@ public class Controlador implements ActionListener {
 						.getItemAt(ventanaEditarPersona.getComboBoxTipoContacto().getSelectedIndex());
 		return new PersonaDTO(0, nombre, telefono, nacimiento, email, contactoId);
 	}
-
+	
+	private PersonaDTO getPersonaAAgregar() {
+		return new PersonaDTO(0, ventanaPersona.getTxtNombre().getText(),
+				ventanaPersona.getTxtTelefono().getText(),
+				crearStringFecha(), 
+				ventanaPersona.getTxtEmail().getText(),
+				ventanaPersona.getJComboBoxTipoContacto()
+				.getItemAt(ventanaPersona.getJComboBoxTipoContacto().getSelectedIndex()));
+	}
+	
 	private void actualizarPersona(PersonaDTO personaEditada, int id) {
-		agenda.actualizarPersona(id, personaEditada);
-		ventanaEditarPersona.cerrar();
-		refrescarTabla();
+		if(isValid(personaEditada)) {
+			agenda.actualizarPersona(id, personaEditada);
+			ventanaEditarPersona.cerrar();
+			refrescarTabla();
+		}
 	}
 
 	private void mostrarListaContactosPredeterminados() {
@@ -238,30 +249,29 @@ public class Controlador implements ActionListener {
 			mostrarMensaje(ventanaTipoContacto, mensajes[0]);
 		}
 	}
-
-	private void guardarPersona() {
-		String nombre = this.ventanaPersona.getTxtNombre().getText();
-		if (nombre.isEmpty()) {
+	
+	private boolean isValid(PersonaDTO persona) {
+		if (persona.getNombre().isEmpty()) {
 			mostrarMensaje(ventanaPersona, mensajes[1]);
-			return;
+			return false;
 		}
-		String tel = ventanaPersona.getTxtTelefono().getText();
-		String nacimiento = crearStringFecha();
-		String email = ventanaPersona.getTxtEmail().getText();
-		if (tel.isEmpty() && email.isEmpty()) {
+		if (persona.getTelefono().isEmpty() && persona.getEmail().isEmpty()) {
 			mostrarMensaje(ventanaPersona, mensajes[2]);
-			return;
+			return false;
 		}
-		if (!isValidEmail(email)) {
+		if (!isValidEmail(persona.getEmail())) {
 			mostrarMensaje(ventanaPersona, mensajes[3]);
-			return;
+			return false;
 		}
-		String tipoContacto = ventanaPersona.getJComboBoxTipoContacto()
-				.getItemAt(ventanaPersona.getJComboBoxTipoContacto().getSelectedIndex());
-		PersonaDTO nuevaPersona = new PersonaDTO(0, nombre, tel, nacimiento, email, tipoContacto);
-		this.agenda.agregarPersona(nuevaPersona);
-		this.refrescarTabla();
-		this.ventanaPersona.cerrar();
+		return true;
+	}
+	
+	private void guardarPersona(PersonaDTO persona) {
+		if(isValid(persona)) {
+			this.agenda.agregarPersona(persona);
+			this.refrescarTabla();
+			this.ventanaPersona.cerrar();
+		}
 	}
 
 	public void borrarPersona() {

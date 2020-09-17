@@ -9,6 +9,8 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 public class VentanaEditarPersona extends JFrame {
@@ -35,6 +37,7 @@ public class VentanaEditarPersona extends JFrame {
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes(idContacto);
+		verificarCampos();
 	}
 
 	private void agregarComponentes(int idContacto) {
@@ -133,6 +136,24 @@ public class VentanaEditarPersona extends JFrame {
 		panel.setBounds(10, 11, 428, 255);
 		contentPane.add(panel);
 		panel.setLayout(null);
+	}
+	
+	private void verificarCampos() {
+		txtTelefono.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarSoloNumeros(e);
+			}
+		}));
+		txtNombre.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarLetrasYEspacios(e);
+			}
+		}));
+		txtEmail.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarMinusculaDigitoPuntoArrobaYGuiones(e);
+			}
+		}));
 	}
 
 	private void configurarVentana() {
