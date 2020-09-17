@@ -29,6 +29,10 @@ public class Agenda
 		this.persona.delete(persona_a_eliminar);
 	}
 	
+	public boolean actualizarPersona(int id, PersonaDTO nueva_persona) {
+		return this.persona.update(id, nueva_persona);
+	}
+	
 	public List<PersonaDTO> obtenerPersonas()
 	{
 		return this.persona.readAll();		

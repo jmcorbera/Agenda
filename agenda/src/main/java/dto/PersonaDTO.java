@@ -7,14 +7,16 @@ public class PersonaDTO
 	private String telefono;
 	private String nacimiento;
 	private String email;
-
-	public PersonaDTO(int id, String nombre, String telefono, String nacimiento, String email)
+    private String contactoId;
+    
+	public PersonaDTO(int id, String nombre, String telefono, String nacimiento, String email, String contactoId)
 	{
 		this.id = id;
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.nacimiento = nacimiento;
 		this.email = email;
+		this.contactoId = contactoId;
 	}
 	
 	public int getId() 
@@ -53,5 +55,13 @@ public class PersonaDTO
 	
 	public String getEmail() {
 		return this.email;
+	}
+
+	public String getContactoId() {
+		return contactoId;
+	}
+	
+	public void setContactoId(String otroTipoContacto) {
+		contactoId = otroTipoContacto;
 	}
 }

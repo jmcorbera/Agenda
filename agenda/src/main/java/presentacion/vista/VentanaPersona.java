@@ -147,6 +147,10 @@ public class VentanaPersona extends JFrame {
 	public JButton getBtnEditarTipo() {
 		return btnEditarTipo;
 	}
+	
+	public JComboBox<String> getCBTipoContacto(){
+		return tipoContacto;
+	}
 
 	public void cerrar() {
 		this.txtNombre.setText(null);
