@@ -59,8 +59,7 @@ public class Controlador implements ActionListener {
 	private void configurarVentanaTipoContacto() {
 		this.ventanaTipoContacto = VentanaTipoContacto.getInstance();
 		mostrarListaContactosPredeterminados();
-		this.ventanaTipoContacto.getBtnEditarContacto()
-				.addActionListener(a -> configurarVentanaEditarContacto(getTipoContactoSeleccionado()));
+		this.ventanaTipoContacto.getBtnEditarContacto().addActionListener(a -> configurarVentanaEditarContacto(getTipoContactoSeleccionado()));
 		this.ventanaTipoContacto.getBtnNuevoContacto().addActionListener(a -> configurarVentanaNuevoContacto());
 		this.ventanaTipoContacto.getBtnAceptar().addActionListener(a -> ventanaTipoContacto.cerrar());
 		this.ventanaTipoContacto.getBtnEliminarContacto().addActionListener(a -> eliminarContacto());
@@ -89,13 +88,56 @@ public class Controlador implements ActionListener {
 		if (personaSeleccionada != null) {
 			ventanaEditarPersona = new VentanaEditarPersona(personaSeleccionada.getId());
 			cambiarValoresDeElementos(personaSeleccionada);
+			agregarListeners(personaSeleccionada);
 			ventanaEditarPersona.getBtnEditarNacimiento().addActionListener(a -> ventanaNacimiento.mostrarVentana());
-			ventanaEditarPersona.getBtnAceptar()
-					.addActionListener(a -> actualizarPersona(getPersonaEditada(), personaSeleccionada.getId()));
+			ventanaEditarPersona.getBtnAceptar().addActionListener(a -> actualizarPersona(getPersonaEditada(), personaSeleccionada.getId()));
 			ventanaEditarPersona.mostrar();
 		} else {
 			mostrarMensaje(ventanaPersona, mensajes[4]);
 		}
+	}
+
+	private void agregarListeners(PersonaDTO personaSeleccionada) {
+		ventanaEditarPersona.getBtnCambiarEmail().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(ventanaEditarPersona.getTxtEmail().isEnabled()) {
+					ventanaEditarPersona.getBtnCambiarEmail().setText("Cambiar");
+					ventanaEditarPersona.getTxtEmail().setEnabled(false);
+					ventanaEditarPersona.getTxtEmail().setText(personaSeleccionada.getEmail());
+				}
+				else {
+					ventanaEditarPersona.getBtnCambiarEmail().setText("Cancelar");
+					ventanaEditarPersona.getTxtEmail().setEnabled(true);
+				}
+			}
+		});
+		ventanaEditarPersona.getBtnCambiarNombre().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(ventanaEditarPersona.getTxtNombre().isEnabled()) {
+					ventanaEditarPersona.getBtnCambiarNombre().setText("Cambiar");
+					ventanaEditarPersona.getTxtNombre().setEnabled(false);
+					ventanaEditarPersona.getTxtNombre().setText(personaSeleccionada.getNombre());
+				}
+				else {
+					ventanaEditarPersona.getBtnCambiarNombre().setText("Cancelar");
+					ventanaEditarPersona.getTxtNombre().setEnabled(true);
+				}
+			}
+		});
+		ventanaEditarPersona.getBtnCambiarTelefono().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(ventanaEditarPersona.getTxtTelefono().isEnabled()) {
+					ventanaEditarPersona.getBtnCambiarTelefono().setText("Cambiar");
+					ventanaEditarPersona.getTxtTelefono().setEnabled(false);
+					ventanaEditarPersona.getTxtTelefono().setText(personaSeleccionada.getTelefono());
+				}
+				else {
+					ventanaEditarPersona.getBtnCambiarTelefono().setText("Cancelar");
+					ventanaEditarPersona.getTxtTelefono().setEnabled(true);
+				}
+			}
+		});
 	}
 
 	private void cambiarValoresDeElementos(PersonaDTO personaSeleccionada) {
@@ -103,8 +145,7 @@ public class Controlador implements ActionListener {
 		ventanaEditarPersona.getTxtFechaNacimiento().setText(personaSeleccionada.getNacimiento());
 		ventanaEditarPersona.getTxtTelefono().setText(personaSeleccionada.getTelefono());
 		ventanaEditarPersona.getTxtNombre().setText(personaSeleccionada.getNombre());
-		ventanaNacimiento.getBtnAgregarNacimiento()
-				.addActionListener(a -> modificarTxtNacimiento(ventanaEditarPersona.getTxtFechaNacimiento()));
+		ventanaNacimiento.getBtnAgregarNacimiento().addActionListener(a -> modificarTxtNacimiento(ventanaEditarPersona.getTxtFechaNacimiento()));
 		mostrarDesplegableTipoContacto(ventanaEditarPersona.getComboBoxTipoContacto());
 		mostrarTipoContactoSeleccionadoPrimero(personaSeleccionada);
 	}

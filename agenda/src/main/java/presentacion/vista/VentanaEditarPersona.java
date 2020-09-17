@@ -21,6 +21,9 @@ public class VentanaEditarPersona extends JFrame {
 	private JTextField txtTelefono;
 	private JPanel panel;
 	private JButton btnCancelar;
+	private JButton btnCambiarEmail;
+	private JButton btnCambiarNombre;
+	private JButton btnCambiarTelefono;
 	private JButton btnCambiarNacimiento;
 	private JTextField txtEmail;
 	private JTextField txtFechaNacimiento;
@@ -69,23 +72,14 @@ public class VentanaEditarPersona extends JFrame {
 		btnCancelar.setBounds(329, 222, 89, 23);
 		panel.add(btnCancelar);	
 		
-		JButton btnCambiarNombre = new JButton("Cambiar");
-		btnCambiarNombre.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				txtNombre.setEnabled(true);
-			}
-		});
+		btnCambiarNombre = new JButton("Cambiar");
 		btnCambiarNombre.setBounds(321, 12, 97, 23);
 		panel.add(btnCambiarNombre);
 		
-		JButton btnCambiarTel = new JButton("Cambiar");
-		btnCambiarTel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtTelefono.setEnabled(true);
-			}
-		});
-		btnCambiarTel.setBounds(320, 53, 98, 23);
-		panel.add(btnCambiarTel);
+		btnCambiarTelefono = new JButton("Cambiar");
+	
+		btnCambiarTelefono.setBounds(320, 53, 98, 23);
+		panel.add(btnCambiarTelefono);
 		
 		JLabel lblEmail = new JLabel("Email:");
 		lblEmail.setBounds(10, 102, 97, 14);
@@ -115,21 +109,11 @@ public class VentanaEditarPersona extends JFrame {
 		cBTipoContacto.setBounds(119, 180, 177, 24);
 		panel.add(cBTipoContacto);
 		
-		JButton btnCambiarEmail = new JButton("Cambiar");
-		btnCambiarEmail.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtEmail.setEnabled(true);
-			}
-		});
+		btnCambiarEmail = new JButton("Cambiar");
 		btnCambiarEmail.setBounds(320, 98, 98, 23);
 		panel.add(btnCambiarEmail);
 		
 		btnCambiarNacimiento = new JButton("Cambiar");
-		btnCambiarNacimiento.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtFechaNacimiento.setEditable(true);
-			}
-		});
 		btnCambiarNacimiento.setBounds(320, 141, 98, 23);
 		panel.add(btnCambiarNacimiento);
 		
@@ -160,10 +144,6 @@ public class VentanaEditarPersona extends JFrame {
 		return btnAceptar;
 	}
 	
-	public JButton getBtnCancelar() {
-		return btnCancelar;
-	}
-	
 	public JTextField getTxtNombre() {
 		return txtNombre;
 	}
@@ -180,7 +160,6 @@ public class VentanaEditarPersona extends JFrame {
 		return txtTelefono;
 	}
 	
-	
 	public JComboBox<String> getComboBoxTipoContacto() {
 		return cBTipoContacto;
 	}
@@ -195,9 +174,16 @@ public class VentanaEditarPersona extends JFrame {
 		return btnCambiarNacimiento;
 	}
 	
-	public void setTxtNacimiento(String nacimiento) {
-		txtFechaNacimiento.setText(nacimiento);
+	public JButton getBtnCambiarEmail() {
+		return btnCambiarEmail;
 	}
-
-	 
+	
+	public JButton getBtnCambiarTelefono() {
+		return btnCambiarTelefono;
+	}
+	
+	public JButton getBtnCambiarNombre() {
+		return btnCambiarNombre;
+	}
+	
 }
