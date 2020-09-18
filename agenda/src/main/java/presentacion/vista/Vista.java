@@ -1,10 +1,14 @@
 package presentacion.vista;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
@@ -25,6 +29,8 @@ public class Vista
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private JButton btnEditar;
+	private JMenuItem menuItemLocalidad;
+	private JMenuItem menuItemTipoContacto;
 	private DefaultTableModel modelPersonas;
 	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email"};
 
@@ -78,6 +84,24 @@ public class Vista
 		btnReporte = new JButton("Reporte");
 		btnReporte.setBounds(307, 228, 89, 23);
 		panel.add(btnReporte);
+		
+		// Agrega barra Menu
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 434, 25);
+		panel.add(menuBar);
+		
+		// Agrega Menu
+		JMenu menu = new JMenu("ABM");
+		menu.setBackground(Color.LIGHT_GRAY);
+		menuBar.add(menu);
+		
+		// Agrega Item Menu
+		menuItemLocalidad = new JMenuItem("Localidad");
+		menu.add(menuItemLocalidad);
+		
+		// Agrega Item Menu
+		menuItemTipoContacto = new JMenuItem("Tipo Contacto");
+		menu.add(menuItemTipoContacto);
 	}
 	
 	public void show()
@@ -117,6 +141,14 @@ public class Vista
 	
 	public JButton getBtnEditar() {
 		return btnEditar;
+	}
+	
+	public JMenuItem getMenuItemLocalidad() {
+		return menuItemLocalidad;
+	}
+	
+	public JMenuItem getMenuItemTipoContacto() {
+		return menuItemTipoContacto;
 	}
 	
 	public DefaultTableModel getModelPersonas() 
