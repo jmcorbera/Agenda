@@ -103,9 +103,49 @@ public class Controlador implements ActionListener {
 		
 		this.ventanaAMBLocalidad.getBtnEditarPais().addActionListener(l -> configurarVentanaEditarPais());			
 		this.ventanaAMBLocalidad.getBtnEliminarPais().addActionListener(l -> borrarPais(l));
-		
+		this.ventanaAMBLocalidad.getComboBoxPais().addActionListener(l -> mostrarProvincias());
+		this.ventanaAMBLocalidad.getComboBoxProvincia().addActionListener(l-> mostrarLocalidades());
 		this.refrescarListaPaises();
+	
 	}
+	
+	private void mostrarLocalidades() {
+		try {
+		String seleccionado = ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem().toString();
+		ventanaAMBLocalidad.getComboBoxLocalidad().removeAllItems();
+		List<LocalidadDTO> localidades = agenda.obtenerLocalidades();
+		for(int i=0 ; i< localidades.size() ; i++) {
+			ProvinciaDTO provincia = localidades.get(i).getProvincia();
+			String nombreProvincia = provincia.getNombre();
+			if (nombreProvincia.equals(seleccionado)) {
+				ventanaAMBLocalidad.getComboBoxLocalidad().addItem(localidades.get(i).getNombre());
+			}
+		}	
+		}
+		catch(Exception e) {
+			return;
+		}
+	}
+
+	private void mostrarProvincias() {
+		try {
+		String seleccionado = ventanaAMBLocalidad.getComboBoxPais().getSelectedItem().toString();
+		ventanaAMBLocalidad.getComboBoxProvincia().removeAllItems();
+		ventanaAMBLocalidad.getComboBoxLocalidad().removeAllItems();
+		List<ProvinciaDTO> provincias = agenda.obtenerProvincias();
+		for(int i=0 ; i< provincias.size() ; i++) {
+			PaisDTO pais = provincias.get(i).getPais();
+			String nombrePais = pais.getNombre();
+			if (nombrePais.equals(seleccionado)) {
+				ventanaAMBLocalidad.getComboBoxProvincia().addItem(provincias.get(i).getNombre());
+			}
+		}	
+		}
+		catch(Exception e) {
+			return;
+		}
+	}
+		
 	
 	private void configurarVentanaEditarPais() {
 		
