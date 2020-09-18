@@ -13,12 +13,17 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(id, nombre, telefono, nacimiento, email) VALUES(?, ?, ?, ?, ?)";
+	private static final String insert = "INSERT INTO personas(nombre, telefono, nacimiento, email, contactoId) VALUES(?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE id = ?";
 	private static final String readall = "SELECT * FROM personas";
+	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, nacimiento = ?, email = ?, contactoId = ? WHERE id = ? ";
+
 		
 	public boolean insert(PersonaDTO persona)
 	{
+		if(persona.getNombre().isEmpty() || persona.getTelefono().isEmpty() && persona.getEmail().isEmpty()) {
+			return false;
+		}
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isInsertExitoso = false;
@@ -26,23 +31,64 @@ public class PersonaDAOSQL implements PersonaDAO
 		{
 			
 			statement = conexion.prepareStatement(insert);
-		
-			statement.setInt(1, persona.getId());
-			statement.setString(2, persona.getNombre());
-			statement.setString(3, persona.getTelefono());
+			statement.setString(1, persona.getNombre());
+			statement.setString(2, persona.getTelefono());
 			String fechaNacimiento = persona.getNacimiento();
 			if (fechaNacimiento.equals("")) {
-				statement.setString(4, null);
+				statement.setString(3, null);
 			}
 			else {
-				statement.setString(4, persona.getNacimiento());
+				statement.setString(3, persona.getNacimiento());
 			}
-			statement.setString(5, persona.getEmail());
+			statement.setString(4, persona.getEmail());
+			statement.setString(5, persona.getContactoId());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
 				isInsertExitoso = true;
 			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+			try {
+				conexion.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		
+		return isInsertExitoso;
+	}
+	
+	public boolean update(int idPersona, PersonaDTO persona)
+	{
+		PreparedStatement statement;
+		Connection conexion = Conexion.getConexion().getSQLConexion();
+		boolean isInsertExitoso = false;
+		try
+		{
+			
+			statement = conexion.prepareStatement(update);
+			statement.setString(1, persona.getNombre());
+			statement.setString(2, persona.getTelefono());
+			String fechaNacimiento = persona.getNacimiento();
+			if (fechaNacimiento == null || fechaNacimiento!= null & fechaNacimiento.equals("")) {
+				statement.setString(3, null);
+			}
+			else {
+				statement.setString(3, persona.getNacimiento());
+			}
+			statement.setString(4, persona.getEmail());
+
+			statement.setString(5, persona.getContactoId());
+			statement.setInt(6, idPersona);
+			if(statement.executeUpdate() > 0)
+			{
+				conexion.commit();
+				isInsertExitoso = true;
+			}
+
 		} 
 		catch (SQLException e) 
 		{
@@ -108,6 +154,7 @@ public class PersonaDAOSQL implements PersonaDAO
 		String tel = resultSet.getString("telefono");
 		String nacimiento = resultSet.getString("nacimiento");
 		String email = resultSet.getString("email");
-		return new PersonaDTO(id, nombre, tel, nacimiento, email);
+		String contactoId = resultSet.getString("contactoId");
+		return new PersonaDTO(id, nombre, tel, nacimiento, email,contactoId);
 	}
 }

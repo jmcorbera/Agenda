@@ -4,9 +4,8 @@ USE grupo_8;
 
 CREATE TABLE `tipoContacto`
 (
-	`id` int(11) NOT NULL AUTO_INCREMENT,
-    `contacto` varchar(20) NOT NULL,
-    PRIMARY KEY(`id`)
+	`nombreContacto` varchar(20) NOT NULL,
+    PRIMARY KEY(`nombreContacto`)
 ); 
 
 CREATE TABLE `personas`
@@ -16,9 +15,9 @@ CREATE TABLE `personas`
   `telefono` varchar(20) NOT NULL,
   `nacimiento` date DEFAULT NULL, 
   `email` text DEFAULT NULL,
-  `contactoId` int(11) DEFAULT NULL,
+  `contactoId` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`contactoId`) REFERENCES `tipoContacto`(`id`)
+  FOREIGN KEY (`contactoId`) REFERENCES `tipoContacto`(`nombreContacto`)
 );
 
 
@@ -65,6 +64,6 @@ PRIMARY KEY (`id`,`nombre`),
 FOREIGN KEY (`localidadId`) REFERENCES `localidades`(`id`)
 );
 
-INSERT INTO `tipoContacto` (`contacto`) VALUES ('Amigo');
-INSERT INTO `tipoContacto` (`contacto`) VALUES ('Familia');
-INSERT INTO `tipoContacto` (`contacto`) VALUES ('Trabajo');
+INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Amigo');
+INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Familia');
+INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Trabajo');

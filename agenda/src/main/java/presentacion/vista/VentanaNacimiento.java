@@ -14,17 +14,8 @@ public class VentanaNacimiento extends JFrame {
 	private JPanel panel;
 	private JButton btnAgregarNacimiento;
 	private JDateChooser dateChooser;
-	private static VentanaNacimiento INSTANCE;
-
-	public static VentanaNacimiento getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new VentanaNacimiento();
-			return new VentanaNacimiento();
-		} else
-			return INSTANCE;
-	}
-
-	private VentanaNacimiento() {
+	
+	public VentanaNacimiento() {
 		super();
 		configurarVentana();
 		configurarPanel();
@@ -76,7 +67,7 @@ public class VentanaNacimiento extends JFrame {
 	}
 
 	public void cerrar() {
-		this.setVisible(false);
+		this.dispose();
 		
 	}
 }

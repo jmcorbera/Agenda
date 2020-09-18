@@ -24,6 +24,7 @@ public class Vista
 	private JButton btnAgregar;
 	private JButton btnBorrar;
 	private JButton btnReporte;
+	private JButton btnEditar;
 	private DefaultTableModel modelPersonas;
 	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email"};
 
@@ -52,7 +53,7 @@ public class Vista
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
 		tablaPersonas = new JTable(modelPersonas);
-		
+		tablaPersonas.setDefaultEditor(Object.class, null);
 		tablaPersonas.getColumnModel().getColumn(0).setPreferredWidth(103);
 		tablaPersonas.getColumnModel().getColumn(0).setResizable(false);
 		tablaPersonas.getColumnModel().getColumn(1).setPreferredWidth(100);
@@ -66,7 +67,7 @@ public class Vista
 		btnAgregar.setBounds(10, 228, 89, 23);
 		panel.add(btnAgregar);
 		
-		JButton btnEditar = new JButton("Editar");
+		btnEditar = new JButton("Editar");
 		btnEditar.setBounds(109, 228, 89, 23);
 		panel.add(btnEditar);
 		
@@ -87,7 +88,7 @@ public class Vista
 			@Override
 		    public void windowClosing(WindowEvent e) {
 		        int confirm = JOptionPane.showOptionDialog(
-		             null, "¿Estás seguro que quieres salir de la Agenda?", 
+		             null, "Estas seguro que quieres salir de la Agenda?", 
 		             "Confirmación", JOptionPane.YES_NO_OPTION,
 		             JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
@@ -114,6 +115,10 @@ public class Vista
 		return btnReporte;
 	}
 	
+	public JButton getBtnEditar() {
+		return btnEditar;
+	}
+	
 	public DefaultTableModel getModelPersonas() 
 	{
 		return modelPersonas;
@@ -129,7 +134,6 @@ public class Vista
 		return nombreColumnas;
 	}
 
-
 	public void llenarTabla(List<PersonaDTO> personasEnTabla) {
 		this.getModelPersonas().setRowCount(0); //Para vaciar la tabla
 		this.getModelPersonas().setColumnCount(0);
@@ -143,6 +147,8 @@ public class Vista
 			Object[] fila = {nombre, tel, email};
 			this.getModelPersonas().addRow(fila);
 		}
-		
 	}
+
+
+	
 }
