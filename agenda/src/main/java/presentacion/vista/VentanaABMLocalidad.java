@@ -1,6 +1,7 @@
 package presentacion.vista;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +17,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Image;
 
 public class VentanaABMLocalidad extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -29,8 +31,7 @@ public class VentanaABMLocalidad extends JFrame {
 	private JComboBox<String> cmbProvincia;
 	private JComboBox<String> cmbLocalidad;
 	private JButton btnEditarPais;
-	private JButton btnAgregarPais;
-	
+	private JButton btnAgregarPais;	
 	private JButton btnEliminarPais;
 	private JButton btnEditarProv;
 	private JButton btnAgregarProv;
@@ -104,39 +105,48 @@ public class VentanaABMLocalidad extends JFrame {
 		this.cmbLocalidad.setBounds(104, 173, 177, 25);
 		this.panel.add(cmbLocalidad);
 		
-		this.btnEditarPais = new JButton("EP");
+		this.btnEditarPais = new JButton();
+		this.btnEditarPais.setIcon(new ImageIcon("./imagenes/editar.png"));
 		this.btnEditarPais.setBounds(293, 73, 25, 25);
 		this.panel.add(btnEditarPais);
-		
-		this.btnAgregarPais = new JButton("AP");
-		this.btnAgregarPais.setBounds(330, 73, 25, 25);
+				
+		this.btnAgregarPais = new JButton();
+		this.btnAgregarPais.setIcon(new ImageIcon("./imagenes/guardar.png"));
+		this.btnAgregarPais.setBounds(330, 73, 25, 25);				
 		this.panel.add(btnAgregarPais);
 		
-		this.btnEliminarPais = new JButton("BP");
+		this.btnEliminarPais = new JButton();
+		this.btnEliminarPais.setIcon(new ImageIcon("./imagenes/borrar.png"));
 		this.btnEliminarPais.setBounds(367, 73, 25, 25);
 		this.panel.add(btnEliminarPais);
 		
-		this.btnEditarProv = new JButton("EPR");
+		this.btnEditarProv = new JButton();
+		this.btnEditarProv.setIcon(new ImageIcon("./imagenes/editar.png"));
 		this.btnEditarProv.setBounds(293, 123, 25, 25);
 		this.panel.add(btnEditarProv);
 		
-		this.btnAgregarProv = new JButton("APR");
+		this.btnAgregarProv = new JButton();
+		this.btnAgregarProv.setIcon(new ImageIcon("./imagenes/guardar.png"));
 		this.btnAgregarProv.setBounds(330, 123, 25, 25);
 		this.panel.add(btnAgregarProv);
 		
-		this.btnEliminarProv = new JButton("BPR");
+		this.btnEliminarProv = new JButton();
+		this.btnEliminarProv.setIcon(new ImageIcon("./imagenes/borrar.png"));
 		this.btnEliminarProv.setBounds(367, 123, 25, 25);
 		this.panel.add(btnEliminarProv);
 		
-		this.btnEditarLoc = new JButton("EL");
+		this.btnEditarLoc = new JButton();
+		this.btnEditarLoc.setIcon(new ImageIcon("./imagenes/editar.png"));
 		this.btnEditarLoc.setBounds(293, 173, 25, 25);
 		this.panel.add(btnEditarLoc);
 		
-		this.btnAgregarLoc = new JButton("AL");
+		this.btnAgregarLoc = new JButton();
+		this.btnAgregarLoc.setIcon(new ImageIcon("./imagenes/guardar.png"));
 		this.btnAgregarLoc.setBounds(330, 173, 25, 25);
 		this.panel.add(btnAgregarLoc);
 		
-		this.btnEliminarLoc = new JButton("BL");
+		this.btnEliminarLoc = new JButton();
+		this.btnEliminarLoc.setIcon(new ImageIcon("./imagenes/borrar.png"));
 		this.btnEliminarLoc.setBounds(367, 173, 25, 25);
 		this.panel.add(btnEliminarLoc);
 		
@@ -150,6 +160,24 @@ public class VentanaABMLocalidad extends JFrame {
 		this.setVisible(true);
 	}
 	
+	public void limpiarCombos() {
+		limpiarComboPais();
+		limpiarComboProvincia();
+		limpiarComboLocalidad();
+	}
+	
+	public void limpiarComboPais() {
+		this.cmbPais.setSelectedIndex(-1);
+	}
+	
+	public void limpiarComboProvincia() {
+		this.cmbProvincia.setSelectedIndex(-1);
+	}
+	
+	public void limpiarComboLocalidad() {
+		this.cmbLocalidad.setSelectedIndex(-1);
+	}
+	
 	public JComboBox<String> getComboBoxPais() {
 		return this.cmbPais;
 	}
@@ -161,6 +189,43 @@ public class VentanaABMLocalidad extends JFrame {
 	public JComboBox<String> getComboBoxLocalidad() {
 		return this.cmbLocalidad;
 	}
+		
+	public JButton getBtnAgregarPais() {
+		return btnAgregarPais;
+	}
+
+	public JButton getBtnEditarPais() {
+		return btnEditarPais;
+	}
 	
+	public JButton getBtnEliminarPais() {
+		return btnEliminarPais;
+	}
+	
+	public JButton getBtnAgregarProvincia() {
+		return btnAgregarProv;
+	}
+	
+	public JButton getBtnEditarProvincia() {
+		return btnEditarProv;
+	}
+	
+	public JButton getBtnEliminarProvincia() {
+		return btnEliminarProv;
+	}
+
+	public JButton getBtnAgregarLocalidad() {
+		return btnAgregarLoc;
+	}
+
+	public JButton getBtnEditarLocalidad() {
+		return btnEditarLoc;
+	}
+
+	
+	public JButton getBtnEliminarLocalidad() {
+		return btnEliminarLoc;
+	}
+
 
 }

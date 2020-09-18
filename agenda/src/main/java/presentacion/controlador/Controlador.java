@@ -3,12 +3,14 @@ package presentacion.controlador;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -26,12 +28,19 @@ import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
 import dto.ContactoDTO;
+import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
+import dto.ProvinciaDTO;
 
 public class Controlador implements ActionListener {
 	private Vista vista;
 	private List<PersonaDTO> personasEnTabla;
+	
+	private List<PaisDTO> paisesEnLista = new ArrayList<PaisDTO>();
+	private List<ProvinciaDTO> provinciasEnLista = new ArrayList<ProvinciaDTO>();
+	private List<LocalidadDTO> localidadesEnLista = new ArrayList<LocalidadDTO>();
+		
 	private VentanaPersona ventanaPersona;
 	private Agenda agenda;
 	private VentanaNacimiento ventanaNacimiento;
@@ -58,8 +67,7 @@ public class Controlador implements ActionListener {
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona());
 		this.vista.getBtnEditar().addActionListener(s -> configurarVentanaEditarPersona());
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte());
-		this.vista.getMenuItemLocalidad().addActionListener(l -> ventanaAMBLocalidad.mostrarVentana());
-		
+		this.vista.getMenuItemLocalidad().addActionListener(l -> ventanaAMBLocalidad.mostrarVentana());		
 		this.vista.getMenuItemTipoContacto().addActionListener(t -> ventanaTipoContacto.mostrarVentana());
 	}
 
@@ -87,6 +95,74 @@ public class Controlador implements ActionListener {
 	private void configurarVentanaABMLocalidades()
 	{
 		this.ventanaAMBLocalidad = VentanaABMLocalidad.getInstance();
+		this.obtenerListaPaises(ventanaAMBLocalidad.getComboBoxPais());
+				
+		this.ventanaAMBLocalidad.getBtnAgregarPais().addActionListener(l -> guardarPais(l));
+		this.ventanaAMBLocalidad.getBtnEditarPais().addActionListener(l -> editarPais(l));
+		this.ventanaAMBLocalidad.getBtnEliminarPais().addActionListener(l -> borrarPais(l));	
+	}
+	
+	private void guardarPais(ActionEvent l) {
+		String nombre = this.ventanaAMBLocalidad.getComboBoxPais().getSelectedItem().toString();
+		
+		if (nombre.equals("")) {
+			JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, "No puede ingresar un nombre en blanco.");
+			return;
+		}
+		
+		boolean exists = paisesEnLista.stream().anyMatch(e -> e.getNombre().equals(nombre));
+		if (exists) {
+			JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, "Ya existe un país con ese nombre.");
+			return;
+		}
+		
+		PaisDTO nuevoPais = new PaisDTO(0, nombre);
+		this.agenda.agregarPais(nuevoPais);
+		
+		this.refrescarListaPaises();
+		this.ventanaAMBLocalidad.limpiarCombos();
+	}
+	
+	private void borrarPais(ActionEvent s)
+	{
+		String nombre = this.ventanaAMBLocalidad.getComboBoxPais().getSelectedItem().toString();		
+		PaisDTO pais = this.paisesEnLista.stream().filter(p -> p.getNombre().equals(nombre)).findFirst().get();
+				
+		if (pais == null) {
+			JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, "Debe seleccionar un país de la lista para poder eliminar.");
+			return;
+		}
+		
+		this.agenda.borrarPais(pais);
+		
+//		if (!this.personasEnTabla.stream().anyMatch(p -> p.getDomicilio().getLocalidad().getProvincia().getPaís().equals(nombre)))
+//			this.agenda.borrarPais(pais);
+//		else
+//			JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, String.format("No se puede eliminar el país '%s' porque al menos un domicilio pertenece a alguna de sus localidades", paísSeleccionado.getNombre()));
+		
+		this.refrescarListaPaises();
+		this.ventanaAMBLocalidad.limpiarCombos();
+	}
+
+	private void editarPais(ActionEvent s)
+	{
+		String nombre = this.ventanaAMBLocalidad.getComboBoxPais().getSelectedItem().toString();		
+		PaisDTO pais = this.paisesEnLista.stream().filter(p -> p.getNombre().equals(nombre)).findFirst().get();
+					
+		if (nombre.equals("")) {
+			JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, "No puede ingresar un nombre en blanco.");
+			return;
+		}
+			
+//		pais.setNombre(nombre);
+//		this.agenda.modificarPais(pais);
+		
+		this.refrescarListaPaises();
+		this.ventanaAMBLocalidad.limpiarCombos();
+	}
+	
+	private void refrescarListaPaises() {
+		this.paisesEnLista = agenda.obtenerPaíses();	
 		this.obtenerListaPaises(ventanaAMBLocalidad.getComboBoxPais());
 	}
 

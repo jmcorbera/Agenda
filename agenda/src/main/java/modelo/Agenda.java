@@ -74,11 +74,11 @@ public class Agenda
 		this.pais.insert(pais);
 	}
 	
-	public void modificarPaís(PaisDTO pais_a_modificar) {
+	public void modificarPais(PaisDTO pais_a_modificar) {
 		this.pais.update(pais_a_modificar);
 	}
 	
-	public void borrarPaís(PaisDTO pais_a_eliminar) {
+	public void borrarPais(PaisDTO pais_a_eliminar) {
 		this.pais.delete(pais_a_eliminar);
 	}
 	
