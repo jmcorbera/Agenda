@@ -61,6 +61,13 @@
 		    <!-- USAR LA VERSIÓN 5.1.44 SI USÁS MYSQL8 --> 
 		    <version>8.0.21</version>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+		<dependency>
+		    <groupId>org.mybatis</groupId>
+		    <artifactId>mybatis</artifactId>
+		    <version>3.5.4</version>
+		</dependency>
 
     </dependencies>
 

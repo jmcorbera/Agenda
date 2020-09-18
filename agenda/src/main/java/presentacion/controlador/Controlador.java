@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.Agenda;
 import modelo.ConvertorFecha;
 import presentacion.reportes.ReporteAgenda;
+import presentacion.vista.VentanaABMLocalidad;
 import presentacion.vista.VentanaEditarContacto;
 import presentacion.vista.VentanaEditarPersona;
 import presentacion.vista.VentanaNacimiento;
@@ -25,6 +26,7 @@ import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaTipoContacto;
 import presentacion.vista.Vista;
 import dto.ContactoDTO;
+import dto.PaisDTO;
 import dto.PersonaDTO;
 
 public class Controlador implements ActionListener {
@@ -35,6 +37,7 @@ public class Controlador implements ActionListener {
 	private VentanaNacimiento ventanaNacimiento;
 	private VentanaTipoContacto ventanaTipoContacto;
 	private VentanaEditarPersona ventanaEditarPersona;
+	private VentanaABMLocalidad ventanaAMBLocalidad;
 	private String[] mensajes = { "No ha seleccionado ningun contacto", "El nombre es obligatorio!",
 			"Debe ingresar al menos una forma de contacto (Email o telefono)", "El email ingresado es invalido",
 			"No ha seleccionado ninguna persona" };
@@ -42,10 +45,11 @@ public class Controlador implements ActionListener {
 	public Controlador(Vista vista, Agenda agenda) {
 		this.agenda = agenda;
 		configurarVentanaNacimiento();
-		configurarVentanaPersona();
-		configurarVista(vista);
+		configurarVentanaPersona();		
 		configurarVentanaTipoContacto();
 		configurarVentanaPersona();
+		configurarVentanaABMLocalidades();
+		configurarVista(vista);
 	}
 
 	private void configurarVista(Vista vista) {
@@ -54,6 +58,9 @@ public class Controlador implements ActionListener {
 		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona());
 		this.vista.getBtnEditar().addActionListener(s -> configurarVentanaEditarPersona());
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte());
+		this.vista.getMenuItemLocalidad().addActionListener(l -> ventanaAMBLocalidad.mostrarVentana());
+		
+		this.vista.getMenuItemTipoContacto().addActionListener(t -> ventanaTipoContacto.mostrarVentana());
 	}
 
 	private void configurarVentanaTipoContacto() {
@@ -69,13 +76,18 @@ public class Controlador implements ActionListener {
 		this.ventanaPersona = VentanaPersona.getInstance();
 		mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(getPersonaAAgregar()));
-		this.ventanaPersona.getBtnNacimiento().addActionListener(n -> ventanaNacimiento.mostrarVentana());
-		this.ventanaPersona.getBtnEditarTipo().addActionListener(a -> ventanaTipoContacto.mostrarVentana());
+		this.ventanaPersona.getBtnNacimiento().addActionListener(n -> ventanaNacimiento.mostrarVentana());	
 	}
 
 	private void configurarVentanaNacimiento() {
 		this.ventanaNacimiento = new VentanaNacimiento();
 		ventanaNacimiento.getBtnAgregarNacimiento().addActionListener(a -> ventanaNacimiento.cerrar());
+	}
+	
+	private void configurarVentanaABMLocalidades()
+	{
+		this.ventanaAMBLocalidad = VentanaABMLocalidad.getInstance();
+		this.obtenerListaPaises(ventanaAMBLocalidad.getComboBoxPais());
 	}
 
 	private PersonaDTO getPersonaSeleccionada() {
@@ -201,6 +213,17 @@ public class Controlador implements ActionListener {
 			ventanaEditarPersona.cerrar();
 			refrescarTabla();
 		}
+	}
+	
+	private void obtenerListaPaises(JComboBox<String> cmbPais) {		
+		List<PaisDTO> paises = agenda.obtenerPaíses();
+		String[] nombrePaises = new String[paises.size()];
+		for (int i = 0; i < paises.size(); i++) {
+			nombrePaises[i] = paises.get(i).getNombre();
+		}
+		
+		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(nombrePaises);
+		cmbPais.setModel(model);
 	}
 
 	private void mostrarListaContactosPredeterminados() {

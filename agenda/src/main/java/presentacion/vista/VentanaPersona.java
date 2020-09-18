@@ -21,7 +21,6 @@ public class VentanaPersona extends JFrame {
 	private JButton btnAgregarPersona;
 	private JButton btnNacimiento;
 	private JButton btnLocalidad;
-	private JButton btnEditarTipo;
 	private static VentanaPersona INSTANCE;
 	private JComboBox<String> tipoContacto;
 
@@ -54,10 +53,6 @@ public class VentanaPersona extends JFrame {
 		btnAgregarPersona = new JButton("Agregar");
 		btnAgregarPersona.setBounds(344, 214, 89, 23);
 		panel.add(btnAgregarPersona);
-
-		btnEditarTipo = new JButton("Editar valores predeterminados");
-		btnEditarTipo.setBounds(250, 181, 183, 21);
-		panel.add(btnEditarTipo);
 
 		btnNacimiento = new JButton("Agregar");
 		btnNacimiento.setBounds(133, 137, 89, 23);
@@ -144,10 +139,6 @@ public class VentanaPersona extends JFrame {
 		return btnAgregarPersona;
 	}
 
-	public JButton getBtnEditarTipo() {
-		return btnEditarTipo;
-	}
-	
 	public JComboBox<String> getCBTipoContacto(){
 		return tipoContacto;
 	}

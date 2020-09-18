@@ -1,10 +1,14 @@
 package presentacion.vista;
 
+import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
@@ -25,6 +29,8 @@ public class Vista
 	private JButton btnBorrar;
 	private JButton btnReporte;
 	private JButton btnEditar;
+	private JMenuItem menuItemLocalidad;
+	private JMenuItem menuItemTipoContacto;
 	private DefaultTableModel modelPersonas;
 	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email"};
 
@@ -48,7 +54,7 @@ public class Vista
 		panel.setLayout(null);
 		
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(10, 11, 414, 182);
+		spPersonas.setBounds(8, 30, 414, 182);
 		panel.add(spPersonas);
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
@@ -64,20 +70,38 @@ public class Vista
 		spPersonas.setViewportView(tablaPersonas);
 		
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(10, 228, 89, 23);
+		btnAgregar.setBounds(20, 220, 89, 23);
 		panel.add(btnAgregar);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(109, 228, 89, 23);
+		btnEditar.setBounds(121, 220, 89, 23);
 		panel.add(btnEditar);
 		
 		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(208, 228, 89, 23);
+		btnBorrar.setBounds(222, 220, 89, 23);
 		panel.add(btnBorrar);
 		
 		btnReporte = new JButton("Reporte");
-		btnReporte.setBounds(307, 228, 89, 23);
+		btnReporte.setBounds(323, 220, 89, 23);
 		panel.add(btnReporte);
+		
+		// Agrega barra Menu
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 434, 25);
+		panel.add(menuBar);
+		
+		// Agrega Menu
+		JMenu menu = new JMenu("ABM");
+		menu.setBackground(Color.LIGHT_GRAY);
+		menuBar.add(menu);
+		
+		// Agrega Item Menu
+		menuItemLocalidad = new JMenuItem("Localidad");
+		menu.add(menuItemLocalidad);
+		
+		// Agrega Item Menu
+		menuItemTipoContacto = new JMenuItem("Tipo Contacto");
+		menu.add(menuItemTipoContacto);
 	}
 	
 	public void show()
@@ -117,6 +141,14 @@ public class Vista
 	
 	public JButton getBtnEditar() {
 		return btnEditar;
+	}
+	
+	public JMenuItem getMenuItemLocalidad() {
+		return menuItemLocalidad;
+	}
+	
+	public JMenuItem getMenuItemTipoContacto() {
+		return menuItemTipoContacto;
 	}
 	
 	public DefaultTableModel getModelPersonas() 
