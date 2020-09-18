@@ -2,7 +2,10 @@ package persistencia.conexion;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Properties;
+
 import org.apache.log4j.Logger;
 
 public class Conexion 
@@ -11,19 +14,59 @@ public class Conexion
 	private Connection connection;
 	private Logger log = Logger.getLogger(Conexion.class);	
 	
+	private String url = "";
+	private String user = "";
+	private String password = "";
+	
 	private Conexion()
 	{
 		try
-		{
+		{			
+			this.url = "jdbc:mysql://localhost:3306/grupo_8?useSSL=false&serverTimezone=UTC";
+			this.user = "root";
+			this.password = "root";
+			
 			Class.forName("com.mysql.cj.jdbc.Driver"); // quitar si no es necesario
-			this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/grupo_8?useSSL=false&serverTimezone=UTC","root","root");
-			this.connection.setAutoCommit(false);
-			log.info("Conexión exitosa");
+	        
+	        if(dbExist())
+	        {
+		        this.connection = DriverManager.getConnection(this.url, this.user, this.password);
+			     
+				this.connection.setAutoCommit(false);
+				log.info("Conexión exitosa");    	
+	        }
 		}
 		catch(Exception e)
 		{
 			log.error("Conexión fallida", e);
 		}
+	}
+	
+	private boolean dbExist() 
+	{
+		boolean ret = true;
+		
+		String url = "jdbc:mysql://localhost:3306";
+		
+		Properties properties = new Properties();
+		properties.setProperty("user", this.user);
+		properties.setProperty("password", this.password);
+		properties.setProperty("useSSL", "false");
+		properties.setProperty("serverTimezone", "UTC");
+		
+		// SQL command to create a database in MySQL.
+        String sql = "CREATE DATABASE IF NOT EXISTS grupo_8";
+		
+        try (Connection conn = DriverManager.getConnection(url, properties);
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+               stmt.execute();
+           } catch (Exception e) {
+               e.printStackTrace();
+               ret = false;
+           }
+        
+		return ret;
 	}
 	
 	

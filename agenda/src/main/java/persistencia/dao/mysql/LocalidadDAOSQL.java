@@ -14,11 +14,11 @@ import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.LocalidadDAO;
 
 public class LocalidadDAOSQL implements LocalidadDAO {
-	private static final String insert = "INSERT INTO localidades(nombre, idProvincia) VALUES(?, ?)";
+	private static final String insert = "INSERT INTO localidades(nombre, provinciaId) VALUES(?, ?)";
 	private static final String delete = "DELETE FROM localidades WHERE id = ?";
-	private static final String update = "UPDATE localidades SET nombre = ?, idProvincia = ? WHERE id = ?";
+	private static final String update = "UPDATE localidades SET nombre = ?, provinciaId = ? WHERE id = ?";
 	private static final String readall = "SELECT * FROM localidades ORDER BY nombre";
-	private static final String groupByProvincia = "SELECT * FROM localidades WHERE idProvincia = ? ORDER BY nombre";
+	private static final String groupByProvincia = "SELECT * FROM localidades WHERE provinciaId = ? ORDER BY nombre";
 	
 	private static final String ifExist = "SELECT EXISTS (SELECT 1 FROM localidades)";
 

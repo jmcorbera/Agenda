@@ -1,14 +1,12 @@
-DROP DATABASE IF EXISTS grupo_8;
-CREATE DATABASE `grupo_8`;
 USE grupo_8;
 
-CREATE TABLE `tipoContacto`
+CREATE TABLE IF NOT EXISTS `tipoContacto`
 (
 	`nombreContacto` varchar(20) NOT NULL,
     PRIMARY KEY(`nombreContacto`)
 ); 
 
-CREATE TABLE `personas`
+CREATE TABLE IF NOT EXISTS `personas`
 (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
@@ -21,8 +19,7 @@ CREATE TABLE `personas`
 );
 
 
-
-CREATE TABLE `domicilios`
+CREATE TABLE IF NOT EXISTS `domicilios`
 (
 `id` int (11) NOT NULL AUTO_INCREMENT,
 `pais` varchar(45) NOT NULL,
@@ -33,37 +30,31 @@ PRIMARY KEY (`id`),
 FOREIGN KEY (`id`) REFERENCES `personas`(`id`)
 );
 
-CREATE TABLE `paises`
+CREATE TABLE IF NOT EXISTS  `paises`
 (
 `id` int (11) NOT NULL AUTO_INCREMENT,
 `nombre` varchar(45) NOT NULL,
 PRIMARY KEY(`id`,`nombre`)
 );
-CREATE TABLE `provincias`
+
+CREATE TABLE IF NOT EXISTS `provincias`
 (
 `id` int (11) NOT NULL AUTO_INCREMENT,
 `nombre` varchar(45) NOT NULL,
 `paisId` int (11) NOT NULL,
-PRIMARY KEY (`id`,`nombre`),
-FOREIGN KEY (`paisId`) REFERENCES `paises`(`id`)
+PRIMARY KEY (`id`),
+FOREIGN KEY (`paisId`) REFERENCES `paises` (`id`) ON DELETE CASCADE
 );
-CREATE TABLE `localidades`
+
+CREATE TABLE IF NOT EXISTS `localidades`
 (
 `id` int (11) NOT NULL AUTO_INCREMENT,
 `nombre` varchar(45) NOT NULL,
 `provinciaId` int (11) NOT NULL,
-PRIMARY KEY (`id`,`nombre`),
-FOREIGN KEY (`provinciaId`) REFERENCES `provincias`(`id`)
-);
-CREATE TABLE `departamentos`
-(
-`id` int (11) NOT NULL AUTO_INCREMENT,
-`nombre` varchar(45) NOT NULL,
-`localidadId` int (11) NOT NULL,
-PRIMARY KEY (`id`,`nombre`),
-FOREIGN KEY (`localidadId`) REFERENCES `localidades`(`id`)
+PRIMARY KEY (`id`),
+FOREIGN KEY (`provinciaId`) REFERENCES `provincias` (`id`) ON DELETE CASCADE
 );
 
-INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Amigo');
-INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Familia');
-INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Trabajo');
+-- INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Amigo');
+-- INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Familia');
+-- INSERT INTO `tipoContacto` (`nombreContacto`) VALUES ('Trabajo');

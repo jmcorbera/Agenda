@@ -32,7 +32,7 @@ public class ProvinciaDAOSQL implements ProvinciaDAO {
 		{			
 			statement = conexion.prepareStatement(insert);
 			statement.setString(1, provincia.getNombre());
-			statement.setInt(2, provincia.getPaís().getIdPais());
+			statement.setInt(2, provincia.getPais().getIdPais());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -83,7 +83,7 @@ public class ProvinciaDAOSQL implements ProvinciaDAO {
 		{
 			statement = conexion.prepareStatement(update);
 			statement.setString(1, provincia_a_modificar.getNombre());
-			statement.setInt(2, provincia_a_modificar.getPaís().getIdPais());
+			statement.setInt(2, provincia_a_modificar.getPais().getIdPais());
 			statement.setInt(3, provincia_a_modificar.getIdProvincia());
 			if(statement.executeUpdate() > 0)
 			{

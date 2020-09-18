@@ -119,7 +119,7 @@ public class PaisDAOSQL implements PaisDAO {
 	
 	private PaisDTO getPaisDTO(ResultSet resultSet) throws SQLException
 	{
-		int id = resultSet.getInt("idPais");
+		int id = resultSet.getInt("id");
 		String nombre = resultSet.getString("nombre");
 		return new PaisDTO(id, nombre);
 	}

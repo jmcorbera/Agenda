@@ -55,6 +55,6 @@ public class PaisDTO {
 	
 	@Override
 	public String toString() {
-		return String.format("PaísID: %d, PaísNombre: %s", this.idPais, this.nombre);
+		return String.format("PaisID: %d, PaisNombre: %s", this.idPais, this.nombre);
 	}
 }

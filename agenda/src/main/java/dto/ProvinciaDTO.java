@@ -5,7 +5,7 @@ public class ProvinciaDTO {
 	private String nombre;
 	private PaisDTO pais;
 	
-	public ProvinciaDTO(int idProvincia, String nombre, PaisDTO país) {
+	public ProvinciaDTO(int idProvincia, String nombre, PaisDTO pais) {
 		this.idProvincia = idProvincia;
 		this.nombre = nombre;
 		this.setPais(pais);
@@ -27,7 +27,7 @@ public class ProvinciaDTO {
 		this.nombre = nombre;
 	}
 
-	public PaisDTO getPaís() {
+	public PaisDTO getPais() {
 		return pais;
 	}
 
