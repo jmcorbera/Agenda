@@ -134,6 +134,7 @@ public class DBdata {
 		
 		List<LocalidadDTO> localidades = new ArrayList<LocalidadDTO>();
 		
+		if (!localidadDAO.ifExist()) {
 		//todo get json localidades
 			
 		// Buenos Aires
@@ -153,6 +154,7 @@ public class DBdata {
 			}
 					
 			System.out.println("Localidades cargadas con éxito.");
+		}
 					
 		return localidadDAO.readAll();	
 	}
