@@ -46,6 +46,7 @@ public class Controlador implements ActionListener {
 	private List<LocalidadDTO> localidadesEnLista = new ArrayList<LocalidadDTO>();
 	private DomicilioDTO domicilio;
 	private VentanaPersona ventanaPersona;
+	private VentanaDomicilio ventanaDomicilio;
 	private Agenda agenda;
 	private VentanaNacimiento ventanaNacimiento;
 	private VentanaTipoContacto ventanaTipoContacto;
@@ -103,7 +104,7 @@ public class Controlador implements ActionListener {
 	}
 	
 	private void configurarVentanaDomicilio() {
-		VentanaDomicilio ventanaDomicilio = VentanaDomicilio.getInstance();
+		ventanaDomicilio = VentanaDomicilio.getInstance();
 		this.obtenerListaPaises(ventanaDomicilio.getComboBoxPais());
 		deshabilitarProvinciaYLocalidad(ventanaDomicilio.getComboBoxProvincia(), ventanaDomicilio.getComboBoxLocalidad());
 		ventanaDomicilio.getBtnAceptar().addActionListener(a -> guardarDomicilio(ventanaDomicilio));
@@ -593,12 +594,27 @@ public class Controlador implements ActionListener {
 			ventanaEditarPersona.getBtnEditarNacimiento().addActionListener(a -> ventanaNacimiento.mostrarVentana());
 			ventanaEditarPersona.getBtnAceptar()
 					.addActionListener(a -> actualizarPersona(getPersonaEditada(), personaSeleccionada.getId()));
+			ventanaEditarPersona.getBtnDomicilio().addActionListener(a -> cambiarLblsMostrandoValoresAnteriores(personaSeleccionada.getId()));
 			ventanaEditarPersona.mostrar();
 		} else {
 			mostrarMensaje(ventanaPersona, mensajes[4]);
 		}
 	}
-
+	private void cambiarLblsMostrandoValoresAnteriores(int idPersona) {
+		configurarVentanaDomicilio();
+		List<DomicilioDTO> domicilios = agenda.obtenerDomicilios();
+		
+		for(DomicilioDTO domicilio: domicilios) {
+			if(domicilio.getId() == idPersona) {
+				ventanaDomicilio.setLblCalleAnterior("Calle a editar: "+domicilio.getCalle());
+				ventanaDomicilio.setLblAlturaAnterior("Altura a editar: "+domicilio.getAltura());
+				ventanaDomicilio.setLblPisoAnterior("Piso a editar: "+domicilio.getPiso());
+				ventanaDomicilio.getLblAlturaAnterior().setVisible(true);
+				ventanaDomicilio.getLblCalleAnterior().setVisible(true);
+				ventanaDomicilio.getLblPisoAnterior().setVisible(true);			
+			}
+		}
+	}
 	private void agregarListeners(PersonaDTO personaSeleccionada) {
 		ventanaEditarPersona.getBtnCambiarEmail().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

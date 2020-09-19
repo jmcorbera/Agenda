@@ -29,6 +29,9 @@ public class VentanaDomicilio extends JFrame {
 	private JTextField txtCalle;
 	private JTextField txtAltura;
 	private JTextField txtPiso;
+	private JLabel lblCalleAnterior;
+	private JLabel lblAlturaAnterior;
+	private JLabel lblPisoAnterior;
 
 	public static VentanaDomicilio getInstance()
 	{
@@ -51,7 +54,7 @@ public class VentanaDomicilio extends JFrame {
 	
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 596, 312);
+		setBounds(100, 100, 597, 312);
 		this.setVisible(false);
 	}
 	
@@ -62,7 +65,7 @@ public class VentanaDomicilio extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 564, 255);
+		panel.setBounds(10, 11, 561, 255);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
@@ -132,6 +135,21 @@ public class VentanaDomicilio extends JFrame {
 		JLabel lblAltura = new JLabel("Altura");
 		lblAltura.setBounds(318, 127, 46, 14);
 		panel.add(lblAltura);
+		
+		lblCalleAnterior = new JLabel("New label");
+		lblCalleAnterior.setBounds(361, 53, 187, 14);
+		lblCalleAnterior.setVisible(false);
+		panel.add(lblCalleAnterior);
+		
+		lblAlturaAnterior = new JLabel("New label");
+		lblAlturaAnterior.setBounds(361, 102, 187, 14);
+		lblAlturaAnterior.setVisible(false);
+		panel.add(lblAlturaAnterior);
+		
+		lblPisoAnterior = new JLabel("New label");
+		lblPisoAnterior.setBounds(361, 158, 187, 14);
+		lblPisoAnterior.setVisible(false);
+		panel.add(lblPisoAnterior);
 	}
 	
 	public void mostrarVentana() {
@@ -187,7 +205,31 @@ public class VentanaDomicilio extends JFrame {
 	public JTextField getTxtPiso() {
 		return txtPiso;
 	}
-
+	
+	public JLabel getLblCalleAnterior() {
+		return lblCalleAnterior;
+	}
+	
+	public JLabel getLblPisoAnterior() {
+		return lblPisoAnterior;
+	}
+	
+	public JLabel getLblAlturaAnterior() {
+		return lblAlturaAnterior;
+	}
+	
+	public void setLblCalleAnterior(String calle) {
+		lblCalleAnterior.setText(calle);
+	}
+	
+	public void setLblAlturaAnterior(String altura) {
+		lblAlturaAnterior.setText(altura);
+	}
+	
+	public void setLblPisoAnterior(String piso) {
+		lblPisoAnterior.setText(piso);
+	}
+	
 	public void cerrar() {
 		this.dispose();
 	}

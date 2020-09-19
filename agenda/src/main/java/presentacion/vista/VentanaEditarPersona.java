@@ -31,6 +31,8 @@ public class VentanaEditarPersona extends JFrame {
 	private JTextField txtFechaNacimiento;
 	private JComboBox<String> cBTipoContacto;
 	private JLabel lblFormatoFecha;
+	private JButton btnDomicilio;
+	private JLabel lblDomicilio;
 	
 	public VentanaEditarPersona(int idContacto) {
 		super();
@@ -63,7 +65,7 @@ public class VentanaEditarPersona extends JFrame {
 		panel.add(txtTelefono);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(230, 222, 89, 23);
+		btnAceptar.setBounds(228, 271, 89, 23);
 		panel.add(btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -72,7 +74,7 @@ public class VentanaEditarPersona extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(329, 222, 89, 23);
+		btnCancelar.setBounds(327, 271, 89, 23);
 		panel.add(btnCancelar);	
 		
 		btnCambiarNombre = new JButton("Cambiar");
@@ -124,6 +126,14 @@ public class VentanaEditarPersona extends JFrame {
 		lblFormatoFecha.setEnabled(false);
 		lblFormatoFecha.setBounds(119, 128, 148, 14);
 		panel.add(lblFormatoFecha);
+		
+		btnDomicilio = new JButton("Editar");
+		btnDomicilio.setBounds(118, 215, 178, 23);
+		panel.add(btnDomicilio);
+		
+		lblDomicilio = new JLabel("Domicilio:");
+		lblDomicilio.setBounds(10, 219, 97, 14);
+		panel.add(lblDomicilio);
 	}
 
 	private void configurarPanel() {
@@ -133,7 +143,7 @@ public class VentanaEditarPersona extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 428, 255);
+		panel.setBounds(10, 11, 428, 305);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
@@ -158,7 +168,7 @@ public class VentanaEditarPersona extends JFrame {
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 461, 312);
+		setBounds(100, 100, 461, 366);
 	}
 	
 	public JButton getBtnAceptar() {
@@ -205,6 +215,10 @@ public class VentanaEditarPersona extends JFrame {
 	
 	public JButton getBtnCambiarNombre() {
 		return btnCambiarNombre;
+	}
+	
+	public JButton getBtnDomicilio() {
+		return btnDomicilio;
 	}
 	
 }
