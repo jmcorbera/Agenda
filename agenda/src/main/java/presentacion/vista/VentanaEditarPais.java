@@ -8,7 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class VentanaEditarLocalidad extends JFrame {
+public class VentanaEditarPais extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblNombreAnterior;
 	private JLabel lblNombreNuevo;
@@ -19,7 +19,7 @@ public class VentanaEditarLocalidad extends JFrame {
 	private JPanel panel;
 	private JButton btnCancelar;
 
-	public VentanaEditarLocalidad(String paisAeditar) {
+	public VentanaEditarPais(String paisAeditar) {
 		super();
 		configurarVentana();
 		configurarPanel();
@@ -70,7 +70,7 @@ public class VentanaEditarLocalidad extends JFrame {
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 378, 173);
+		setBounds(100, 100, 380, 174);
 	}
 	
 	public JTextField getTxtNuevo() {

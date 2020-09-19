@@ -1,23 +1,15 @@
 package presentacion.vista;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import dto.LocalidadDTO;
-import dto.PaisDTO;
-import dto.ProvinciaDTO;
 
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.awt.Font;
-import java.awt.Image;
 
 public class VentanaABMLocalidad extends JFrame {
 	private static final long serialVersionUID = 1L;

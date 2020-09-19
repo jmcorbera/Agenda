@@ -7,17 +7,17 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-public class VentanaNuevaLocalidad extends JFrame {
+public class VentanaNuevoPais extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panel;
-	private JTextField txtNuevo;
+	private JTextField txtContactoNuevo;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
 
 	
 	
-	public VentanaNuevaLocalidad() {
+	public VentanaNuevoPais() {
 		super();
 		configurarVentana();
 		configurarPanel();
@@ -29,10 +29,10 @@ public class VentanaNuevaLocalidad extends JFrame {
 		lblIngresarNombre.setBounds(10, 11, 210, 24);
 		panel.add(lblIngresarNombre);
 		
-		txtNuevo = new JTextField();
-		txtNuevo.setBounds(10, 46, 193, 24);
-		panel.add(txtNuevo);
-		txtNuevo.setColumns(10);
+		txtContactoNuevo = new JTextField();
+		txtContactoNuevo.setBounds(10, 46, 193, 24);
+		panel.add(txtContactoNuevo);
+		txtContactoNuevo.setColumns(10);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(10, 81, 89, 23);
@@ -64,8 +64,8 @@ public class VentanaNuevaLocalidad extends JFrame {
 		dispose();
 	}
 	
-	public JTextField getTxtNuevo() {
-		return txtNuevo;
+	public JTextField getTxtContactoNuevo() {
+		return txtContactoNuevo;
 	}
 	public JButton getBtnAceptar() {
 		return btnAceptar;

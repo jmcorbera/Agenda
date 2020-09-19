@@ -40,6 +40,7 @@ public class DBdata {
 		
 		// Localidades
 		LocalidadDAO localidadDAO = DAOFactory.createLocalidadDAO();
+		@SuppressWarnings("unused")
 		List<LocalidadDTO> localidades = getLocalidades(localidadDAO, provincias);
 		
 	}
