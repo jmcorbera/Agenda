@@ -3,12 +3,14 @@ package modelo;
 import java.util.List;
 
 import dto.ContactoDTO;
+import dto.DomicilioDTO;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
 import persistencia.dao.interfaz.ContactoDAO;
 import persistencia.dao.interfaz.DAOAbstractFactory;
+import persistencia.dao.interfaz.DomicilioDAO;
 import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.PersonaDAO;
@@ -21,6 +23,7 @@ public class Agenda
 	private PaisDAO pais;
 	private ProvinciaDAO provincia;
 	private LocalidadDAO localidad;
+	private DomicilioDAO domicilio;
 	
 	public Agenda(DAOAbstractFactory metodo_persistencia)
 	{
@@ -29,6 +32,7 @@ public class Agenda
 		this.pais = metodo_persistencia.createPaisDAO();
 		this.provincia = metodo_persistencia.createProvinciaDAO();
 		this.localidad = metodo_persistencia.createLocalidadDAO();
+		this.domicilio = metodo_persistencia.createDomicilioDAO();
 	}
 	
 	public void agregarPersona(PersonaDTO nuevaPersona)
@@ -132,5 +136,22 @@ public class Agenda
 	public List<LocalidadDTO> obtenerLocalidadesPorProv(ProvinciaDTO provincia)
 	{
 		return this.localidad.groupBy(provincia);
+	}
+	
+	//Domicilios
+	public void agregarDomicilio(DomicilioDTO domicilio) {
+		this.domicilio.insert(domicilio);
+	}
+	
+	public void borrarDomicilio(int id) {
+		this.domicilio.delete(id);
+	}
+	
+	public void modificarDomicilio(DomicilioDTO domicilio) {
+		this.domicilio.update(domicilio);
+	}
+	
+	public List<DomicilioDTO> obtenerDomicilios(){
+		return this.domicilio.readAll();
 	}
 }

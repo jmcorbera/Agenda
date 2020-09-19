@@ -5,6 +5,7 @@ package persistencia.dao.mysql;
 
 import persistencia.dao.interfaz.ContactoDAO;
 import persistencia.dao.interfaz.DAOAbstractFactory;
+import persistencia.dao.interfaz.DomicilioDAO;
 import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.PersonaDAO;
@@ -49,6 +50,14 @@ public class DAOSQLFactory implements DAOAbstractFactory
 	public LocalidadDAO createLocalidadDAO() {
 		// TODO Auto-generated method stub
 		return new LocalidadDAOSQL();
+	}
+
+	/* (non-Javadoc)
+	 * @see persistencia.dao.interfaz.DAOAbstractFactory#createLocalidadDAO()
+	 */
+	public DomicilioDAO createDomicilioDAO() {
+		// TODO Auto-generated method stub
+		return new DomicilioDAOSQL();
 	}
 
 }

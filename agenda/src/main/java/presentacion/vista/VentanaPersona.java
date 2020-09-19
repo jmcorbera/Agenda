@@ -20,7 +20,7 @@ public class VentanaPersona extends JFrame {
 	private JTextField txtEmail;
 	private JButton btnAgregarPersona;
 	private JButton btnNacimiento;
-	private JButton btnLocalidad;
+	private JButton btnDomicilio;
 	private static VentanaPersona INSTANCE;
 	private JComboBox<String> tipoContacto;
 
@@ -58,9 +58,9 @@ public class VentanaPersona extends JFrame {
 		btnNacimiento.setBounds(133, 137, 89, 23);
 		panel.add(btnNacimiento);
 
-		btnLocalidad = new JButton("Agregar");
-		btnLocalidad.setBounds(344, 137, 89, 23);
-		panel.add(btnLocalidad);
+		btnDomicilio = new JButton("Agregar");
+		btnDomicilio.setBounds(344, 137, 89, 23);
+		panel.add(btnDomicilio);
 	}
 
 	private void agregarTxts() {
@@ -96,9 +96,9 @@ public class VentanaPersona extends JFrame {
 		lblNacimiento.setBounds(10, 141, 113, 14);
 		panel.add(lblNacimiento);
 
-		JLabel lblLocalidad = new JLabel("Localidad");
-		lblLocalidad.setBounds(250, 141, 46, 14);
-		panel.add(lblLocalidad);
+		JLabel lblDomicilio = new JLabel("Domicilio");
+		lblDomicilio.setBounds(250, 141, 46, 14);
+		panel.add(lblDomicilio);
 
 		JLabel lblTipoContacto = new JLabel("Tipo de Contacto");
 		lblTipoContacto.setBounds(10, 184, 89, 14);
@@ -138,7 +138,11 @@ public class VentanaPersona extends JFrame {
 	public JButton getBtnAgregarPersona() {
 		return btnAgregarPersona;
 	}
-
+	
+	public JButton getBtnDomicilio() {
+		return btnDomicilio;
+	}
+	
 	public JComboBox<String> getCBTipoContacto(){
 		return tipoContacto;
 	}
@@ -156,7 +160,7 @@ public class VentanaPersona extends JFrame {
 	public JTextField getTxtEmail() {
 		return txtEmail;
 	}
-
+	
 	private void verificarCampos() {
 		txtTelefono.addKeyListener((new KeyAdapter() {
 			public void keyTyped(KeyEvent e) {

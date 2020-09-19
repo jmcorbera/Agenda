@@ -218,6 +218,9 @@ public class VentanaABMLocalidad extends JFrame {
 	public JButton getBtnEliminarLocalidad() {
 		return btnEliminarLoc;
 	}
-
+	
+	public JLabel getLblABMLocalidad() {
+		return lblAbmLocalidad;
+	}
 
 }
