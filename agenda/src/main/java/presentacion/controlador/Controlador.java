@@ -22,7 +22,6 @@ import presentacion.vista.VentanaABMLocalidad;
 import presentacion.vista.VentanaEditarContacto;
 import presentacion.vista.VentanaEditarLocalidad;
 import presentacion.vista.VentanaEditarPersona;
-import presentacion.vista.VentanaEditarProvincia;
 import presentacion.vista.VentanaNacimiento;
 import presentacion.vista.VentanaNuevaLocalidad;
 import presentacion.vista.VentanaNuevoContacto;
@@ -279,7 +278,7 @@ public class Controlador implements ActionListener {
 			String provincia = this.ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem().toString();
 
 			if (!provincia.isEmpty()) {
-				VentanaEditarProvincia editarProvincia = new VentanaEditarProvincia(provincia);
+				VentanaEditarLocalidad editarProvincia = new VentanaEditarLocalidad(provincia);
 				editarProvincia.getBtnAceptar().addActionListener(c -> editarProvincia(editarProvincia, c));
 				editarProvincia.getBtnCancelar().addActionListener(c -> editarProvincia.cerrar());
 				editarProvincia.mostrar();
@@ -293,7 +292,7 @@ public class Controlador implements ActionListener {
 		}
 	}
 
-	private void editarProvincia(VentanaEditarProvincia v, ActionEvent a) {
+	private void editarProvincia(VentanaEditarLocalidad v, ActionEvent a) {
 		if (v.getTxtNuevo().getText().isEmpty()) {
 			mostrarMensaje(v, mensajes[1]);
 			return;
