@@ -99,10 +99,18 @@ public class Controlador implements ActionListener {
 		this.ventanaAMBLocalidad = VentanaABMLocalidad.getInstance();
 		this.obtenerListaPaises(ventanaAMBLocalidad.getComboBoxPais());
 					
-		this.ventanaAMBLocalidad.getBtnAgregarPais().addActionListener(l -> configurarVentanaNuevoPais());
-		
+		this.ventanaAMBLocalidad.getBtnAgregarPais().addActionListener(l -> configurarVentanaNuevoPais());	
 		this.ventanaAMBLocalidad.getBtnEditarPais().addActionListener(l -> configurarVentanaEditarPais());			
 		this.ventanaAMBLocalidad.getBtnEliminarPais().addActionListener(l -> borrarPais(l));
+		
+//		this.ventanaAMBLocalidad.getBtnAgregarProvincia().addActionListener(l -> configurarVentanaNuevoProvincia());	
+//		this.ventanaAMBLocalidad.getBtnEditarProvincia().addActionListener(l -> configurarVentanaEditarProvincia());			
+		this.ventanaAMBLocalidad.getBtnEliminarProvincia().addActionListener(l -> borrarProvincia(l));
+		
+//		this.ventanaAMBLocalidad.getBtnAgregarLocalidad().addActionListener(l -> configurarVentanaNuevoLocalidad());	
+//		this.ventanaAMBLocalidad.getBtnEditarLocalidad().addActionListener(l -> configurarVentanaEditarLocalidad());			
+//		this.ventanaAMBLocalidad.getBtnEliminarLocalidad().addActionListener(l -> borrarLocalidad(l));		
+		
 		this.ventanaAMBLocalidad.getComboBoxPais().addActionListener(l -> mostrarProvincias());
 		this.ventanaAMBLocalidad.getComboBoxProvincia().addActionListener(l-> mostrarLocalidades());
 		this.refrescarListaPaises();
@@ -146,6 +154,7 @@ public class Controlador implements ActionListener {
 		}
 	}
 		
+	// Control ABM Pais
 	
 	private void configurarVentanaEditarPais() {
 		
@@ -199,9 +208,7 @@ public class Controlador implements ActionListener {
 		
 		this.agenda.agregarPais(new PaisDTO(0, nuevoPais));
 		
-		this.refrescarListaPaises();
-		this.ventanaAMBLocalidad.limpiarCombos();
-		
+		this.refrescarListaPaises();	
 		mostrarMensaje(v, "Se ha ingresado un nuevo pais");
 	}
 	
@@ -223,8 +230,7 @@ public class Controlador implements ActionListener {
 //			JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, String.format("No se puede eliminar el país '%s' porque al menos un domicilio pertenece a alguna de sus localidades", paísSeleccionado.getNombre()));
 				
 		this.refrescarListaPaises();
-		this.ventanaAMBLocalidad.limpiarCombos();
-		
+	
 		JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, "El pais se ha borrado correctamente.");
 	}
 
@@ -237,15 +243,44 @@ public class Controlador implements ActionListener {
 			return;
 		}
 		
-		this.agenda.modificarPais(new PaisDTO(pais.getIdPais(), txtNuevo));
-		
+		this.agenda.modificarPais(new PaisDTO(pais.getIdPais(), txtNuevo));		
 		this.refrescarListaPaises();
+	}
+	
+	/// Control ABM Provincia
+	
+	private void borrarProvincia(ActionEvent s)
+	{
+		String nombre = this.ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem().toString();
+		ProvinciaDTO provincia = agenda.obtenerProvincias().stream().filter(p -> p.getNombre().equals(nombre)).findFirst().get();
+		
+		if(provincia == null) {
+			JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, "Debe seleccionar una Provincia de la lista para poder eliminar.");
+			return;
+		}
+		
+//		if (!this.personasEnTabla.stream().anyMatch(p -> p.getDomicilio().getLocalidad().getProvincia().equals(provinciaSeleccionada)))
+//			this.agenda.borrarProvincia(provinciaSeleccionada);
+//		else
+//			JOptionPane.showMessageDialog(this.ventanaUbicaciones, String.format("No se puede eliminar la provincia '%s' porque al menos un domicilio pertenece a alguna de sus localidades", provinciaSeleccionada.getNombre()));
+//		
+
+		this.agenda.borrarProvincia(provincia);
 		this.ventanaAMBLocalidad.limpiarCombos();
 	}
+	
+	////
 	
 	private void refrescarListaPaises() {
 		this.paisesEnLista = agenda.obtenerPaíses();	
 		this.obtenerListaPaises(ventanaAMBLocalidad.getComboBoxPais());
+		this.ventanaAMBLocalidad.limpiarCombos();
+	}
+	
+	private void refrescarListaProvincias() {
+		this.paisesEnLista = agenda.obtenerPaíses();	
+		this.obtenerListaPaises(ventanaAMBLocalidad.getComboBoxPais());
+		this.ventanaAMBLocalidad.limpiarCombos();
 	}
 
 	private PersonaDTO getPersonaSeleccionada() {
