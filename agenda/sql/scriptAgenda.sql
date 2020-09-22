@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS grupo_8;
+CREATE DATABASE grupo_8;
 USE grupo_8;
 
 CREATE TABLE IF NOT EXISTS `tipoContacto`
@@ -20,11 +22,14 @@ CREATE TABLE IF NOT EXISTS `personas`
 
 CREATE TABLE IF NOT EXISTS `domicilios`
 (
-`id` int (11) NOT NULL AUTO_INCREMENT,
+`id` int (11) NOT NULL,
 `pais` varchar(45) NOT NULL,
-`provincia` varchar(45) NOT NULL,
+`provincia` text DEFAULT NULL,
 `localidad` varchar(45) DEFAULT NULL,
 `departamento` varchar(45) DEFAULT NULL,
+`calle` varchar(45) DEFAULT NULL,
+`altura` varchar(45) DEFAULT NULL,
+`piso` varchar(45) DEFAULT NULL,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`id`) REFERENCES `personas`(`id`)
 );
