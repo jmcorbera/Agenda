@@ -25,7 +25,7 @@ public class VentanaNuevoPais extends JFrame {
 	}
 
 	private void agregarComponentes() {		
-		JLabel lblIngresarNombre = new JLabel("Ingrese el nombre del nuevo contacto");
+		JLabel lblIngresarNombre = new JLabel("Ingrese el nuevo nombre");
 		lblIngresarNombre.setBounds(10, 11, 210, 24);
 		panel.add(lblIngresarNombre);
 		

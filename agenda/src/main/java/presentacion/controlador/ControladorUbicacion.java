@@ -1,7 +1,6 @@
 package presentacion.controlador;
 
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +23,7 @@ public class ControladorUbicacion {
 	private List<ProvinciaDTO> provinciasEnLista = new ArrayList<ProvinciaDTO>();
 	private List<LocalidadDTO> localidadesEnLista = new ArrayList<LocalidadDTO>();
 	private VentanaABMLocalidad ventanaAMBLocalidad;
+	
 	private Agenda agenda;
 	private String[] mensajes = {
 			"El nombre es obligatorio!",
@@ -113,12 +113,12 @@ public class ControladorUbicacion {
 	//ABM Pais
 		private void configurarVentanaNuevoPais() {
 			VentanaNuevoPais ventNuevoPais = new VentanaNuevoPais();
-			ventNuevoPais.getBtnAceptar().addActionListener(n -> agregarPais(ventNuevoPais, n));
+			ventNuevoPais.getBtnAceptar().addActionListener(n -> agregarPais(ventNuevoPais));
 			ventNuevoPais.getBtnCancelar().addActionListener(c -> ventNuevoPais.cerrar());
 		}
 		
 		//Alta
-		private void agregarPais(VentanaNuevoPais v, ActionEvent a) {
+		private void agregarPais(VentanaNuevoPais v) {
 			String nuevo = v.getTxtContactoNuevo().getText();
 			if (nuevo.isEmpty()) {
 				JOptionPane.showMessageDialog(v, mensajes[0]);
@@ -159,7 +159,7 @@ public class ControladorUbicacion {
 			try {
 					String paisSeleccionado = this.ventanaAMBLocalidad.getComboBoxPais().getSelectedItem().toString();
 					VentanaEditarPais editarPais = new VentanaEditarPais(paisSeleccionado);
-					editarPais.getBtnAceptar().addActionListener(c -> editarPais(editarPais, c));
+					editarPais.getBtnAceptar().addActionListener(c -> editarPais(editarPais));
 					editarPais.getBtnCancelar().addActionListener(c -> editarPais.cerrar());
 					editarPais.mostrar();
 
@@ -168,7 +168,7 @@ public class ControladorUbicacion {
 			}
 		}
 		
-		private void editarPais(VentanaEditarPais v, ActionEvent a) {
+		private void editarPais(VentanaEditarPais v) {
 			if (v.getTxtNuevo().getText().isEmpty()) {
 				JOptionPane.showMessageDialog(v, mensajes[0]);
 				return;
