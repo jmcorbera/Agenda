@@ -16,7 +16,6 @@ public class VentanaTipoContacto extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panel;
-	private static VentanaTipoContacto INSTANCE;
 	private DefaultTableModel modelTipoContacto;
 	private String[] nombreColumnas = { "Tipos de contacto predeterminados" };
 	private JTable tablaTipoContactos;
@@ -25,15 +24,7 @@ public class VentanaTipoContacto extends JFrame {
 	private JButton btnEliminarContacto;
 	private JButton btnAceptar;
 
-	public static VentanaTipoContacto getInstance() {
-		if (INSTANCE == null) {
-			INSTANCE = new VentanaTipoContacto();
-			return new VentanaTipoContacto();
-		} else
-			return INSTANCE;
-	}
-
-	private VentanaTipoContacto() {
+	public VentanaTipoContacto() {
 		super();
 		configurarVentana();
 		configurarPanel();
@@ -92,7 +83,7 @@ public class VentanaTipoContacto extends JFrame {
 
 	public void cerrar() {
 		this.setVisible(false);
-
+		this.dispose();
 	}
 
 	public String[] getNombreColumnas() {

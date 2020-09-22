@@ -15,8 +15,8 @@ public interface LocalidadDAO {
 	
 	public List<LocalidadDTO> readAll();
 	
+	public boolean exists(String localidad, int provinciaId);
 
-	
 	public List<LocalidadDTO> groupBy(ProvinciaDTO provincia);
 	
 	public boolean ifExist();

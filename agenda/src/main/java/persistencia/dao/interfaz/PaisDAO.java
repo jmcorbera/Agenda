@@ -14,6 +14,7 @@ public interface PaisDAO {
 	
 	public List<PaisDTO> readAll();
 	
+	public boolean exists(String pais);
 	
 	public boolean ifExist();
 	

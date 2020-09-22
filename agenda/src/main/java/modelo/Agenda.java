@@ -154,4 +154,19 @@ public class Agenda
 	public List<DomicilioDTO> obtenerDomicilios(){
 		return this.domicilio.readAll();
 	}
+	
+	public boolean existsContacto(String contacto) {
+		return this.contacto.exists(contacto);
+	}
+	
+	public boolean existsPais(String pais) {
+		return this.pais.exists(pais);
+	}
+	
+	public boolean existsProvincia(String provincia, int paisId) {
+		return this.provincia.exists(provincia, paisId);
+	}
+	public boolean existsLocalidad(String localidad, int provinciaId) {
+		return this.localidad.exists(localidad, provinciaId);
+	}
 }

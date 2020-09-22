@@ -45,7 +45,7 @@ public class VentanaABMLocalidad extends JFrame {
 			return INSTANCE;
 	}
 
-	private VentanaABMLocalidad() 
+	public VentanaABMLocalidad() 
 	{
 		super();
 		configurarVentana();
@@ -74,7 +74,7 @@ public class VentanaABMLocalidad extends JFrame {
 	private void agregarComponentes() {		
 		
 		this.lblPais = new JLabel("Pais");
-		this.lblPais.setBounds(36, 177, 56, 16);
+		this.lblPais.setBounds(36, 77, 56, 16);
 		this.panel.add(lblPais);
 		
 		this.lblProvincia = new JLabel("Provincia");
@@ -82,7 +82,7 @@ public class VentanaABMLocalidad extends JFrame {
 		this.panel.add(lblProvincia);
 		
 		this.lblLocalidad = new JLabel("Localidad");
-		this.lblLocalidad.setBounds(36, 77, 56, 16);
+		this.lblLocalidad.setBounds(36, 177, 56, 16);
 		this.panel.add(lblLocalidad);
 		
 		this.cmbPais = new JComboBox<String>();

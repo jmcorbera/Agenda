@@ -1,5 +1,8 @@
 package dto;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class PersonaDTO 
 {
 	private int id;
@@ -63,5 +66,23 @@ public class PersonaDTO
 	
 	public void setContactoId(String otroTipoContacto) {
 		contactoId = otroTipoContacto;
+	}
+	public String isValid() {
+	if (this.getNombre().isEmpty()) {
+		return "El nombre es obligatorio";
+	}
+	if (this.getTelefono().isEmpty() && this.getEmail().isEmpty()) {
+		return "Debe tener al menos una forma de contacto: Email o telefono.";
+	}
+	if (!isValidEmail(this.getEmail())) {
+		return "Email ingresado inválido";
+	}
+	return "";
+	}
+
+	private boolean isValidEmail(String email) {
+		Pattern pattern = Pattern.compile("[a-z](\\.-_[a-z0-9]+)*[a-z0-9]*@[a-z]+(\\.[a-z]+)+");
+		Matcher mather = pattern.matcher(email);
+		return !mather.find() && !email.isEmpty() ? false : true;
 	}
 }

@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+
+
 import javax.swing.JComboBox;
 
 public class VentanaPersona extends JFrame {
@@ -150,6 +152,7 @@ public class VentanaPersona extends JFrame {
 	public void cerrar() {
 		this.txtNombre.setText(null);
 		this.txtTelefono.setText(null);
+		this.txtEmail.setText(null);
 		this.dispose();
 	}
 
@@ -178,4 +181,5 @@ public class VentanaPersona extends JFrame {
 			}
 		}));
 	}
+
 }

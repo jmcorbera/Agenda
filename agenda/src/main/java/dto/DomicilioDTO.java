@@ -1,5 +1,6 @@
 package dto;
 
+
 public class DomicilioDTO {
 	private int id;
 	private String pais;
@@ -83,6 +84,10 @@ public class DomicilioDTO {
 
 	public void setDepartamento(String departamento) {
 		this.departamento = departamento;
+	}
+
+	public String isValid() {
+		return !this.pais.isEmpty() ? "": "El nombre del país es obligatorio!";
 	}
 	
 	

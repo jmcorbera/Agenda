@@ -19,7 +19,7 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	private static final String update = "UPDATE localidades SET nombre = ?, provinciaId = ? WHERE id = ?";
 	private static final String readall = "SELECT * FROM localidades ORDER BY nombre";
 	private static final String groupByProvincia = "SELECT * FROM localidades WHERE provinciaId = ? ORDER BY nombre";
-	
+	private static final String exists = "SELECT COUNT(*) FROM localidades WHERE nombre = ? AND provinciaId = ? ";
 	private static final String ifExist = "SELECT EXISTS (SELECT 1 FROM localidades)";
 
 	@Override
@@ -232,6 +232,29 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 		return dataExists;
 	}
 
+	@Override
+	public boolean exists(String localidad, int provinciaId) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement(exists);
+			statement.setString(1, localidad);
+			statement.setInt(2, provinciaId);
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			return resultSet.getInt(1) == 1 ? true : false;
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+
+	
 
 
 }

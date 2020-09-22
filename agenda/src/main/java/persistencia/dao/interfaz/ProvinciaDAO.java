@@ -15,6 +15,7 @@ public interface ProvinciaDAO {
 	
 	public List<ProvinciaDTO> readAll();
 	
+	public boolean exists(String provincia, int paisId);
 		
 	public List<ProvinciaDTO> groupBy(PaisDTO pais);
 	

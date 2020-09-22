@@ -13,5 +13,7 @@ public interface ContactoDAO {
 		public List<ContactoDTO> readAll();
 
 		public boolean delete(String nombre);
+		
+		public boolean exists(String nombre);
 
 }

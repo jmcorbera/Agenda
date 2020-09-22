@@ -19,7 +19,7 @@ public class ProvinciaDAOSQL implements ProvinciaDAO {
 	private static final String update = "UPDATE provincias SET nombre = ?, paisId = ? WHERE id = ?";
 	private static final String readall = "SELECT * FROM provincias ORDER BY nombre";
 	private static final String groupByPais = "SELECT * FROM provincias WHERE paisId = ? ORDER BY nombre";
-	
+	private static final String exists = "SELECT COUNT(*) FROM provincias WHERE nombre = ? AND paisId = ?";
 	private static final String ifExist = "SELECT EXISTS (SELECT 1 FROM provincias)";
 
 	@Override
@@ -199,6 +199,28 @@ public class ProvinciaDAOSQL implements ProvinciaDAO {
 		}
 		
 		return dataExists;
+	}
+
+	@Override
+	public boolean exists(String provincia, int paisId) {
+		PreparedStatement statement;
+			ResultSet resultSet; 
+			Conexion conexion = Conexion.getConexion();
+			try 
+			{
+				statement = conexion.getSQLConexion().prepareStatement(exists);
+				statement.setString(1, provincia);
+				statement.setInt(2, paisId);
+				resultSet = statement.executeQuery();
+				resultSet.next();
+				return resultSet.getInt(1) == 1 ? true : false;
+			} 
+			catch (SQLException e) 
+			{
+				e.printStackTrace();
+			}
+			
+			return false;
 	}
 
 }

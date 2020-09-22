@@ -17,6 +17,7 @@ public class ContactoDAOSQL implements ContactoDAO {
 	private static final String delete = "DELETE FROM tipoContacto WHERE nombreContacto = ?";
 	private static final String readall = "SELECT * FROM tipoContacto";
 	private static final String update = "UPDATE tipoContacto SET nombreContacto = ? WHERE nombreContacto = ? ";
+	private static final String exists = "SELECT COUNT(*) FROM tipoContacto WHERE nombreContacto = ? ";
 		
 	public boolean insert(String contacto)
 	{
@@ -119,5 +120,26 @@ public class ContactoDAOSQL implements ContactoDAO {
 	{
 		String nombre = resultSet.getString("nombreContacto");
 		return new ContactoDTO(nombre);
+	}
+
+	public boolean exists(String nombre) {
+		PreparedStatement statement;
+		ResultSet resultSet; //Guarda el resultado de la query
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement(exists);
+			statement.setString(1, nombre);
+			resultSet = statement.executeQuery();
+			if(resultSet.next())
+			{
+				return resultSet.getInt(1) > 0;
+			}
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

@@ -25,7 +25,6 @@ public class VentanaDomicilio extends JFrame {
 	private JComboBox<String> cmbProvincia;
 	private JComboBox<String> cmbLocalidad;
 	
-	private static VentanaDomicilio INSTANCE;
 	private JTextField txtCalle;
 	private JTextField txtAltura;
 	private JTextField txtPiso;
@@ -33,18 +32,9 @@ public class VentanaDomicilio extends JFrame {
 	private JLabel lblAlturaAnterior;
 	private JLabel lblPisoAnterior;
 
-	public static VentanaDomicilio getInstance()
-	{
-		if(INSTANCE == null)
-		{
-			INSTANCE = new VentanaDomicilio(); 	
-			return new VentanaDomicilio();
-		}
-		else
-			return INSTANCE;
-	}
 
-	private VentanaDomicilio() 
+
+	public VentanaDomicilio() 
 	{
 		super();
 		configurarVentana();

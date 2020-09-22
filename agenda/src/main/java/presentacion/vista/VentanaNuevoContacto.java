@@ -61,6 +61,7 @@ public class VentanaNuevoContacto extends JFrame {
 		setVisible(true);
 	}
 	public void cerrar() {
+		setVisible(false);
 		dispose();
 	}
 	
