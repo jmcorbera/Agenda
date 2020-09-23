@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 import dto.ContactoDTO;
 
-public class VentanaTipoContacto extends JFrame {
+public class VentanaABMTipoContacto extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panel;
@@ -24,7 +24,7 @@ public class VentanaTipoContacto extends JFrame {
 	private JButton btnEliminarContacto;
 	private JButton btnAceptar;
 
-	public VentanaTipoContacto() {
+	public VentanaABMTipoContacto() {
 		super();
 		configurarVentana();
 		configurarPanel();

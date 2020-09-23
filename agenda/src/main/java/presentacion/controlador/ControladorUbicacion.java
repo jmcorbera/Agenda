@@ -13,16 +13,16 @@ import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
 import modelo.Agenda;
-import presentacion.vista.VentanaABMLocalidad;
-import presentacion.vista.VentanaEditarPais;
+import presentacion.vista.VentanaABMUbicacion;
+import presentacion.vista.VentanaEditarContactoOPais;
 import presentacion.vista.VentanaNuevaProvinciaOLocalidad;
-import presentacion.vista.VentanaNuevoPais;
+import presentacion.vista.VentanaNuevoPaisOContacto;
 
 public class ControladorUbicacion {
 	private List<PaisDTO> paisesEnLista = new ArrayList<PaisDTO>();
 	private List<ProvinciaDTO> provinciasEnLista = new ArrayList<ProvinciaDTO>();
 	private List<LocalidadDTO> localidadesEnLista = new ArrayList<LocalidadDTO>();
-	private VentanaABMLocalidad ventanaAMBLocalidad;
+	private VentanaABMUbicacion ventanaAMBLocalidad;
 	
 	private Agenda agenda;
 	private String[] mensajes = {
@@ -35,8 +35,8 @@ public class ControladorUbicacion {
 			"Ya existe una provincia con ese nombre!",
 			"Ya existe una localidad con ese nombre!"};
 	
-	public ControladorUbicacion(Agenda agenda, VentanaABMLocalidad ventanaAMBLocalidad) {
-		this.ventanaAMBLocalidad = VentanaABMLocalidad.getInstance();
+	public ControladorUbicacion(Agenda agenda, VentanaABMUbicacion ventanaAMBLocalidad) {
+		this.ventanaAMBLocalidad = VentanaABMUbicacion.getInstance();
 		this.agenda = agenda;
 		configurarVentanaABMLocalidades();
 	}
@@ -112,31 +112,32 @@ public class ControladorUbicacion {
 	
 	//ABM Pais
 		private void configurarVentanaNuevoPais() {
-			VentanaNuevoPais ventNuevoPais = new VentanaNuevoPais();
+			VentanaNuevoPaisOContacto ventNuevoPais = new VentanaNuevoPaisOContacto();
 			ventNuevoPais.getBtnAceptar().addActionListener(n -> agregarPais(ventNuevoPais));
 			ventNuevoPais.getBtnCancelar().addActionListener(c -> ventNuevoPais.cerrar());
 		}
 		
 		//Alta
-		private void agregarPais(VentanaNuevoPais v) {
-			String nuevo = v.getTxtContactoNuevo().getText();
+		private void agregarPais(VentanaNuevoPaisOContacto v) {
+			try {
+			String nuevo = v.getTxtNuevoNombre().getText();
 			if (nuevo.isEmpty()) {
 				JOptionPane.showMessageDialog(v, mensajes[0]);
-			} else {
-				guardarPais(v, nuevo);
-				v.cerrar();
-			}
-		}
-
-		private void guardarPais(VentanaNuevoPais v, String nuevoPais) {
-			if (existePais(nuevoPais)) {
-				JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, mensajes[5]);
+				return;
+			} 
+			if (existePais(nuevo)) {
+				JOptionPane.showMessageDialog(v, mensajes[5]);
 				return;
 			}
-			this.agenda.agregarPais(new PaisDTO(0, nuevoPais));
+			this.agenda.agregarPais(new PaisDTO(0, nuevo));
+			v.cerrar();
 			this.refrescarListaPaises();
 			deshabilitarProvinciaYLocalidad(ventanaAMBLocalidad.getComboBoxProvincia(), ventanaAMBLocalidad.getComboBoxLocalidad());
-			JOptionPane.showMessageDialog(v, mensajes[4]);
+			JOptionPane.showMessageDialog(ventanaAMBLocalidad, mensajes[4]);
+			}
+			catch(Exception e) {
+				
+			}
 		}
 		
 		//Baja
@@ -158,7 +159,7 @@ public class ControladorUbicacion {
 		private void configurarVentanaEditarPais() {
 			try {
 					String paisSeleccionado = this.ventanaAMBLocalidad.getComboBoxPais().getSelectedItem().toString();
-					VentanaEditarPais editarPais = new VentanaEditarPais(paisSeleccionado);
+					VentanaEditarContactoOPais editarPais = new VentanaEditarContactoOPais(paisSeleccionado);
 					editarPais.getBtnAceptar().addActionListener(c -> editarPais(editarPais));
 					editarPais.getBtnCancelar().addActionListener(c -> editarPais.cerrar());
 					editarPais.mostrar();
@@ -168,30 +169,24 @@ public class ControladorUbicacion {
 			}
 		}
 		
-		private void editarPais(VentanaEditarPais v) {
-			if (v.getTxtNuevo().getText().isEmpty()) {
-				JOptionPane.showMessageDialog(v, mensajes[0]);
-				return;
-			}
-			this.editarPais(v.getTxtNombreAnterior().getText(), v.getTxtNuevo().getText());
-			v.cerrar();
-		}
-		
-		private void editarPais(String txtNombreAnterior, String txtNuevo) {
+		private void editarPais(VentanaEditarContactoOPais v) {
 			try {
-				PaisDTO pais = this.paisesEnLista.stream().filter(p -> p.getNombre().equals(txtNombreAnterior)).findFirst().get();
-				if (txtNuevo.equals("")) {
-					JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, mensajes[0]);
+				String anterior = v.getTxtNombreAnterior().getText();
+				String nuevo = v.getTxtNuevo().getText();
+				PaisDTO pais = this.paisesEnLista.stream().filter(p -> p.getNombre().equals(anterior)).findFirst().get();
+				if (v.getTxtNuevo().getText().equals("")) {
+					JOptionPane.showMessageDialog(v, mensajes[0]);
 					return;
 				}
-				if(existePais(txtNuevo)) {
-					JOptionPane.showMessageDialog(ventanaAMBLocalidad, mensajes[5]);
+				if(existePais(nuevo)) {
+					JOptionPane.showMessageDialog(v, mensajes[5]);
 					return;
 				}
-				this.agenda.modificarPais(new PaisDTO(pais.getIdPais(), txtNuevo));
+				this.agenda.modificarPais(new PaisDTO(pais.getIdPais(), nuevo));
 				this.refrescarListaPaises();
 				deshabilitarProvinciaYLocalidad(ventanaAMBLocalidad.getComboBoxProvincia(), ventanaAMBLocalidad.getComboBoxLocalidad());
-				JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, mensajes[4]);
+				v.cerrar();
+				JOptionPane.showMessageDialog(ventanaAMBLocalidad, mensajes[4]);
 			}
 			catch(Exception e) {
 			}
@@ -214,25 +209,17 @@ public class ControladorUbicacion {
 				String nuevo = ventanaNuevaProvincia.getTxtNombre().getText();
 				if (nuevo.isEmpty()) {
 					JOptionPane.showMessageDialog(ventanaNuevaProvincia, mensajes[0]);
-				} else {
-					guardarProvincia(ventanaNuevaProvincia, nuevo, pais);
-					ventanaNuevaProvincia.cerrar();
-				}
-			}
-			catch(Exception e) {
-			}
-		}
-
-		private void guardarProvincia(VentanaNuevaProvinciaOLocalidad ventanaNuevaProvincia, String nuevo, PaisDTO pais) {
-			try {
+					return;
+				} 
 				if (existeProvincia(nuevo, pais.getIdPais())) {
-					JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, mensajes[6]);
+					JOptionPane.showMessageDialog(ventanaNuevaProvincia, mensajes[6]);
 					return;
 				}
 				this.agenda.agregarProvincia(new ProvinciaDTO(0, nuevo, pais));
 				this.refrescarListaProvincias();
 				deshabilitarProvinciaYLocalidad(ventanaAMBLocalidad.getComboBoxProvincia(), ventanaAMBLocalidad.getComboBoxLocalidad());
-				JOptionPane.showMessageDialog(ventanaNuevaProvincia, mensajes[4]);
+				ventanaNuevaProvincia.cerrar();
+				JOptionPane.showMessageDialog(ventanaAMBLocalidad, mensajes[4]);
 			}
 			catch(Exception e) {
 			}
@@ -288,16 +275,17 @@ public class ControladorUbicacion {
 				String nombrePaisSeleccionado = editarProvincia.getComboBoxPadre().getSelectedItem().toString();
 				PaisDTO pais = this.paisesEnLista.stream().filter(p -> p.getNombre().equals(nombrePaisSeleccionado)).findFirst().get();
 				if (nuevo.equals("")) {
-					JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, mensajes[0]);
+					JOptionPane.showMessageDialog(editarProvincia, mensajes[0]);
 					return;
 				}
 				if(existeProvincia(nuevo, pais.getIdPais())) {
-					JOptionPane.showMessageDialog(ventanaAMBLocalidad, mensajes[6]);
+					JOptionPane.showMessageDialog(editarProvincia, mensajes[6]);
+					return;
 				}
+				editarProvincia.cerrar();
 				this.agenda.modificarProvincia(new ProvinciaDTO(provincia.getIdProvincia(), nuevo, pais));
 				this.refrescarListaProvincias();
-				deshabilitarProvinciaYLocalidad(ventanaAMBLocalidad.getComboBoxProvincia(), ventanaAMBLocalidad.getComboBoxLocalidad());
-				editarProvincia.cerrar();
+				deshabilitarProvinciaYLocalidad(ventanaAMBLocalidad.getComboBoxProvincia(), ventanaAMBLocalidad.getComboBoxLocalidad());	
 				JOptionPane.showMessageDialog(this.ventanaAMBLocalidad, mensajes[4]);
 				
 			} catch (Exception e) {
@@ -322,24 +310,17 @@ public class ControladorUbicacion {
 			String nuevo = ventanaNuevaLocalidad.getTxtNombre().getText();
 			if (nuevo.isEmpty()) {
 				JOptionPane.showMessageDialog(ventanaNuevaLocalidad, mensajes[0]);
-			} else {
-				guardarLocalidad(ventanaNuevaLocalidad, nuevo, provincia);
-				ventanaNuevaLocalidad.cerrar();
+				return;
+			} 
+			if(existeLocalidad(nuevo, provincia.getIdProvincia())) {
+				JOptionPane.showMessageDialog(ventanaNuevaLocalidad, mensajes[7]);
+				return;
 			}
-		}
-
-		private void guardarLocalidad(VentanaNuevaProvinciaOLocalidad ventanaNuevaLocalidad, String nuevo, ProvinciaDTO provincia) {
-			try {
-				if(existeLocalidad(nuevo, provincia.getIdProvincia())) {
-					JOptionPane.showMessageDialog(ventanaNuevaLocalidad, mensajes[7]);
-				}
-				this.agenda.agregarLocalidad(new LocalidadDTO(0, nuevo, provincia));
-				this.refrescarListaLocalidades();
-				deshabilitarProvinciaYLocalidad(ventanaAMBLocalidad.getComboBoxProvincia(), ventanaAMBLocalidad.getComboBoxLocalidad());
-				JOptionPane.showMessageDialog(ventanaNuevaLocalidad, mensajes[4]);
-			}
-			catch(Exception e) {
-			}
+			this.agenda.agregarLocalidad(new LocalidadDTO(0, nuevo, provincia));
+			this.refrescarListaLocalidades();
+			deshabilitarProvinciaYLocalidad(ventanaAMBLocalidad.getComboBoxProvincia(), ventanaAMBLocalidad.getComboBoxLocalidad());
+			ventanaNuevaLocalidad.cerrar();
+			JOptionPane.showMessageDialog(ventanaAMBLocalidad, mensajes[4]);
 		}
 		
 		//Baja
@@ -391,6 +372,7 @@ public class ControladorUbicacion {
 
 				if(existeLocalidad(nuevo, provincia.getIdProvincia())) {
 					JOptionPane.showMessageDialog(editarLocalidad, mensajes[7]);
+					return;
 				}
 				this.agenda.modificarLocalidad(new LocalidadDTO(localidad.getIdLocalidad(), nuevo, provincia));
 				this.refrescarListaLocalidades();
@@ -469,7 +451,7 @@ public class ControladorUbicacion {
 	private boolean existeLocalidad(String localidad, int provinciaId) {
 		return agenda.existsLocalidad(localidad, provinciaId);
 	}
-	public VentanaABMLocalidad getVentanaABMLocalidad() {
+	public VentanaABMUbicacion getVentanaABMLocalidad() {
 		return ventanaAMBLocalidad;
 	}
 

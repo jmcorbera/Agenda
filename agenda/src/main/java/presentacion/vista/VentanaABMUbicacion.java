@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
 
-public class VentanaABMLocalidad extends JFrame {
+public class VentanaABMUbicacion extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panel;
@@ -32,20 +32,20 @@ public class VentanaABMLocalidad extends JFrame {
 	private JButton btnAgregarLoc;
 	private JButton btnEliminarLoc;
 	
-	private static VentanaABMLocalidad INSTANCE;
+	private static VentanaABMUbicacion INSTANCE;
 
-	public static VentanaABMLocalidad getInstance()
+	public static VentanaABMUbicacion getInstance()
 	{
 		if(INSTANCE == null)
 		{
-			INSTANCE = new VentanaABMLocalidad(); 	
-			return new VentanaABMLocalidad();
+			INSTANCE = new VentanaABMUbicacion(); 	
+			return new VentanaABMUbicacion();
 		}
 		else
 			return INSTANCE;
 	}
 
-	public VentanaABMLocalidad() 
+	public VentanaABMUbicacion() 
 	{
 		super();
 		configurarVentana();

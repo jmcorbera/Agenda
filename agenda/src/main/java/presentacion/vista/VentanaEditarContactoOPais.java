@@ -6,9 +6,13 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 
-public class VentanaEditarContacto extends JFrame {
+public class VentanaEditarContactoOPais extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JLabel lblNombreAnterior;
 	private JLabel lblNombreNuevo;
@@ -19,11 +23,12 @@ public class VentanaEditarContacto extends JFrame {
 	private JPanel panel;
 	private JButton btnCancelar;
 
-	public VentanaEditarContacto(String contactoAEditar) {
+	public VentanaEditarContactoOPais(String contactoAEditar) {
 		super();
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes(contactoAEditar);
+		verificarCampos();
 	}
 
 	private void agregarComponentes(String contactoAEditar) {
@@ -73,6 +78,13 @@ public class VentanaEditarContacto extends JFrame {
 		setBounds(100, 100, 378, 173);
 	}
 	
+	private void verificarCampos() {
+		txtNombreNuevo.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarLetrasYEspacios(e);
+			}
+		}));
+	}
 	public JTextField getTxtNuevo() {
 		return txtNombreNuevo;
 	}

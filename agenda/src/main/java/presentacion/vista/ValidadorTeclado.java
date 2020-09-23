@@ -25,5 +25,12 @@ public class ValidadorTeclado {
 		}
 	}
 	
+	public static void aceptarLetrasNumerosYEspacios(KeyEvent e) {
+		char caracter = e.getKeyChar();
+		if (!Character.isLetterOrDigit(caracter) && !Character.isSpaceChar(caracter))  {
+			e.consume();
+		}
+	}
+	
 
 }

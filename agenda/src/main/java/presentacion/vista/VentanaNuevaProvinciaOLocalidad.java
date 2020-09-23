@@ -5,6 +5,10 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
@@ -24,6 +28,7 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes();
+		verificarCampos();
 	}
 
 	private void agregarComponentes() {		
@@ -102,4 +107,13 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 	public JLabel getLblPadreAlQuePertenece() {
 		return lblPadreAlQuePertenece;
 	}
+	
+	private void verificarCampos() {
+		nombre.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarLetrasYEspacios(e);
+			}
+		}));
+	}
+	
 }

@@ -9,6 +9,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JTextField;
 
 public class VentanaDomicilio extends JFrame {
@@ -32,14 +35,13 @@ public class VentanaDomicilio extends JFrame {
 	private JLabel lblAlturaAnterior;
 	private JLabel lblPisoAnterior;
 
-
-
 	public VentanaDomicilio() 
 	{
 		super();
 		configurarVentana();
 		configurarPanel();	
 		agregarComponentes();
+		verificarCampos();
 	}
 	
 	private void configurarVentana() {
@@ -140,6 +142,24 @@ public class VentanaDomicilio extends JFrame {
 		lblPisoAnterior.setBounds(361, 158, 187, 14);
 		lblPisoAnterior.setVisible(false);
 		panel.add(lblPisoAnterior);
+	}
+	
+	private void verificarCampos() {
+		txtCalle.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarLetrasYEspacios(e);
+			}
+		}));
+		txtAltura.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarSoloNumeros(e);
+			}
+		}));
+		txtPiso.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarLetrasNumerosYEspacios(e);
+			}
+		}));
 	}
 	
 	public void mostrarVentana() {

@@ -14,14 +14,14 @@ import javax.swing.table.DefaultTableModel;
 
 import modelo.Agenda;
 import presentacion.reportes.ReporteAgenda;
-import presentacion.vista.VentanaABMLocalidad;
+import presentacion.vista.VentanaABMUbicacion;
 import presentacion.vista.VentanaDomicilio;
-import presentacion.vista.VentanaEditarContacto;
+import presentacion.vista.VentanaEditarContactoOPais;
 import presentacion.vista.VentanaEditarPersona;
 import presentacion.vista.VentanaNacimiento;
-import presentacion.vista.VentanaNuevoContacto;
+import presentacion.vista.VentanaNuevoPaisOContacto;
 import presentacion.vista.VentanaPersona;
-import presentacion.vista.VentanaTipoContacto;
+import presentacion.vista.VentanaABMTipoContacto;
 import presentacion.vista.Vista;
 import dto.ContactoDTO;
 import dto.DomicilioDTO;
@@ -38,7 +38,7 @@ public class Controlador implements ActionListener {
 	private VentanaDomicilio ventanaDomicilio;
 	private Agenda agenda;
 	private VentanaNacimiento ventanaNacimiento;
-	private VentanaTipoContacto ventanaTipoContacto;
+	private VentanaABMTipoContacto ventanaTipoContacto;
 	private VentanaEditarPersona ventanaEditarPersona;
 	private ControladorUbicacion controladorUbicacion;
 	private String[] mensajes = { 
@@ -52,7 +52,7 @@ public class Controlador implements ActionListener {
 		configurarVentanaNacimiento();
 		configurarVentanaPersona();
 		configurarVentanaTipoContacto();
-		this.controladorUbicacion = new ControladorUbicacion(agenda, new VentanaABMLocalidad());
+		this.controladorUbicacion = new ControladorUbicacion(agenda, new VentanaABMUbicacion());
 		configurarVista(vista);
 	}
 
@@ -67,7 +67,7 @@ public class Controlador implements ActionListener {
 	}
 
 	private void configurarVentanaTipoContacto() {
-		this.ventanaTipoContacto = new VentanaTipoContacto();
+		this.ventanaTipoContacto = new VentanaABMTipoContacto();
 		mostrarListaContactosPredeterminados();
 		this.ventanaTipoContacto.getBtnEditarContacto().addActionListener(a -> configurarVentanaEditarContacto(getTipoContactoSeleccionado()));
 		this.ventanaTipoContacto.getBtnNuevoContacto().addActionListener(a -> configurarVentanaNuevoContacto());
@@ -356,14 +356,14 @@ public class Controlador implements ActionListener {
 	}
 
 	private void configurarVentanaNuevoContacto() {
-		VentanaNuevoContacto ventNuevoContacto = new VentanaNuevoContacto();
+		VentanaNuevoPaisOContacto ventNuevoContacto = new VentanaNuevoPaisOContacto();
 		ventNuevoContacto.getBtnAceptar().addActionListener(n -> agregarContacto(ventNuevoContacto));
 		ventNuevoContacto.getBtnCancelar().addActionListener(c -> cerrarVentanaNuevoContacto(ventNuevoContacto));
 	}
 
 	private void configurarVentanaEditarContacto(String contactoSeleccionado) {
 		if (!contactoSeleccionado.isEmpty()) {
-			VentanaEditarContacto editarContacto = new VentanaEditarContacto(contactoSeleccionado);
+			VentanaEditarContactoOPais editarContacto = new VentanaEditarContactoOPais(contactoSeleccionado);
 			editarContacto.getBtnAceptar().addActionListener(c -> editarTipoContacto(editarContacto));
 			editarContacto.getBtnCancelar().addActionListener(c -> editarContacto.cerrar());
 			editarContacto.mostrar();
@@ -417,10 +417,10 @@ public class Controlador implements ActionListener {
 		return agenda.existsContacto(contacto.getText()) ? "Ya existe un contacto con ese nombre!" : "";
 	}
 	
-	private void agregarContacto(VentanaNuevoContacto v) {
-		String mensajeValidezContacto = isValid(v.getTxtContactoNuevo());
+	private void agregarContacto(VentanaNuevoPaisOContacto v) {
+		String mensajeValidezContacto = isValid(v.getTxtNuevoNombre());
 		if(mensajeValidezContacto.isEmpty()) {
-			agenda.agregarContacto(v.getTxtContactoNuevo().getText());
+			agenda.agregarContacto(v.getTxtNuevoNombre().getText());
 			v.cerrar();
 			mostrarListaContactosPredeterminados();
 			mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
@@ -430,7 +430,7 @@ public class Controlador implements ActionListener {
 		}
 	}
 
-	private void editarTipoContacto(VentanaEditarContacto v) {
+	private void editarTipoContacto(VentanaEditarContactoOPais v) {
 		String mensajeValidezContacto = isValid(v.getTxtNuevo());
 		if(mensajeValidezContacto.isEmpty()) {
 			agenda.editarContacto(v.getTxtNombreAnterior().getText(), v.getTxtNuevo().getText());
@@ -454,7 +454,7 @@ public class Controlador implements ActionListener {
 		}
 	}
 
-	private void cerrarVentanaNuevoContacto(VentanaNuevoContacto ventNuevoContacto) {
+	private void cerrarVentanaNuevoContacto(VentanaNuevoPaisOContacto ventNuevoContacto) {
 		ventNuevoContacto.cerrar();
 	}
 

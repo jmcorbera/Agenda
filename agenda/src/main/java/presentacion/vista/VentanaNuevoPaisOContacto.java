@@ -5,23 +5,28 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JButton;
 
-public class VentanaNuevoPais extends JFrame {
+public class VentanaNuevoPaisOContacto extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JPanel panel;
-	private JTextField txtContactoNuevo;
+	private JTextField txtNuevoNombre;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
 
 	
 	
-	public VentanaNuevoPais() {
+	public VentanaNuevoPaisOContacto() {
 		super();
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes();
+		verificarCampos();
 	}
 
 	private void agregarComponentes() {		
@@ -29,10 +34,10 @@ public class VentanaNuevoPais extends JFrame {
 		lblIngresarNombre.setBounds(10, 11, 210, 24);
 		panel.add(lblIngresarNombre);
 		
-		txtContactoNuevo = new JTextField();
-		txtContactoNuevo.setBounds(10, 46, 193, 24);
-		panel.add(txtContactoNuevo);
-		txtContactoNuevo.setColumns(10);
+		txtNuevoNombre = new JTextField();
+		txtNuevoNombre.setBounds(10, 46, 193, 24);
+		panel.add(txtNuevoNombre);
+		txtNuevoNombre.setColumns(10);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(10, 81, 89, 23);
@@ -64,13 +69,22 @@ public class VentanaNuevoPais extends JFrame {
 		dispose();
 	}
 	
-	public JTextField getTxtContactoNuevo() {
-		return txtContactoNuevo;
+	public JTextField getTxtNuevoNombre() {
+		return txtNuevoNombre;
 	}
 	public JButton getBtnAceptar() {
 		return btnAceptar;
 	}
 	public JButton getBtnCancelar() {
 		return btnCancelar;
+	}
+	
+	private void verificarCampos() {
+		txtNuevoNombre.addKeyListener((new KeyAdapter() {
+			public void keyTyped(KeyEvent e) {
+				ValidadorTeclado.aceptarLetrasYEspacios(e);
+			}
+		}));
+		
 	}
 }
