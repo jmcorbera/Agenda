@@ -24,17 +24,17 @@ public class VentanaDomicilio extends JFrame {
 	private JLabel lblLocalidad;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
+	private JButton btnCambiar;
+	private JButton btnCambiarCalle;
+	private JButton btnCambiarAltura;
+	private JButton btnCambiarPiso;
 	private JComboBox<String> cmbPais;
 	private JComboBox<String> cmbProvincia;
 	private JComboBox<String> cmbLocalidad;
-	
 	private JTextField txtCalle;
 	private JTextField txtAltura;
 	private JTextField txtPiso;
-	private JLabel lblCalleAnterior;
-	private JLabel lblAlturaAnterior;
-	private JLabel lblPisoAnterior;
-
+	
 	public VentanaDomicilio() 
 	{
 		super();
@@ -63,7 +63,6 @@ public class VentanaDomicilio extends JFrame {
 	}
 		
 	private void agregarComponentes() {		
-		
 		this.lblPais = new JLabel("Pais");
 		this.lblPais.setBounds(38, 77, 56, 16);
 		this.panel.add(lblPais);
@@ -77,15 +76,15 @@ public class VentanaDomicilio extends JFrame {
 		this.panel.add(lblLocalidad);
 		
 		this.cmbPais = new JComboBox<String>();
-		this.cmbPais.setBounds(104, 73, 177, 25);
+		this.cmbPais.setBounds(104, 70, 177, 25);
 		this.panel.add(cmbPais);
 		
 		this.cmbProvincia = new JComboBox<String>();
-		this.cmbProvincia.setBounds(104, 123, 177, 25);
+		this.cmbProvincia.setBounds(104, 120, 177, 25);
 		this.panel.add(cmbProvincia);
 		
 		this.cmbLocalidad = new JComboBox<String>();
-		this.cmbLocalidad.setBounds(102, 173, 177, 25);
+		this.cmbLocalidad.setBounds(104, 170, 177, 25);
 		this.panel.add(cmbLocalidad);
 		
 		this.lblDomicilio = new JLabel("Datos del domicilio:");
@@ -94,7 +93,7 @@ public class VentanaDomicilio extends JFrame {
 		this.panel.add(lblDomicilio);
 		
 		txtCalle = new JTextField();
-		txtCalle.setBounds(361, 73, 187, 25);
+		txtCalle.setBounds(360, 70, 187, 25);
 		panel.add(txtCalle);
 		txtCalle.setColumns(10);
 		
@@ -105,19 +104,23 @@ public class VentanaDomicilio extends JFrame {
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.setBounds(360, 221, 89, 23);
 		panel.add(btnAceptar);
+
+		btnCambiar = new JButton("Cambiar");
+		btnCambiar.setBounds(100, 221, 177, 23);
+		panel.add(btnCambiar);
 		
 		txtAltura = new JTextField();
 		txtAltura.setColumns(10);
-		txtAltura.setBounds(361, 122, 187, 25);
+		txtAltura.setBounds(360, 120, 187, 25);
 		panel.add(txtAltura);
 		
 		txtPiso = new JTextField();
 		txtPiso.setColumns(10);
-		txtPiso.setBounds(361, 173, 187, 25);
+		txtPiso.setBounds(360, 170, 187, 25);
 		panel.add(txtPiso);
 		
 		JLabel lblCalle = new JLabel("Calle:");
-		lblCalle.setBounds(318, 78, 46, 14);
+		lblCalle.setBounds(311, 78, 46, 14);
 		panel.add(lblCalle);
 		
 		JLabel lblPiso = new JLabel("Piso:");
@@ -128,20 +131,17 @@ public class VentanaDomicilio extends JFrame {
 		lblAltura.setBounds(318, 127, 46, 14);
 		panel.add(lblAltura);
 		
-		lblCalleAnterior = new JLabel("New label");
-		lblCalleAnterior.setBounds(361, 53, 187, 14);
-		lblCalleAnterior.setVisible(false);
-		panel.add(lblCalleAnterior);
+		btnCambiarCalle = new JButton("Cambiar");
+		btnCambiarCalle.setBounds(458, 45, 89, 23);
+		panel.add(btnCambiarCalle);
 		
-		lblAlturaAnterior = new JLabel("New label");
-		lblAlturaAnterior.setBounds(361, 102, 187, 14);
-		lblAlturaAnterior.setVisible(false);
-		panel.add(lblAlturaAnterior);
+		btnCambiarAltura = new JButton("Cambiar");
+		btnCambiarAltura.setBounds(459, 95, 89, 23);
+		panel.add(btnCambiarAltura);
 		
-		lblPisoAnterior = new JLabel("New label");
-		lblPisoAnterior.setBounds(361, 158, 187, 14);
-		lblPisoAnterior.setVisible(false);
-		panel.add(lblPisoAnterior);
+		btnCambiarPiso = new JButton("Cambiar");
+		btnCambiarPiso.setBounds(459, 145, 89, 23);
+		panel.add(btnCambiarPiso);
 	}
 	
 	private void verificarCampos() {
@@ -204,6 +204,22 @@ public class VentanaDomicilio extends JFrame {
 		return btnCancelar;
 	}
 	
+	public JButton getBtnCambiar() {
+		return btnCambiar;
+	}
+	
+	public JButton getBtnCambiarCalle() {
+		return btnCambiarCalle;
+	}
+	
+	public JButton getBtnCambiarAltura() {
+		return btnCambiarAltura;
+	}
+	
+	public JButton getBtnCambiarPiso() {
+		return btnCambiarPiso;
+	}
+	
 	public JTextField getTxtCalle() {
 		return txtCalle;
 	}
@@ -216,31 +232,53 @@ public class VentanaDomicilio extends JFrame {
 		return txtPiso;
 	}
 	
-	public JLabel getLblCalleAnterior() {
-		return lblCalleAnterior;
+	public void setTxtCalle(String calle) {
+		txtCalle.setText(calle);
 	}
 	
-	public JLabel getLblPisoAnterior() {
-		return lblPisoAnterior;
+	public void setTxtAltura(String altura) {
+		txtAltura.setText(altura);
 	}
 	
-	public JLabel getLblAlturaAnterior() {
-		return lblAlturaAnterior;
-	}
-	
-	public void setLblCalleAnterior(String calle) {
-		lblCalleAnterior.setText(calle);
-	}
-	
-	public void setLblAlturaAnterior(String altura) {
-		lblAlturaAnterior.setText(altura);
-	}
-	
-	public void setLblPisoAnterior(String piso) {
-		lblPisoAnterior.setText(piso);
+	public void setTxtPiso(String piso) {
+		txtPiso.setText(piso);
 	}
 	
 	public void cerrar() {
+		setVisible(false);
 		this.dispose();
+	}
+	
+	public void ocultarBotonesCambiar() {
+		btnCambiarCalle.setVisible(false);
+		btnCambiarAltura.setVisible(false);
+		btnCambiarPiso.setVisible(false);
+		btnCambiar.setVisible(false);	
+	}
+	
+	public void mostrarBotonesCambiar() {
+		btnCambiarCalle.setVisible(true);
+		btnCambiarAltura.setVisible(true);
+		btnCambiarPiso.setVisible(true);
+		btnCambiar.setVisible(true);	
+	}
+	
+	public void deshabilitarTxts() {
+		txtCalle.setEnabled(false);
+		txtAltura.setEnabled(false);
+		txtPiso.setEnabled(false);
+	}
+	
+	public void habilitarTxts() {
+		txtCalle.setEnabled(true);
+		txtAltura.setEnabled(true);
+		txtPiso.setEnabled(true);
+	}
+	
+	public void establecerTextoCambiar() {
+		btnCambiarCalle.setText("Cambiar");
+		btnCambiarAltura.setText("Cambiar");
+		btnCambiarPiso.setText("Cambiar");
+		btnCambiar.setText("Cambiar");
 	}
 }

@@ -155,6 +155,10 @@ public class Agenda
 		return this.domicilio.readAll();
 	}
 	
+	public DomicilioDTO obtenerDomicilio (int id) {
+		return this.domicilio.getDomicilio(id);
+	}
+	
 	public boolean existsContacto(String contacto) {
 		return this.contacto.exists(contacto);
 	}

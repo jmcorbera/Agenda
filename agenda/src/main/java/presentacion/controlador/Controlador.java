@@ -4,15 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-
 import modelo.Agenda;
+import modelo.IntermediarioUbicacion;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaABMUbicacion;
 import presentacion.vista.VentanaDomicilio;
@@ -25,10 +24,7 @@ import presentacion.vista.VentanaABMTipoContacto;
 import presentacion.vista.Vista;
 import dto.ContactoDTO;
 import dto.DomicilioDTO;
-import dto.LocalidadDTO;
-import dto.PaisDTO;
 import dto.PersonaDTO;
-import dto.ProvinciaDTO;
 
 public class Controlador implements ActionListener {
 	private Vista vista;
@@ -52,8 +48,34 @@ public class Controlador implements ActionListener {
 		configurarVentanaNacimiento();
 		configurarVentanaPersona();
 		configurarVentanaTipoContacto();
+		new IntermediarioUbicacion(agenda);
 		this.controladorUbicacion = new ControladorUbicacion(agenda, new VentanaABMUbicacion());
 		configurarVista(vista);
+	}
+	
+	private void configurarVentanaNacimiento() {
+		this.ventanaNacimiento = new VentanaNacimiento();
+		if(ventanaNacimiento.getBtnAgregarNacimiento().getActionListeners().length == 0)
+			ventanaNacimiento.getBtnAgregarNacimiento().addActionListener(a -> ventanaNacimiento.cerrar());
+	}
+	
+	private void configurarVentanaNuevoContacto() {
+		VentanaNuevoPaisOContacto ventNuevoContacto = new VentanaNuevoPaisOContacto();
+		ventNuevoContacto.getBtnAceptar().addActionListener(n -> agregarContacto(ventNuevoContacto));
+		ventNuevoContacto.getBtnCancelar().addActionListener(c -> ventNuevoContacto.cerrar());
+	}
+
+	private void configurarVentanaEditarContacto(String contactoSeleccionado) {
+		if (!contactoSeleccionado.isEmpty()) {
+			VentanaEditarContactoOPais editarContacto = new VentanaEditarContactoOPais(contactoSeleccionado);
+			if(editarContacto.getBtnAceptar().getActionListeners().length == 0)
+				editarContacto.getBtnAceptar().addActionListener(c -> editarTipoContacto(editarContacto));
+			if(editarContacto.getBtnCancelar().getActionListeners().length == 0)
+				editarContacto.getBtnCancelar().addActionListener(c -> editarContacto.cerrar());
+			editarContacto.mostrar();
+		} else {
+			JOptionPane.showMessageDialog(ventanaTipoContacto, mensajes[1]);
+		}
 	}
 
 	private void configurarVista(Vista vista) {
@@ -80,135 +102,204 @@ public class Controlador implements ActionListener {
 		mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(getPersonaAAgregar()));
 		this.ventanaPersona.getBtnNacimiento().addActionListener(n -> ventanaNacimiento.mostrarVentana());
-		this.ventanaPersona.getBtnDomicilio().addActionListener(n -> configurarVentanaDomicilio());
+		this.ventanaPersona.getBtnDomicilio().addActionListener(n -> configurarVentanaNuevoDomicilio(personasEnTabla.size()));
 	}
 	
-	private void configurarVentanaDomicilio() {
+	private void configurarVentanaDomicilio(int id) {
 		ventanaDomicilio = new VentanaDomicilio();
-		this.obtenerListaPaises(ventanaDomicilio.getComboBoxPais());
-		deshabilitarProvinciaYLocalidad(ventanaDomicilio.getComboBoxProvincia(), ventanaDomicilio.getComboBoxLocalidad());
-		ventanaDomicilio.getBtnAceptar().addActionListener(a -> guardarDomicilio(ventanaDomicilio, personasEnTabla.size()));
-		ventanaDomicilio.getBtnCancelar().addActionListener(a -> ventanaDomicilio.cerrar());
-		ventanaDomicilio.getComboBoxPais().addActionListener(a -> mostrarProvincias(getPaisSeleccionado(ventanaDomicilio.getComboBoxPais()), ventanaDomicilio.getComboBoxProvincia()));
-		ventanaDomicilio.getComboBoxProvincia().addActionListener(a ->mostrarLocalidades(getProvinciaSeleccionada(ventanaDomicilio.getComboBoxProvincia()), ventanaDomicilio.getComboBoxLocalidad()));
+		vaciarCombosDomicilio();	
 		ventanaDomicilio.mostrarVentana();
-	}
-	
-	private void mostrarProvincias(String seleccionado, JComboBox<String> cbProvincias) {
-		try {
-			cbProvincias.removeAllItems();
-			cbProvincias.removeAllItems();
-			cbProvincias.setEnabled(true);
-
-			cbProvincias.setEnabled(true);
-			List<ProvinciaDTO> provincias = agenda.obtenerProvincias();
-			for (int i = 0; i < provincias.size(); i++) {
-				PaisDTO pais = provincias.get(i).getPais();
-				String nombrePais = pais.getNombre();
-				if (nombrePais.equals(seleccionado)) {
-					cbProvincias.addItem(provincias.get(i).getNombre());
-				}	
-			}
-		} catch (Exception e) {
-			return;
-		}
-	}
-	
-	private void mostrarLocalidades(String seleccionado, JComboBox<String> cbLocalidades) {
-		try {
-			cbLocalidades.removeAllItems();
-			cbLocalidades.setEnabled(true);
-
-			List<LocalidadDTO> localidades = agenda.obtenerLocalidades();
-			for (int i = 0; i < localidades.size(); i++) {
-				ProvinciaDTO provincia = localidades.get(i).getProvincia();
-				String nombreProvincia = provincia.getNombre();
-				if (nombreProvincia.equals(seleccionado)) {
-					cbLocalidades.addItem(localidades.get(i).getNombre());
-				}	
-			}
-		} catch (Exception e) {
-			return;
-		}
+		IntermediarioUbicacion.obtenerListaPaises(ventanaDomicilio.getComboBoxPais());
+		IntermediarioUbicacion.deshabilitarProvinciaYLocalidad(ventanaDomicilio.getComboBoxProvincia(), ventanaDomicilio.getComboBoxLocalidad());
+		if(ventanaDomicilio.getBtnCancelar().getActionListeners().length == 0)
+			ventanaDomicilio.getBtnCancelar().addActionListener(a -> cerrarVentanaDomicilio());
+		if(ventanaDomicilio.getBtnAceptar().getActionListeners().length == 0)
+			ventanaDomicilio.getBtnAceptar().addActionListener(a -> guardarDomicilio(id));	
 	}
 
-	private String getProvinciaSeleccionada(JComboBox<String> provincias) {
-		Object seleccionado = provincias.getSelectedItem();
-		return seleccionado != null ? seleccionado.toString() : "";
-	}
-	
-	private String getPaisSeleccionado(JComboBox<String> paises) {
-		Object seleccionado = paises.getSelectedItem();
-		return seleccionado != null ? seleccionado.toString() : "";
-	}
-	
-	private void guardarDomicilio(VentanaDomicilio ventanaDomicilio, int id) {
-		Object seleccionado;
-		String pais;
-		String provincia;
-		String localidad;
-		String calle;
-		String altura;
-		String piso;
-		seleccionado = ventanaDomicilio.getComboBoxPais().getSelectedItem();
-		pais = seleccionado == null ? "" : seleccionado.toString();
-		seleccionado = ventanaDomicilio.getComboBoxProvincia().getSelectedItem();
-		provincia = seleccionado == null ? "" : seleccionado.toString();
-		seleccionado = ventanaDomicilio.getComboBoxLocalidad().getSelectedItem();
-		localidad = seleccionado == null ? "" : seleccionado.toString();
-		calle = ventanaDomicilio.getTxtCalle().getText();
-		altura = ventanaDomicilio.getTxtAltura().getText();
-		piso = ventanaDomicilio.getTxtPiso().getText();
-		domicilio = new DomicilioDTO(id, pais, provincia, localidad, "", calle, altura, piso);
+	private void cerrarVentanaDomicilio() {
 		ventanaDomicilio.cerrar();
-		}
+		ventanaDomicilio = null;
+	}
 	
-	private void configurarVentanaNacimiento() {
-		this.ventanaNacimiento = new VentanaNacimiento();
-		ventanaNacimiento.getBtnAgregarNacimiento().addActionListener(a -> ventanaNacimiento.cerrar());
+	private void configurarVentanaNuevoDomicilio(int id) {
+		configurarVentanaDomicilio(id);
+		ventanaDomicilio.ocultarBotonesCambiar();
+		agregarListenersMostrarUbicaciones();
+	}
+	
+	private void configurarVentanaEditarDomicilio(int idPersona) {
+		configurarVentanaDomicilio(idPersona);
+		obtenerDomicilioActual(idPersona);
+		vaciarCombosDomicilio();
+		ventanaDomicilio.mostrarBotonesCambiar();
+		mostrarValoresPredeterminados();
+		ventanaDomicilio.establecerTextoCambiar();
+		configurarBtnCambiarTxts();
+		configurarBtnCambiarUbicacion();
+		agregarListenersMostrarUbicaciones();
 	}
 
-	//Auxiliares
-	private void deshabilitarProvinciaYLocalidad(JComboBox<String> provincia, JComboBox<String> localidad) {
-		provincia.setEnabled(false);
-		localidad.setEnabled(false);
+	private void configurarBtnCambiarTxts() {
+		if(ventanaDomicilio.getBtnCambiarCalle().getActionListeners().length == 0)
+			ventanaDomicilio.getBtnCambiarCalle().addActionListener(a -> configurarBtnCambiarCalle());
+		if(ventanaDomicilio.getBtnCambiarAltura().getActionListeners().length == 0)
+			ventanaDomicilio.getBtnCambiarAltura().addActionListener(a -> configurarBtnCambiarAltura());
+		if(ventanaDomicilio.getBtnCambiarPiso().getActionListeners().length == 0)
+			ventanaDomicilio.getBtnCambiarPiso().addActionListener(a -> configurarBtnCambiarPiso());
+	}
+
+	private void configurarBtnCambiarPiso() {
+		if(ventanaDomicilio.getBtnCambiarPiso().getText().equals("Cambiar")) {
+			ventanaDomicilio.getBtnCambiarPiso().setText("Cancelar");
+			ventanaDomicilio.getTxtPiso().setText("");
+			ventanaDomicilio.getTxtPiso().setEnabled(true);
+		}
+		else {
+			ventanaDomicilio.getBtnCambiarPiso().setText("Cambiar");
+			mostrarPisoPredeterminado();
+		}
+	}
+
+	private void configurarBtnCambiarAltura() {
+		if(ventanaDomicilio.getBtnCambiarAltura().getText().equals("Cambiar")) {
+			ventanaDomicilio.getBtnCambiarAltura().setText("Cancelar");
+			ventanaDomicilio.getTxtAltura().setText("");
+			ventanaDomicilio.getTxtAltura().setEnabled(true);
+		}
+		else {
+			ventanaDomicilio.getBtnCambiarAltura().setText("Cambiar");
+			mostrarAlturaPredeterminada();
+		}
+	}
+
+	private void configurarBtnCambiarCalle() {
+		if(ventanaDomicilio.getBtnCambiarCalle().getText().equals("Cambiar")) {
+			ventanaDomicilio.getBtnCambiarCalle().setText("Cancelar");
+			ventanaDomicilio.getTxtCalle().setText("");
+			ventanaDomicilio.getTxtCalle().setEnabled(true);
+		}
+		else {
+			ventanaDomicilio.getBtnCambiarCalle().setText("Cambiar");
+			mostrarCallePredeterminada();
+		}
+	}
+
+	private void mostrarValoresPredeterminados() {
+		String pais = domicilio!= null ? domicilio.getPais() : "";
+		String provincia = domicilio != null ? domicilio.getProvincia() : "";
+		String localidad = domicilio != null ? domicilio.getLocalidad() : "";
+		if (pais!="")
+			mostrarSeleccionadoPrimero(pais, ventanaDomicilio.getComboBoxPais());
+		if(provincia!="") {
+			IntermediarioUbicacion.mostrarProvincias(IntermediarioUbicacion.getPaisSeleccionado(pais), ventanaDomicilio.getComboBoxProvincia());
+			mostrarSeleccionadoPrimero(provincia, ventanaDomicilio.getComboBoxProvincia());
+		}
+		if(localidad!="") {
+			IntermediarioUbicacion.mostrarLocalidades(IntermediarioUbicacion.getProvinciaSeleccionada(provincia, IntermediarioUbicacion.getPaisSeleccionado(pais)), ventanaDomicilio.getComboBoxLocalidad());
+			mostrarSeleccionadoPrimero(localidad, ventanaDomicilio.getComboBoxLocalidad());
+		}
+		mostrarTxtsPredeterminados();
+	}
+	
+	private void mostrarTxtsPredeterminados() {
+		mostrarCallePredeterminada();
+		mostrarAlturaPredeterminada();
+		mostrarPisoPredeterminado();
+	}
+	
+	private void mostrarCallePredeterminada() {
+		ventanaDomicilio.setTxtCalle(domicilio != null && !domicilio.getCalle().isEmpty() ? domicilio.getCalle() : "");
+		ventanaDomicilio.getTxtCalle().setEnabled(false);
+	}
+	
+	private void mostrarAlturaPredeterminada() {
+		ventanaDomicilio.setTxtAltura(domicilio != null && !domicilio.getAltura().isEmpty() ? domicilio.getAltura() : "");
+		ventanaDomicilio.getTxtAltura().setEnabled(false);
+	}
+	
+	private void mostrarPisoPredeterminado() {
+		ventanaDomicilio.setTxtPiso(domicilio != null && !domicilio.getPiso().isEmpty() ? domicilio.getPiso() : "");
+		ventanaDomicilio.getTxtPiso().setEnabled(false);
+	}
+	
+	private void configurarBtnCambiarUbicacion() {
+		if(ventanaDomicilio.getBtnCambiar().getActionListeners().length == 0) {
+			ventanaDomicilio.getBtnCambiar().addActionListener(a -> modificarValoresSegunClick());}
+	}
+
+	private void modificarValoresSegunClick() {
+		vaciarCombosDomicilio();
+		if(ventanaDomicilio.getBtnCambiar().getText().equals("Cambiar")) {
+			IntermediarioUbicacion.obtenerListaPaises(ventanaDomicilio.getComboBoxPais());
+			ventanaDomicilio.getBtnCambiar().setText("Restablecer");
+		}
+		else {
+			mostrarValoresPredeterminados();
+			ventanaDomicilio.getBtnCambiar().setText("Cambiar");
+		}
+	}	
+
+	private void obtenerDomicilioActual(int idPersona) {
+		domicilio = agenda.obtenerDomicilio(idPersona)!= null ? agenda.obtenerDomicilio(idPersona) : null;
+	}
+	
+	private void agregarListenersMostrarUbicaciones() {
+		if(ventanaDomicilio.getComboBoxPais().getActionListeners().length == 0)
+			ventanaDomicilio.getComboBoxPais().addActionListener(a -> IntermediarioUbicacion.mostrarProvincias(IntermediarioUbicacion.getPaisSeleccionado(ventanaDomicilio.getComboBoxPais()), ventanaDomicilio.getComboBoxProvincia()));
+		if(ventanaDomicilio.getComboBoxProvincia().getActionListeners().length == 0)
+			ventanaDomicilio.getComboBoxProvincia().addActionListener(a ->IntermediarioUbicacion.mostrarLocalidades(IntermediarioUbicacion.getProvinciaSeleccionada(ventanaDomicilio.getComboBoxProvincia(),IntermediarioUbicacion.getPaisSeleccionado(ventanaDomicilio.getComboBoxPais())), ventanaDomicilio.getComboBoxLocalidad()));
+	}
+	
+	private void vaciarCombosDomicilio() {
+		ventanaDomicilio.getComboBoxPais().removeAllItems();
+		ventanaDomicilio.getComboBoxProvincia().removeAllItems();
+		ventanaDomicilio.getComboBoxLocalidad().removeAllItems();
+	}
+	
+	private void configurarVentanaEditarPersona() {
+		PersonaDTO personaSeleccionada = getPersonaSeleccionada();
+		if (personaSeleccionada != null) {
+			ventanaEditarPersona = VentanaEditarPersona.getInstance(personaSeleccionada.getId());
+			ventanaEditarPersona.mostrar();
+			cambiarValoresDeElementos(personaSeleccionada);
+			agregarListeners(personaSeleccionada);
+			if(ventanaEditarPersona.getBtnEditarNacimiento().getActionListeners().length == 0)
+				ventanaEditarPersona.getBtnEditarNacimiento().addActionListener(a -> ventanaNacimiento.mostrarVentana());
+			if(ventanaEditarPersona.getBtnDomicilio().getActionListeners().length == 0)
+				ventanaEditarPersona.getBtnDomicilio().addActionListener(a -> configurarVentanaEditarDomicilio(personaSeleccionada.getId()));
+			if(ventanaEditarPersona.getBtnAceptar().getActionListeners().length == 0)
+				ventanaEditarPersona.getBtnAceptar().addActionListener(a -> actualizarPersona(getPersonaEditada(personaSeleccionada)));
+		} else {
+			JOptionPane.showMessageDialog(ventanaPersona, mensajes[0]);
+		}
+	}
+	
+	private void guardarDomicilio(int id) {
+		Object seleccionado;
+		seleccionado = ventanaDomicilio.getComboBoxPais().getSelectedItem();
+		String pais = seleccionado == null ? "" : seleccionado.toString();
+		seleccionado = ventanaDomicilio.getComboBoxProvincia().getSelectedItem();
+		String provincia = seleccionado == null ? "" : seleccionado.toString();
+		seleccionado = ventanaDomicilio.getComboBoxLocalidad().getSelectedItem();
+		String localidad = seleccionado == null ? "" : seleccionado.toString();
+		String calle = ventanaDomicilio.getTxtCalle().getText();
+		String altura = ventanaDomicilio.getTxtAltura().getText();
+		String piso = ventanaDomicilio.getTxtPiso().getText();
+		domicilio = new DomicilioDTO(id, pais, provincia, localidad, "", calle, altura, piso);
+		if(!domicilio.isValid().isEmpty()) {
+			JOptionPane.showMessageDialog(ventanaDomicilio, domicilio.isValid());
+			domicilio = null;
+			return;
+		}
+		cerrarVentanaDomicilio();
 	}
 
 	private PersonaDTO getPersonaSeleccionada() {
 		int[] filasSeleccionadas = this.vista.getTablaPersonas().getSelectedRows();
 		return filasSeleccionadas.length != 0 ? personasEnTabla.get(filasSeleccionadas[0]) : null;
 	}
-
-	private void configurarVentanaEditarPersona() {
-		PersonaDTO personaSeleccionada = getPersonaSeleccionada();
-		if (personaSeleccionada != null) {
-			ventanaEditarPersona = new VentanaEditarPersona(personaSeleccionada.getId());
-			cambiarValoresDeElementos(personaSeleccionada);
-			agregarListeners(personaSeleccionada);
-			ventanaEditarPersona.getBtnEditarNacimiento().addActionListener(a -> ventanaNacimiento.mostrarVentana());
-			ventanaEditarPersona.getBtnAceptar()
-					.addActionListener(a -> actualizarPersona(getPersonaEditada(), personaSeleccionada.getId()));
-			ventanaEditarPersona.getBtnDomicilio().addActionListener(a -> cambiarLblsMostrandoValoresAnteriores(personaSeleccionada.getId()));
-			ventanaEditarPersona.mostrar();
-		} else {
-			JOptionPane.showMessageDialog(ventanaPersona, mensajes[0]);
-		}
-	}
-	private void cambiarLblsMostrandoValoresAnteriores(int idPersona) {
-		configurarVentanaDomicilio();
-		List<DomicilioDTO> domicilios = agenda.obtenerDomicilios();
-		
-		for(DomicilioDTO domicilio: domicilios) {
-			if(domicilio.getId() == idPersona) {
-				ventanaDomicilio.setLblCalleAnterior("Calle a editar: "+domicilio.getCalle());
-				ventanaDomicilio.setLblAlturaAnterior("Altura a editar: "+domicilio.getAltura());
-				ventanaDomicilio.setLblPisoAnterior("Piso a editar: "+domicilio.getPiso());
-				ventanaDomicilio.getLblAlturaAnterior().setVisible(true);
-				ventanaDomicilio.getLblCalleAnterior().setVisible(true);
-				ventanaDomicilio.getLblPisoAnterior().setVisible(true);			
-			}
-		}
-	}
+	
 	private void agregarListeners(PersonaDTO personaSeleccionada) {
 		ventanaEditarPersona.getBtnCambiarEmail().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -254,8 +345,8 @@ public class Controlador implements ActionListener {
 		ventanaEditarPersona.getTxtFechaNacimiento().setText(personaSeleccionada.getNacimiento());
 		ventanaEditarPersona.getTxtTelefono().setText(personaSeleccionada.getTelefono());
 		ventanaEditarPersona.getTxtNombre().setText(personaSeleccionada.getNombre());
-		ventanaNacimiento.getBtnAgregarNacimiento()
-				.addActionListener(a -> modificarTxtNacimiento(ventanaEditarPersona.getTxtFechaNacimiento()));
+		if(ventanaNacimiento.getBtnAgregarNacimiento().getActionListeners().length == 0)
+			ventanaNacimiento.getBtnAgregarNacimiento().addActionListener(a -> modificarTxtNacimiento(ventanaEditarPersona.getTxtFechaNacimiento()));
 		mostrarDesplegableTipoContacto(ventanaEditarPersona.getComboBoxTipoContacto());
 		mostrarTipoContactoSeleccionadoPrimero(personaSeleccionada);
 	}
@@ -274,26 +365,42 @@ public class Controlador implements ActionListener {
 			cambiarUltimo = primero;
 		}
 	}
+	
+	private void mostrarSeleccionadoPrimero(String seleccionado, JComboBox<String> combo) {
+		if(seleccionado.isEmpty()) {
+			combo.removeAllItems();
+			return;
+		}
+		ComboBoxModel<String> modeloLista = combo.getModel();
+		int largoLista = modeloLista.getSize();
+		combo.setEnabled(false);
+		if (largoLista > 0) {
+			String primero = modeloLista.getElementAt(0);
+			modeloLista.setSelectedItem(seleccionado);
+			@SuppressWarnings("unused")
+			String cambiarPrimero = modeloLista.getElementAt(0);
+			cambiarPrimero = seleccionado;
+			@SuppressWarnings("unused")
+			String cambiarUltimo = modeloLista.getElementAt(largoLista);
+			cambiarUltimo = primero;
+		}
+		else {
+			modeloLista.setSelectedItem(seleccionado);
+		}
+	}
 
 	private void modificarTxtNacimiento(JTextField txtNacimiento) {
 		txtNacimiento.setText(crearStringFecha(ventanaNacimiento.getFecha().getDate()));
 		ventanaNacimiento.cerrar();
 	}
 
-	private PersonaDTO getPersonaEditada() {
-		PersonaDTO persona = getPersonaSeleccionada();
-		String nombre = !ventanaEditarPersona.getTxtNombre().isEnabled() ? persona.getNombre()
-				: ventanaEditarPersona.getTxtNombre().getText();
-		String telefono = !ventanaEditarPersona.getTxtTelefono().isEnabled() ? persona.getTelefono()
-				: ventanaEditarPersona.getTxtTelefono().getText();
-		String nacimiento = !ventanaEditarPersona.getTxtFechaNacimiento().isEditable() ? persona.getNacimiento()
-				: crearStringFecha(ventanaNacimiento.getFecha().getDate());
-		String email = !ventanaEditarPersona.getTxtEmail().isEnabled() ? persona.getEmail()
-				: ventanaEditarPersona.getTxtEmail().getText();
-		String contactoId = !ventanaEditarPersona.getComboBoxTipoContacto().isEnabled() ? persona.getContactoId()
-				: ventanaEditarPersona.getComboBoxTipoContacto()
-						.getItemAt(ventanaEditarPersona.getComboBoxTipoContacto().getSelectedIndex());
-		return new PersonaDTO(0, nombre, telefono, nacimiento, email, contactoId);
+	private PersonaDTO getPersonaEditada(PersonaDTO personaSinEditar) {
+		String nombre = !ventanaEditarPersona.getTxtNombre().isEnabled() ? personaSinEditar.getNombre(): ventanaEditarPersona.getTxtNombre().getText();
+		String telefono = !ventanaEditarPersona.getTxtTelefono().isEnabled() ? personaSinEditar.getTelefono(): ventanaEditarPersona.getTxtTelefono().getText();
+		String nacimiento = !ventanaEditarPersona.getTxtFechaNacimiento().isEditable() ? personaSinEditar.getNacimiento(): crearStringFecha(ventanaNacimiento.getFecha().getDate());
+		String email = !ventanaEditarPersona.getTxtEmail().isEnabled() ? personaSinEditar.getEmail(): ventanaEditarPersona.getTxtEmail().getText();
+		String contactoId = !ventanaEditarPersona.getComboBoxTipoContacto().isEnabled() ? personaSinEditar.getContactoId(): ventanaEditarPersona.getComboBoxTipoContacto().getItemAt(ventanaEditarPersona.getComboBoxTipoContacto().getSelectedIndex());
+		return new PersonaDTO(personaSinEditar.getId(), nombre, telefono, nacimiento, email, contactoId);
 	}
 
 	private PersonaDTO getPersonaAAgregar() {
@@ -302,28 +409,27 @@ public class Controlador implements ActionListener {
 						.getItemAt(ventanaPersona.getJComboBoxTipoContacto().getSelectedIndex()));
 	}
 
-	private void actualizarPersona(PersonaDTO personaEditada, int id) {
+	private void actualizarPersona(PersonaDTO personaEditada) {
 		String mensajeValidezPersona = personaEditada.isValid();
-		if (mensajeValidezPersona.isEmpty()) {
-			agenda.actualizarPersona(id, personaEditada);
-			agenda.modificarDomicilio(domicilio);
-			ventanaEditarPersona.cerrar();
-			refrescarTabla();
-		}
-		else {
+		if(!mensajeValidezPersona.isEmpty()) {
 			JOptionPane.showMessageDialog(ventanaEditarPersona, mensajeValidezPersona);
+			return;
 		}
-	}
-
-	private void obtenerListaPaises(JComboBox<String> cmbPais) {
-		List<PaisDTO> paises = agenda.obtenerPaíses();
-		String[] nombrePaises = new String[paises.size()];
-		for (int i = 0; i < paises.size(); i++) {
-			nombrePaises[i] = paises.get(i).getNombre();
+		this.agenda.actualizarPersona(personaEditada.getId(), personaEditada);
+		
+		if(domicilio!= null) {
+			if(agenda.obtenerDomicilio(domicilio.getId()) == null) {
+				agenda.agregarDomicilio(domicilio);
+				domicilio = null;
+				return;
+			}
+			this.agenda.modificarDomicilio(domicilio);
+			domicilio = null;
 		}
-
-		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(nombrePaises);
-		cmbPais.setModel(model);
+	
+		this.refrescarTabla();
+		this.ventanaEditarPersona.cerrar();
+		JOptionPane.showMessageDialog(ventanaPersona, mensajes[3]);
 	}
 
 	private void mostrarListaContactosPredeterminados() {
@@ -355,48 +461,24 @@ public class Controlador implements ActionListener {
 		}
 	}
 
-	private void configurarVentanaNuevoContacto() {
-		VentanaNuevoPaisOContacto ventNuevoContacto = new VentanaNuevoPaisOContacto();
-		ventNuevoContacto.getBtnAceptar().addActionListener(n -> agregarContacto(ventNuevoContacto));
-		ventNuevoContacto.getBtnCancelar().addActionListener(c -> cerrarVentanaNuevoContacto(ventNuevoContacto));
-	}
-
-	private void configurarVentanaEditarContacto(String contactoSeleccionado) {
-		if (!contactoSeleccionado.isEmpty()) {
-			VentanaEditarContactoOPais editarContacto = new VentanaEditarContactoOPais(contactoSeleccionado);
-			editarContacto.getBtnAceptar().addActionListener(c -> editarTipoContacto(editarContacto));
-			editarContacto.getBtnCancelar().addActionListener(c -> editarContacto.cerrar());
-			editarContacto.mostrar();
-
-		} else {
-			JOptionPane.showMessageDialog(ventanaTipoContacto, mensajes[1]);
-		}
-	}
-
 	private void guardarPersona(PersonaDTO persona) {
 		String mensajeValidezPersona = persona.isValid();
 		if(!mensajeValidezPersona.isEmpty()) {
 			JOptionPane.showMessageDialog(ventanaPersona, mensajeValidezPersona);
 			return;
 		}
-		if(domicilio == null) {
-			this.agenda.agregarPersona(persona);
-		}
-		else {
-			String mensajeValidezDomicilio = domicilio.isValid();
-			if(!mensajeValidezDomicilio.isEmpty()) {
-				JOptionPane.showMessageDialog(ventanaPersona, mensajeValidezDomicilio);
-				return;
-			}
-			this.agenda.agregarPersona(persona);
+		this.agenda.agregarPersona(persona);
+		if(domicilio != null) {
 			this.agenda.agregarDomicilio(new DomicilioDTO(agenda.obtenerPersonas().size(), domicilio.getPais(),
 			domicilio.getProvincia(), domicilio.getLocalidad(),
 			domicilio.getDepartamento(), domicilio.getCalle(),
 			domicilio.getAltura(), domicilio.getPiso()));
 			domicilio = null;
 		}
+		
 		this.refrescarTabla();
 		this.ventanaPersona.cerrar();
+		JOptionPane.showMessageDialog(ventanaPersona, mensajes[3]);
 	}
 
 	public void borrarPersona() {
@@ -410,15 +492,8 @@ public class Controlador implements ActionListener {
 		}
 	}
 	
-	private String isValid(JTextField contacto) {
-		if (contacto == null || contacto.getText().isEmpty()) {
-			return mensajes[2];
-		}
-		return agenda.existsContacto(contacto.getText()) ? "Ya existe un contacto con ese nombre!" : "";
-	}
-	
 	private void agregarContacto(VentanaNuevoPaisOContacto v) {
-		String mensajeValidezContacto = isValid(v.getTxtNuevoNombre());
+		String mensajeValidezContacto = new ContactoDTO(v.getTxtNuevoNombre().toString()).isValid();
 		if(mensajeValidezContacto.isEmpty()) {
 			agenda.agregarContacto(v.getTxtNuevoNombre().getText());
 			v.cerrar();
@@ -431,7 +506,7 @@ public class Controlador implements ActionListener {
 	}
 
 	private void editarTipoContacto(VentanaEditarContactoOPais v) {
-		String mensajeValidezContacto = isValid(v.getTxtNuevo());
+		String mensajeValidezContacto = new ContactoDTO(v.getTxtNuevo().getText().toString()).isValid();
 		if(mensajeValidezContacto.isEmpty()) {
 			agenda.editarContacto(v.getTxtNombreAnterior().getText(), v.getTxtNuevo().getText());
 			v.cerrar();
@@ -452,10 +527,6 @@ public class Controlador implements ActionListener {
 		} else {
 			JOptionPane.showMessageDialog(ventanaTipoContacto, mensajes[1]);
 		}
-	}
-
-	private void cerrarVentanaNuevoContacto(VentanaNuevoPaisOContacto ventNuevoContacto) {
-		ventNuevoContacto.cerrar();
 	}
 
 	private String crearStringFecha(Object object) {

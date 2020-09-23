@@ -33,8 +33,17 @@ public class VentanaEditarPersona extends JFrame {
 	private JLabel lblFormatoFecha;
 	private JButton btnDomicilio;
 	private JLabel lblDomicilio;
+	private static VentanaEditarPersona INSTANCE;
 	
-	public VentanaEditarPersona(int idContacto) {
+	public static VentanaEditarPersona getInstance(int idContacto) {
+		if (INSTANCE == null) {
+			INSTANCE = new VentanaEditarPersona(idContacto);
+			return new VentanaEditarPersona(idContacto);
+		} else
+			return INSTANCE;
+	}
+	
+	private VentanaEditarPersona(int idContacto) {
 		super();
 		configurarVentana();
 		configurarPanel();
@@ -196,6 +205,7 @@ public class VentanaEditarPersona extends JFrame {
 	}
 	public void cerrar() {
 		setVisible(false);
+		this.dispose();
 	}
 	public void mostrar() {
 		setVisible(true);

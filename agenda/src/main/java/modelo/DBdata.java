@@ -121,7 +121,6 @@ public class DBdata {
 			provincias.add(new ProvinciaDTO(0, "Santa Cruz", argentina));
 			provincias.add(new ProvinciaDTO(0, "Santa Fe", argentina));
 			provincias.add(new ProvinciaDTO(0, "Santiago del Estero", argentina));
-			provincias.add(new ProvinciaDTO(0, "Tierra del Fuego", argentina));
 			provincias.add(new ProvinciaDTO(0, "Tucumán", argentina));
 			
 			for (ProvinciaDTO provincia : provincias)

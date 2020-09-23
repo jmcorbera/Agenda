@@ -13,5 +13,7 @@ public interface DomicilioDAO {
 			public List<DomicilioDTO> readAll();
 
 			public boolean delete(int id);
+			
+			public DomicilioDTO getDomicilio (int id);
 	
 }
