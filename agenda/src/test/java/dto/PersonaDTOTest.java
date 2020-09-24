@@ -1,12 +1,11 @@
-package tests;
+package dto;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import dto.PersonaDTO;
-
 public class PersonaDTOTest {
+
 	@Test
 	public void personaValidaTest() {
 		PersonaDTO persona = new PersonaDTO(0, "Nombre", "1142203912","2020/01/01","nombreMail@hotmail.com","");
@@ -42,4 +41,5 @@ public class PersonaDTOTest {
 		PersonaDTO persona = new PersonaDTO(0, "", "1142203912","2020/01/01","nombreMail@hotmail.com","");
 		assertTrue(!persona.isValid().isEmpty());
 	}
+
 }
