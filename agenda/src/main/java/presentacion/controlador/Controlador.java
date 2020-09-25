@@ -186,17 +186,8 @@ public class Controlador implements ActionListener {
 	}
 
 	private void mostrarValoresPredeterminados() {
-		String pais = domicilio!= null ? domicilio.getPais() : "";
-		String provincia = domicilio != null ? domicilio.getProvincia() : "";
 		String localidad = domicilio != null ? domicilio.getLocalidad() : "";
-		if (pais!="")
-			mostrarSeleccionadoPrimero(pais, ventanaDomicilio.getComboBoxPais());
-		if(provincia!="") {
-			IntermediarioUbicacion.mostrarProvincias(IntermediarioUbicacion.getPaisSeleccionado(pais), ventanaDomicilio.getComboBoxProvincia());
-			mostrarSeleccionadoPrimero(provincia, ventanaDomicilio.getComboBoxProvincia());
-		}
 		if(localidad!="") {
-			IntermediarioUbicacion.mostrarLocalidades(IntermediarioUbicacion.getProvinciaSeleccionada(provincia, IntermediarioUbicacion.getPaisSeleccionado(pais)), ventanaDomicilio.getComboBoxLocalidad());
 			mostrarSeleccionadoPrimero(localidad, ventanaDomicilio.getComboBoxLocalidad());
 		}
 		mostrarTxtsPredeterminados();
@@ -278,15 +269,13 @@ public class Controlador implements ActionListener {
 	private void guardarDomicilio(int id) {
 		Object seleccionado;
 		seleccionado = ventanaDomicilio.getComboBoxPais().getSelectedItem();
-		String pais = seleccionado == null ? "" : seleccionado.toString();
 		seleccionado = ventanaDomicilio.getComboBoxProvincia().getSelectedItem();
-		String provincia = seleccionado == null ? "" : seleccionado.toString();
 		seleccionado = ventanaDomicilio.getComboBoxLocalidad().getSelectedItem();
 		String localidad = seleccionado == null ? "" : seleccionado.toString();
 		String calle = ventanaDomicilio.getTxtCalle().getText();
 		String altura = ventanaDomicilio.getTxtAltura().getText();
 		String piso = ventanaDomicilio.getTxtPiso().getText();
-		domicilio = new DomicilioDTO(id, pais, provincia, localidad, "", calle, altura, piso);
+		domicilio = new DomicilioDTO(id, localidad, calle, altura, piso);
 		if(!domicilio.isValid().isEmpty()) {
 			JOptionPane.showMessageDialog(ventanaDomicilio, domicilio.isValid());
 			domicilio = null;
@@ -469,11 +458,12 @@ public class Controlador implements ActionListener {
 		}
 		this.agenda.agregarPersona(persona);
 		if(domicilio != null) {
-			this.agenda.agregarDomicilio(new DomicilioDTO(agenda.obtenerPersonas().size(), domicilio.getPais(),
-			domicilio.getProvincia(), domicilio.getLocalidad(),
-			domicilio.getDepartamento(), domicilio.getCalle(),
-			domicilio.getAltura(), domicilio.getPiso()));
-			domicilio = null;
+			this.agenda.agregarDomicilio(new DomicilioDTO(agenda.obtenerPersonas().size(),
+											 domicilio.getLocalidad(),
+											 domicilio.getCalle(),
+											 domicilio.getAltura(), 
+											 domicilio.getPiso()));
+											 domicilio = null;
 		}
 		
 		this.refrescarTabla();
@@ -539,7 +529,7 @@ public class Controlador implements ActionListener {
 	}
 
 	private void mostrarReporte() {
-		ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerPersonas());
+		ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerReportesAgrupadoPorDomicilio());
 		reporte.mostrar();
 	}
 

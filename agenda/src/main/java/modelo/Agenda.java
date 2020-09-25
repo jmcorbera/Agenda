@@ -8,6 +8,7 @@ import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.PersonaDTO;
 import dto.ProvinciaDTO;
+import dto.ReporteDTO;
 import persistencia.dao.interfaz.ContactoDAO;
 import persistencia.dao.interfaz.DAOAbstractFactory;
 import persistencia.dao.interfaz.DomicilioDAO;
@@ -15,6 +16,7 @@ import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.PersonaDAO;
 import persistencia.dao.interfaz.ProvinciaDAO;
+import persistencia.dao.interfaz.ReporteDAO;
 
 public class Agenda 
 {
@@ -24,6 +26,7 @@ public class Agenda
 	private ProvinciaDAO provincia;
 	private LocalidadDAO localidad;
 	private DomicilioDAO domicilio;
+	private ReporteDAO reporte; 
 	
 	public Agenda(DAOAbstractFactory metodo_persistencia)
 	{
@@ -33,6 +36,7 @@ public class Agenda
 		this.provincia = metodo_persistencia.createProvinciaDAO();
 		this.localidad = metodo_persistencia.createLocalidadDAO();
 		this.domicilio = metodo_persistencia.createDomicilioDAO();
+		this.reporte = metodo_persistencia.createReporteDAO();
 	}
 	
 	public void agregarPersona(PersonaDTO nuevaPersona)
@@ -173,4 +177,12 @@ public class Agenda
 	public boolean existsLocalidad(String localidad, int provinciaId) {
 		return this.localidad.exists(localidad, provinciaId);
 	}
+	
+	//Reportes
+	
+	public List<ReporteDTO> obtenerReportesAgrupadoPorDomicilio()
+	{
+		return this.reporte.readAllgroupBy();
+	}
+	
 }

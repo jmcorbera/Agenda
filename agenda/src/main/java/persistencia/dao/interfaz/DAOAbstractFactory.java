@@ -9,4 +9,5 @@ public interface DAOAbstractFactory
 	public ProvinciaDAO createProvinciaDAO();
 	public LocalidadDAO createLocalidadDAO();
 	public DomicilioDAO createDomicilioDAO();
+	public ReporteDAO createReporteDAO();
 }

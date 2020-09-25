@@ -12,10 +12,10 @@ import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.DomicilioDAO;
 
 public class DomicilioDAOSQL implements DomicilioDAO{
-	private static final String insert = "INSERT INTO domicilios(id, pais, provincia, localidad, departamento, calle, altura, piso) VALUES(?,?,?,?,?,?,?,?)";
+	private static final String insert = "INSERT INTO domicilios(id, localidad, calle, altura, piso) VALUES(?,?,?,?,?)";
 	private static final String delete = "DELETE FROM domicilios WHERE id = ?";
 	private static final String readall = "SELECT * FROM domicilios";
-	private static final String update = "UPDATE domicilios SET pais = ?, provincia = ?, localidad = ?, departamento = ?, calle = ?, altura = ?, piso = ? WHERE id = ? ";
+	private static final String update = "UPDATE domicilios SET localidad = ?, calle = ?, altura = ?, piso = ? WHERE id = ? ";
 	private static final String get = "SELECT * FROM domicilios WHERE id = ?";
 	
 	public boolean insert(DomicilioDTO domicilio)
@@ -29,13 +29,10 @@ public class DomicilioDAOSQL implements DomicilioDAO{
 			statement = conexion.prepareStatement(insert);
 		
 			statement.setInt(1, domicilio.getId());
-			statement.setString(2, domicilio.getPais());
-			statement.setString(3, domicilio.getProvincia());
-			statement.setString(4, domicilio.getLocalidad());
-			statement.setString(5, domicilio.getDepartamento());
-			statement.setString(6, domicilio.getCalle());
-			statement.setString(7, domicilio.getAltura());
-			statement.setString(8, domicilio.getPiso());
+			statement.setString(2, domicilio.getLocalidad());
+			statement.setString(3, domicilio.getCalle());
+			statement.setString(4, domicilio.getAltura());
+			statement.setString(5, domicilio.getPiso());
 			
 			if(statement.executeUpdate() > 0)
 			{
@@ -86,14 +83,11 @@ public class DomicilioDAOSQL implements DomicilioDAO{
 		try 
 		{
 			statement = conexion.prepareStatement(update);
-			statement.setString(1, domicilio.getPais());
-			statement.setString(2, domicilio.getProvincia());
-			statement.setString(3, domicilio.getLocalidad());
-			statement.setString(4, domicilio.getDepartamento());
-			statement.setString(5, domicilio.getCalle());
-			statement.setString(6, domicilio.getAltura());
-			statement.setString(7, domicilio.getPiso());
-			statement.setInt(8, domicilio.getId());
+			statement.setString(1, domicilio.getLocalidad());
+			statement.setString(2, domicilio.getCalle());
+			statement.setString(3, domicilio.getAltura());
+			statement.setString(4, domicilio.getPiso());
+			statement.setInt(5, domicilio.getId());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -130,15 +124,13 @@ public class DomicilioDAOSQL implements DomicilioDAO{
 	}
 	
 	private DomicilioDTO getDomicilioDTO(ResultSet resultSet) throws SQLException
-	{	int id = resultSet.getInt("id");
-		String pais = resultSet.getString("pais");
-		String provincia = resultSet.getString("provincia");
+	{
+		int id = resultSet.getInt("id");
 		String localidad = resultSet.getString("localidad");
-		String departamento = resultSet.getString("departamento");
 		String calle = resultSet.getString("calle");
 		String altura = resultSet.getString("altura");
 		String piso = resultSet.getString("piso");
-		return new DomicilioDTO(id, pais, provincia, localidad, departamento, calle, altura, piso);
+		return new DomicilioDTO(id,localidad, calle, altura, piso);
 	}
 
 	@Override
