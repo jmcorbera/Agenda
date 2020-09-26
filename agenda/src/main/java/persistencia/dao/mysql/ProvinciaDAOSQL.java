@@ -21,6 +21,7 @@ public class ProvinciaDAOSQL implements ProvinciaDAO {
 	private static final String groupByPais = "SELECT * FROM provincias WHERE paisId = ? ORDER BY nombre";
 	private static final String exists = "SELECT COUNT(*) FROM provincias WHERE nombre = ? AND paisId = ?";
 	private static final String ifExist = "SELECT EXISTS (SELECT 1 FROM provincias)";
+	private static final String get = "SELECT * FROM provincias WHERE nombre = ? AND paisId = ?";
 
 	@Override
 	public boolean insert(ProvinciaDTO provincia) {
@@ -141,14 +142,16 @@ public class ProvinciaDAOSQL implements ProvinciaDAO {
 			
 			while (resultSet.next())
 				nombre = resultSet.getString("nombre");
+			
+			return new PaisDTO(id, nombre);
 
 		} 
 		catch (SQLException e) 
 		{
-			e.printStackTrace();
+			return null;
 		}
 	
-		return new PaisDTO(id, nombre);
+		
 	}
 
 	@Override
@@ -222,5 +225,46 @@ public class ProvinciaDAOSQL implements ProvinciaDAO {
 			
 			return false;
 	}
+	
+	@Override
+	public ProvinciaDTO getProvincia(String provincia, int idPais) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement(get);
+			statement.setString(1, provincia);
+			statement.setInt(2, idPais);
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			return new ProvinciaDTO(resultSet.getInt("id"), resultSet.getString("nombre"), getPaisDTO(idPais));
+		} 
+		catch (SQLException e) 
+		{
+			return null;
+		}
+		
+		
+	}
 
+	@Override
+	public ProvinciaDTO getProvincia(int id) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM provincias WHERE id = "+ id + ";");
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			return new ProvinciaDTO(id, resultSet.getString("nombre"), getPaisDTO(resultSet.getInt("paisId")));
+		} 
+		catch (SQLException e) 
+		{
+			return null;
+		}
+		
+		
+	}
 }

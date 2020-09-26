@@ -185,4 +185,27 @@ public class Agenda
 		return this.reporte.readAllgroupBy();
 	}
 	
+	public PaisDTO obtenerPaisPorNombre(String nombre) {
+		return this.pais.getPais(nombre);
+	}
+	
+	public PaisDTO obtenerPaisPorId(int id) {
+		return this.pais.getPais(id);
+	}
+	
+	public ProvinciaDTO obtenerProvincia(String nombreProvincia, int idPais) {
+		return this.provincia.getProvincia(nombreProvincia, idPais);
+	}
+	
+	public ProvinciaDTO obtenerProvincia(int id) {
+		return this.provincia.getProvincia(id);
+	}
+	
+	public LocalidadDTO obtenerLocalidad(String nombre, int idProvincia) {
+		return this.localidad.getLocalidad(nombre, idProvincia);
+	}
+	
+	public LocalidadDTO obtenerLocalidad(int idLocalidad) {
+		return this.localidad.getLocalidad(idLocalidad);
+	}
 }

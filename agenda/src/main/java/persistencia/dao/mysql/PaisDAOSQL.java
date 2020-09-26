@@ -11,6 +11,7 @@ import dto.PaisDTO;
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.PaisDAO;
 
+//		Agregar al id de pais el nombre
 public class PaisDAOSQL implements PaisDAO {
 	
 	private static final String insert = "INSERT INTO paises(nombre) VALUES(?)";
@@ -19,7 +20,8 @@ public class PaisDAOSQL implements PaisDAO {
 	private static final String readall = "SELECT * FROM paises ORDER BY nombre";
 	private static final String exists = "SELECT COUNT(*) FROM paises WHERE nombre = ?";
 	private static final String ifExist = "SELECT EXISTS (SELECT 1 FROM paises)";
-
+	private static final String get = "SELECT * FROM paises WHERE nombre = ?";
+	
 	@Override
 	public boolean insert(PaisDTO pais) {
 		PreparedStatement statement;
@@ -165,6 +167,46 @@ public class PaisDAOSQL implements PaisDAO {
 		}
 		
 		return false;
+	}
+	
+	@Override
+	public PaisDTO getPais(String pais) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement(get);
+			statement.setString(1, pais);
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			return new PaisDTO(resultSet.getInt("id"), resultSet.getString("nombre"));
+		} 
+		catch (SQLException e) 
+		{
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public PaisDTO getPais(int id) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement("SELECT * FROM paises WHERE id = "+id+";");
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			return new PaisDTO(resultSet.getInt("id"), resultSet.getString("nombre"));
+		} 
+		catch (SQLException e) 
+		{
+			return null;
+		}
+		
 	}
 
 }

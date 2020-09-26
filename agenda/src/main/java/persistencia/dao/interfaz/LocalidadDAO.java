@@ -21,4 +21,8 @@ public interface LocalidadDAO {
 	
 	public boolean ifExist();
 
+	public LocalidadDTO getLocalidad(String nombre, int idProvincia);
+
+	public LocalidadDTO getLocalidad(int id);
+
 }

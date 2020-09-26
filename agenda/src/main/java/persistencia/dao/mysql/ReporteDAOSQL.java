@@ -47,13 +47,14 @@ public class ReporteDAOSQL implements ReporteDAO
 		String email = resultSet.getString("email");
 		String contactoId = resultSet.getString("contactoId");
 		
-		String localidad = "San Miguel";
+		//String localidad = "San Miguel";
+		int idLocalidad = 1;
 		String calle = "Saint Exupery";
 		String altura = "1637";
 		String piso = "";
 		
 		PersonaDTO persona = new PersonaDTO(id, nombre, tel, nacimiento, email,contactoId);
-		DomicilioDTO domicilio = new DomicilioDTO(id, localidad, calle, altura, piso);
+		DomicilioDTO domicilio = new DomicilioDTO(id, 0, 0, idLocalidad, calle, altura, piso);
 		
 		return new ReporteDTO(persona, domicilio);
 	}

@@ -17,5 +17,9 @@ public interface PaisDAO {
 	public boolean exists(String pais);
 	
 	public boolean ifExist();
+
+	public PaisDTO getPais(String pais);
+
+	public PaisDTO getPais(int id);
 	
 }

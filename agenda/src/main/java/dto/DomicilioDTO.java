@@ -3,14 +3,18 @@ package dto;
 
 public class DomicilioDTO {
 	private int id;
-	private String localidad;
+	private int idPais;
+	private int idProvincia;
+	private int idLocalidad;
 	private String calle;
 	private String altura;
-	private String piso;
+	private String piso;	
 	
-	public DomicilioDTO(int id, String localidad, String calle, String altura, String piso) {
+	public DomicilioDTO(int id, int idPais, int idProvincia, int idLocalidad, String calle, String altura, String piso) {
 		this.id = id;
-		this.localidad = localidad;
+		this.idPais = idPais;
+		this.idProvincia = idProvincia;
+		this.idLocalidad = idLocalidad;
 		this.calle = calle;
 		this.altura = altura;
 		this.piso = piso;
@@ -24,14 +28,29 @@ public class DomicilioDTO {
 		this.id = id;
 	}
 
-	public String getLocalidad() {
-		return localidad;
+	public int getIdLocalidad() {
+		return this.idLocalidad;
 	}
 
-	public void setLocalidad(String localidad) {
-		this.localidad = localidad;
+	public void setIdLocalidad(int idLocalidad) {
+		this.idLocalidad = idLocalidad;
+	}
+	
+	public int getIdPais() {
+		return this.idPais;
 	}
 
+	public void setIdPais(int idPais) {
+		this.idPais = idPais;
+	}
+	
+	public int getIdProvincia() {
+		return this.idProvincia;
+	}
+
+	public void setIdProvincia(int idProvincia) {
+		this.idProvincia = idProvincia;
+	}
 	public String getCalle() {
 		return calle;
 	}
@@ -56,7 +75,4 @@ public class DomicilioDTO {
 		this.piso = piso;
 	}
 
-	public String isValid() {
-		return !this.localidad.isEmpty() ? "": "El nombre del país es obligatorio!";
-	}	
 }

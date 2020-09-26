@@ -5,10 +5,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 
@@ -115,5 +113,4 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 			}
 		}));
 	}
-	
 }

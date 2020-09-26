@@ -21,4 +21,8 @@ public interface ProvinciaDAO {
 	
 	public boolean ifExist();
 
+	public ProvinciaDTO getProvincia(String provincia, int idPais);
+
+	public ProvinciaDTO getProvincia(int id);
+
 }

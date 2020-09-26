@@ -21,6 +21,7 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	private static final String groupByProvincia = "SELECT * FROM localidades WHERE provinciaId = ? ORDER BY nombre";
 	private static final String exists = "SELECT COUNT(*) FROM localidades WHERE nombre = ? AND provinciaId = ? ";
 	private static final String ifExist = "SELECT EXISTS (SELECT 1 FROM localidades)";
+	private static final String get = "SELECT * FROM localidades WHERE nombre = ? AND provinciaId = ?";
 
 	@Override
 	public boolean insert(LocalidadDTO localidad) {
@@ -254,7 +255,47 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 		return false;
 	}
 
+	@Override
+	public LocalidadDTO getLocalidad(String nombre, int provinciaId) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement(get);
+			statement.setString(1, nombre);
+			statement.setInt(2, provinciaId);
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			return new LocalidadDTO(resultSet.getInt("id"), nombre, getProvinciaDTO(provinciaId));
+		} 
+		catch (SQLException e) 
+		{
+			return null;
+		}
+		
+	}	
 	
+	@Override
+	public LocalidadDTO getLocalidad(int id) {
+		PreparedStatement statement;
+		ResultSet resultSet; 
+		String getLocalidad = "SELECT * FROM localidades WHERE id = " + id + ";";
+		Conexion conexion = Conexion.getConexion();
+		try 
+		{
+			statement = conexion.getSQLConexion().prepareStatement(getLocalidad);
+			resultSet = statement.executeQuery();
+			resultSet.next();
+			return new LocalidadDTO(id, resultSet.getString("nombre"), getProvinciaDTO(resultSet.getInt("provinciaId")));
+		} 
+		catch (SQLException e) 
+		{
+			return null;
+		}
+		
+		
+	}	
 
 
 }

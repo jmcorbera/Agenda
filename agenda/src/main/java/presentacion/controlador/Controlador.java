@@ -11,10 +11,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.Agenda;
-import modelo.IntermediarioUbicacion;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaABMUbicacion;
-import presentacion.vista.VentanaDomicilio;
 import presentacion.vista.VentanaEditarContactoOPais;
 import presentacion.vista.VentanaEditarPersona;
 import presentacion.vista.VentanaNacimiento;
@@ -23,15 +21,12 @@ import presentacion.vista.VentanaPersona;
 import presentacion.vista.VentanaABMTipoContacto;
 import presentacion.vista.Vista;
 import dto.ContactoDTO;
-import dto.DomicilioDTO;
 import dto.PersonaDTO;
 
 public class Controlador implements ActionListener {
 	private Vista vista;
 	private List<PersonaDTO> personasEnTabla;
-	private DomicilioDTO domicilio;
 	private VentanaPersona ventanaPersona;
-	private VentanaDomicilio ventanaDomicilio;
 	private Agenda agenda;
 	private VentanaNacimiento ventanaNacimiento;
 	private VentanaABMTipoContacto ventanaTipoContacto;
@@ -48,7 +43,6 @@ public class Controlador implements ActionListener {
 		configurarVentanaNacimiento();
 		configurarVentanaPersona();
 		configurarVentanaTipoContacto();
-		new IntermediarioUbicacion(agenda);
 		this.controladorUbicacion = new ControladorUbicacion(agenda, new VentanaABMUbicacion());
 		configurarVista(vista);
 	}
@@ -102,150 +96,7 @@ public class Controlador implements ActionListener {
 		mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
 		this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(getPersonaAAgregar()));
 		this.ventanaPersona.getBtnNacimiento().addActionListener(n -> ventanaNacimiento.mostrarVentana());
-		this.ventanaPersona.getBtnDomicilio().addActionListener(n -> configurarVentanaNuevoDomicilio(personasEnTabla.size()));
-	}
-	
-	private void configurarVentanaDomicilio(int id) {
-		ventanaDomicilio = new VentanaDomicilio();
-		vaciarCombosDomicilio();	
-		ventanaDomicilio.mostrarVentana();
-		IntermediarioUbicacion.obtenerListaPaises(ventanaDomicilio.getComboBoxPais());
-		IntermediarioUbicacion.deshabilitarProvinciaYLocalidad(ventanaDomicilio.getComboBoxProvincia(), ventanaDomicilio.getComboBoxLocalidad());
-		if(ventanaDomicilio.getBtnCancelar().getActionListeners().length == 0)
-			ventanaDomicilio.getBtnCancelar().addActionListener(a -> cerrarVentanaDomicilio());
-		if(ventanaDomicilio.getBtnAceptar().getActionListeners().length == 0)
-			ventanaDomicilio.getBtnAceptar().addActionListener(a -> guardarDomicilio(id));	
-	}
-
-	private void cerrarVentanaDomicilio() {
-		ventanaDomicilio.cerrar();
-		ventanaDomicilio = null;
-	}
-	
-	private void configurarVentanaNuevoDomicilio(int id) {
-		configurarVentanaDomicilio(id);
-		ventanaDomicilio.ocultarBotonesCambiar();
-		agregarListenersMostrarUbicaciones();
-	}
-	
-	private void configurarVentanaEditarDomicilio(int idPersona) {
-		configurarVentanaDomicilio(idPersona);
-		obtenerDomicilioActual(idPersona);
-		vaciarCombosDomicilio();
-		ventanaDomicilio.mostrarBotonesCambiar();
-		mostrarValoresPredeterminados();
-		ventanaDomicilio.establecerTextoCambiar();
-		configurarBtnCambiarTxts();
-		configurarBtnCambiarUbicacion();
-		agregarListenersMostrarUbicaciones();
-	}
-
-	private void configurarBtnCambiarTxts() {
-		if(ventanaDomicilio.getBtnCambiarCalle().getActionListeners().length == 0)
-			ventanaDomicilio.getBtnCambiarCalle().addActionListener(a -> configurarBtnCambiarCalle());
-		if(ventanaDomicilio.getBtnCambiarAltura().getActionListeners().length == 0)
-			ventanaDomicilio.getBtnCambiarAltura().addActionListener(a -> configurarBtnCambiarAltura());
-		if(ventanaDomicilio.getBtnCambiarPiso().getActionListeners().length == 0)
-			ventanaDomicilio.getBtnCambiarPiso().addActionListener(a -> configurarBtnCambiarPiso());
-	}
-
-	private void configurarBtnCambiarPiso() {
-		if(ventanaDomicilio.getBtnCambiarPiso().getText().equals("Cambiar")) {
-			ventanaDomicilio.getBtnCambiarPiso().setText("Cancelar");
-			ventanaDomicilio.getTxtPiso().setText("");
-			ventanaDomicilio.getTxtPiso().setEnabled(true);
-		}
-		else {
-			ventanaDomicilio.getBtnCambiarPiso().setText("Cambiar");
-			mostrarPisoPredeterminado();
-		}
-	}
-
-	private void configurarBtnCambiarAltura() {
-		if(ventanaDomicilio.getBtnCambiarAltura().getText().equals("Cambiar")) {
-			ventanaDomicilio.getBtnCambiarAltura().setText("Cancelar");
-			ventanaDomicilio.getTxtAltura().setText("");
-			ventanaDomicilio.getTxtAltura().setEnabled(true);
-		}
-		else {
-			ventanaDomicilio.getBtnCambiarAltura().setText("Cambiar");
-			mostrarAlturaPredeterminada();
-		}
-	}
-
-	private void configurarBtnCambiarCalle() {
-		if(ventanaDomicilio.getBtnCambiarCalle().getText().equals("Cambiar")) {
-			ventanaDomicilio.getBtnCambiarCalle().setText("Cancelar");
-			ventanaDomicilio.getTxtCalle().setText("");
-			ventanaDomicilio.getTxtCalle().setEnabled(true);
-		}
-		else {
-			ventanaDomicilio.getBtnCambiarCalle().setText("Cambiar");
-			mostrarCallePredeterminada();
-		}
-	}
-
-	private void mostrarValoresPredeterminados() {
-		String localidad = domicilio != null ? domicilio.getLocalidad() : "";
-		if(localidad!="") {
-			mostrarSeleccionadoPrimero(localidad, ventanaDomicilio.getComboBoxLocalidad());
-		}
-		mostrarTxtsPredeterminados();
-	}
-	
-	private void mostrarTxtsPredeterminados() {
-		mostrarCallePredeterminada();
-		mostrarAlturaPredeterminada();
-		mostrarPisoPredeterminado();
-	}
-	
-	private void mostrarCallePredeterminada() {
-		ventanaDomicilio.setTxtCalle(domicilio != null && !domicilio.getCalle().isEmpty() ? domicilio.getCalle() : "");
-		ventanaDomicilio.getTxtCalle().setEnabled(false);
-	}
-	
-	private void mostrarAlturaPredeterminada() {
-		ventanaDomicilio.setTxtAltura(domicilio != null && !domicilio.getAltura().isEmpty() ? domicilio.getAltura() : "");
-		ventanaDomicilio.getTxtAltura().setEnabled(false);
-	}
-	
-	private void mostrarPisoPredeterminado() {
-		ventanaDomicilio.setTxtPiso(domicilio != null && !domicilio.getPiso().isEmpty() ? domicilio.getPiso() : "");
-		ventanaDomicilio.getTxtPiso().setEnabled(false);
-	}
-	
-	private void configurarBtnCambiarUbicacion() {
-		if(ventanaDomicilio.getBtnCambiar().getActionListeners().length == 0) {
-			ventanaDomicilio.getBtnCambiar().addActionListener(a -> modificarValoresSegunClick());}
-	}
-
-	private void modificarValoresSegunClick() {
-		vaciarCombosDomicilio();
-		if(ventanaDomicilio.getBtnCambiar().getText().equals("Cambiar")) {
-			IntermediarioUbicacion.obtenerListaPaises(ventanaDomicilio.getComboBoxPais());
-			ventanaDomicilio.getBtnCambiar().setText("Restablecer");
-		}
-		else {
-			mostrarValoresPredeterminados();
-			ventanaDomicilio.getBtnCambiar().setText("Cambiar");
-		}
-	}	
-
-	private void obtenerDomicilioActual(int idPersona) {
-		domicilio = agenda.obtenerDomicilio(idPersona)!= null ? agenda.obtenerDomicilio(idPersona) : null;
-	}
-	
-	private void agregarListenersMostrarUbicaciones() {
-		if(ventanaDomicilio.getComboBoxPais().getActionListeners().length == 0)
-			ventanaDomicilio.getComboBoxPais().addActionListener(a -> IntermediarioUbicacion.mostrarProvincias(IntermediarioUbicacion.getPaisSeleccionado(ventanaDomicilio.getComboBoxPais()), ventanaDomicilio.getComboBoxProvincia()));
-		if(ventanaDomicilio.getComboBoxProvincia().getActionListeners().length == 0)
-			ventanaDomicilio.getComboBoxProvincia().addActionListener(a ->IntermediarioUbicacion.mostrarLocalidades(IntermediarioUbicacion.getProvinciaSeleccionada(ventanaDomicilio.getComboBoxProvincia(),IntermediarioUbicacion.getPaisSeleccionado(ventanaDomicilio.getComboBoxPais())), ventanaDomicilio.getComboBoxLocalidad()));
-	}
-	
-	private void vaciarCombosDomicilio() {
-		ventanaDomicilio.getComboBoxPais().removeAllItems();
-		ventanaDomicilio.getComboBoxProvincia().removeAllItems();
-		ventanaDomicilio.getComboBoxLocalidad().removeAllItems();
+		this.ventanaPersona.getBtnDomicilio().addActionListener(n -> controladorUbicacion.configurarVentanaNuevoDomicilio(personasEnTabla.size()));
 	}
 	
 	private void configurarVentanaEditarPersona() {
@@ -258,7 +109,7 @@ public class Controlador implements ActionListener {
 			if(ventanaEditarPersona.getBtnEditarNacimiento().getActionListeners().length == 0)
 				ventanaEditarPersona.getBtnEditarNacimiento().addActionListener(a -> ventanaNacimiento.mostrarVentana());
 			if(ventanaEditarPersona.getBtnDomicilio().getActionListeners().length == 0)
-				ventanaEditarPersona.getBtnDomicilio().addActionListener(a -> configurarVentanaEditarDomicilio(personaSeleccionada.getId()));
+				ventanaEditarPersona.getBtnDomicilio().addActionListener(a -> controladorUbicacion.configurarVentanaEditarDomicilio(personaSeleccionada.getId()));
 			if(ventanaEditarPersona.getBtnAceptar().getActionListeners().length == 0)
 				ventanaEditarPersona.getBtnAceptar().addActionListener(a -> actualizarPersona(getPersonaEditada(personaSeleccionada)));
 		} else {
@@ -266,24 +117,6 @@ public class Controlador implements ActionListener {
 		}
 	}
 	
-	private void guardarDomicilio(int id) {
-		Object seleccionado;
-		seleccionado = ventanaDomicilio.getComboBoxPais().getSelectedItem();
-		seleccionado = ventanaDomicilio.getComboBoxProvincia().getSelectedItem();
-		seleccionado = ventanaDomicilio.getComboBoxLocalidad().getSelectedItem();
-		String localidad = seleccionado == null ? "" : seleccionado.toString();
-		String calle = ventanaDomicilio.getTxtCalle().getText();
-		String altura = ventanaDomicilio.getTxtAltura().getText();
-		String piso = ventanaDomicilio.getTxtPiso().getText();
-		domicilio = new DomicilioDTO(id, localidad, calle, altura, piso);
-		if(!domicilio.isValid().isEmpty()) {
-			JOptionPane.showMessageDialog(ventanaDomicilio, domicilio.isValid());
-			domicilio = null;
-			return;
-		}
-		cerrarVentanaDomicilio();
-	}
-
 	private PersonaDTO getPersonaSeleccionada() {
 		int[] filasSeleccionadas = this.vista.getTablaPersonas().getSelectedRows();
 		return filasSeleccionadas.length != 0 ? personasEnTabla.get(filasSeleccionadas[0]) : null;
@@ -355,29 +188,6 @@ public class Controlador implements ActionListener {
 		}
 	}
 	
-	private void mostrarSeleccionadoPrimero(String seleccionado, JComboBox<String> combo) {
-		if(seleccionado.isEmpty()) {
-			combo.removeAllItems();
-			return;
-		}
-		ComboBoxModel<String> modeloLista = combo.getModel();
-		int largoLista = modeloLista.getSize();
-		combo.setEnabled(false);
-		if (largoLista > 0) {
-			String primero = modeloLista.getElementAt(0);
-			modeloLista.setSelectedItem(seleccionado);
-			@SuppressWarnings("unused")
-			String cambiarPrimero = modeloLista.getElementAt(0);
-			cambiarPrimero = seleccionado;
-			@SuppressWarnings("unused")
-			String cambiarUltimo = modeloLista.getElementAt(largoLista);
-			cambiarUltimo = primero;
-		}
-		else {
-			modeloLista.setSelectedItem(seleccionado);
-		}
-	}
-
 	private void modificarTxtNacimiento(JTextField txtNacimiento) {
 		txtNacimiento.setText(crearStringFecha(ventanaNacimiento.getFecha().getDate()));
 		ventanaNacimiento.cerrar();
@@ -406,14 +216,14 @@ public class Controlador implements ActionListener {
 		}
 		this.agenda.actualizarPersona(personaEditada.getId(), personaEditada);
 		
-		if(domicilio!= null) {
-			if(agenda.obtenerDomicilio(domicilio.getId()) == null) {
-				agenda.agregarDomicilio(domicilio);
-				domicilio = null;
+		if(controladorUbicacion.getDomicilio()!= null) {
+			if(agenda.obtenerDomicilio(controladorUbicacion.getDomicilio().getId()) == null) {
+				agenda.agregarDomicilio(controladorUbicacion.getDomicilio());
+				controladorUbicacion.setDomicilio(null);
 				return;
 			}
-			this.agenda.modificarDomicilio(domicilio);
-			domicilio = null;
+			this.agenda.modificarDomicilio(controladorUbicacion.getDomicilio());
+			controladorUbicacion.setDomicilio(null);
 		}
 	
 		this.refrescarTabla();
@@ -457,13 +267,12 @@ public class Controlador implements ActionListener {
 			return;
 		}
 		this.agenda.agregarPersona(persona);
-		if(domicilio != null) {
-			this.agenda.agregarDomicilio(new DomicilioDTO(agenda.obtenerPersonas().size(),
-											 domicilio.getLocalidad(),
-											 domicilio.getCalle(),
-											 domicilio.getAltura(), 
-											 domicilio.getPiso()));
-											 domicilio = null;
+		if(controladorUbicacion.getDomicilio() != null) {
+			controladorUbicacion.getDomicilio().setId(persona.getId());
+			if(agenda.obtenerDomicilio(persona.getId()) == null){	
+				this.agenda.agregarDomicilio(controladorUbicacion.getDomicilio());
+				controladorUbicacion.setDomicilio(null);
+			}
 		}
 		
 		this.refrescarTabla();
