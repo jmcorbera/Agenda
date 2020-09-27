@@ -35,14 +35,15 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(2, persona.getNombre());
 			statement.setString(3, persona.getTelefono());
 			String fechaNacimiento = persona.getNacimiento();
-			if (fechaNacimiento.equals("")) {
+			if (fechaNacimiento.isEmpty()) 
 				statement.setString(4, null);
-			}
-			else {
+			else 
 				statement.setString(4, persona.getNacimiento());
-			}
 			statement.setString(5, persona.getEmail());
-			statement.setString(6, persona.getContactoId());
+			if(!persona.getContactoId().isEmpty())
+				statement.setString(6, persona.getContactoId());
+			else
+				statement.setObject(6,null);
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();

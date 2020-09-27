@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ public class VentanaEditarPersona extends JFrame {
 	private JButton btnCambiarNombre;
 	private JButton btnCambiarTelefono;
 	private JButton btnCambiarNacimiento;
+	private JButton btnEliminarNacimiento;
 	private JTextField txtEmail;
 	private JTextField txtFechaNacimiento;
 	private JComboBox<String> cBTipoContacto;
@@ -34,6 +36,8 @@ public class VentanaEditarPersona extends JFrame {
 	private JButton btnDomicilio;
 	private JLabel lblDomicilio;
 	private static VentanaEditarPersona INSTANCE;
+	private JButton btnEliminarTipoContacto;
+	private JButton btnEliminarDomicilio;
 	
 	public static VentanaEditarPersona getInstance(int idContacto) {
 		if (INSTANCE == null) {
@@ -74,7 +78,7 @@ public class VentanaEditarPersona extends JFrame {
 		panel.add(txtTelefono);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(228, 271, 89, 23);
+		btnAceptar.setBounds(227, 256, 89, 23);
 		panel.add(btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -83,7 +87,7 @@ public class VentanaEditarPersona extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(327, 271, 89, 23);
+		btnCancelar.setBounds(329, 256, 89, 23);
 		panel.add(btnCancelar);	
 		
 		btnCambiarNombre = new JButton("Cambiar");
@@ -116,7 +120,7 @@ public class VentanaEditarPersona extends JFrame {
 		txtFechaNacimiento = new JTextField();
 		txtFechaNacimiento.setEnabled(false);
 		txtFechaNacimiento.setColumns(10);
-		txtFechaNacimiento.setBounds(119, 141, 177, 24);
+		txtFechaNacimiento.setBounds(119, 141, 121, 24);
 		panel.add(txtFechaNacimiento);
 		
 		cBTipoContacto = new JComboBox<String>();
@@ -143,6 +147,21 @@ public class VentanaEditarPersona extends JFrame {
 		lblDomicilio = new JLabel("Domicilio:");
 		lblDomicilio.setBounds(10, 219, 97, 14);
 		panel.add(lblDomicilio);
+		ImageIcon borrar = new ImageIcon("./imagenes/borrar.png");
+		btnEliminarNacimiento = new JButton("");
+		btnEliminarNacimiento.setBounds(250, 141, 46, 24);
+		btnEliminarNacimiento.setIcon(borrar);
+		panel.add(btnEliminarNacimiento);
+		
+		btnEliminarTipoContacto = new JButton("");
+		btnEliminarTipoContacto.setBounds(321, 181, 46, 23);
+		btnEliminarTipoContacto.setIcon(borrar);
+		panel.add(btnEliminarTipoContacto);
+		
+		btnEliminarDomicilio = new JButton("");
+		btnEliminarDomicilio.setBounds(321, 215, 46, 23);
+		btnEliminarDomicilio.setIcon(borrar);
+		panel.add(btnEliminarDomicilio);
 	}
 
 	private void configurarPanel() {
@@ -152,7 +171,7 @@ public class VentanaEditarPersona extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 428, 305);
+		panel.setBounds(10, 11, 428, 287);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
@@ -177,7 +196,7 @@ public class VentanaEditarPersona extends JFrame {
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 461, 366);
+		setBounds(100, 100, 464, 348);
 	}
 	
 	public JButton getBtnAceptar() {
@@ -230,5 +249,16 @@ public class VentanaEditarPersona extends JFrame {
 	public JButton getBtnDomicilio() {
 		return btnDomicilio;
 	}
+
+	public JButton getBtnEliminarDomicilio() {
+		return btnEliminarDomicilio;
+	}
 	
+	public JButton getBtnEliminarNacimiento() {
+		return btnEliminarNacimiento;
+	}
+	
+	public JButton getBtnEliminarTipoContacto() {
+		return btnEliminarTipoContacto;
+	}
 }

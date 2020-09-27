@@ -85,4 +85,8 @@ public class PersonaDTO
 		Matcher mather = pattern.matcher(email);
 		return !mather.find() && !email.isEmpty() ? false : true;
 	}
+
+	public void setNacimiento(String nacimiento) {
+		this.nacimiento = nacimiento;
+	}
 }

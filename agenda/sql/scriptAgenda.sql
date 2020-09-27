@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `personas`
 (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(45) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
   `nacimiento` date DEFAULT NULL, 
   `email` text DEFAULT NULL,
   `contactoId` varchar(20) DEFAULT NULL,
