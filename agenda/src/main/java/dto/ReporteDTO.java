@@ -2,12 +2,12 @@ package dto;
 
 public class ReporteDTO {
 	private PersonaDTO persona;
-	private DomicilioDTO domicilio;
+	private LocalidadDTO localidad;
 	
-	public ReporteDTO(PersonaDTO persona, DomicilioDTO domicilio)
+	public ReporteDTO(PersonaDTO persona, LocalidadDTO localidad)
 	{
 		this.persona = persona;
-		this.domicilio = domicilio;
+		this.localidad = localidad;
 	}
 	
 	public PersonaDTO getPersona() 
@@ -20,14 +20,14 @@ public class ReporteDTO {
 		this.persona = persona;
 	}
 	
-	public DomicilioDTO getDomicilio() 
+	public LocalidadDTO getLocalidad() 
 	{
-		return this.domicilio;
+		return this.localidad;
 	}
 
-	public void setId(DomicilioDTO domicilio) 
+	public void setLocalidad(LocalidadDTO localidad) 
 	{
-		this.domicilio = domicilio;
+		this.localidad = localidad;
 	}
 
 }

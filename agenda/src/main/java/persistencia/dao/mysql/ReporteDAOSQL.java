@@ -8,14 +8,14 @@ import java.util.List;
 
 import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.ReporteDAO;
-import dto.DomicilioDTO;
+import dto.LocalidadDTO;
 import dto.PersonaDTO;
 import dto.ReporteDTO;
 
 public class ReporteDAOSQL implements ReporteDAO
 {
-	//private static final String readall = "SELECT * FROM personas";
 	private static final String readall = "SELECT * FROM `personas` AS p,`domicilios` AS d,`provincias` AS pvs,`paises` as pss,`localidades` AS l WHERE  p.id = d.id AND d.provinciaId = pvs.id AND d.paisId = pss.id AND d.localidadId = l.id ORDER BY l.nombre, p.nombre;";
+	
 	public List<ReporteDTO> readAllgroupBy()
 	{
 		PreparedStatement statement;
@@ -46,22 +46,11 @@ public class ReporteDAOSQL implements ReporteDAO
 		String nacimiento = resultSet.getString("p.nacimiento");
 		String email = resultSet.getString("p.email");
 		String contactoId = resultSet.getString("p.contactoId");
-		
-		//String localidad = "San Miguel";
-		/*int idLocalidad = 1;
-		String calle = "Saint Exupery";
-		String altura = "1637";
-		String piso = "";
-		*/
-		int idDomicilio = resultSet.getInt("d.id");
-		int idPais = resultSet.getInt("d.paisId");
-		int idProvincia = resultSet.getInt("d.provinciaId");
-		int idLocalidad = resultSet.getInt("d.localidadId");
-		String calle = resultSet.getString("d.calle");
-		String altura = resultSet.getString("d.altura");
-		String piso = resultSet.getString("d.piso");
+	
+		int idLocalidad = resultSet.getInt("l.id");
 		PersonaDTO persona = new PersonaDTO(id, nombre, tel, nacimiento, email,contactoId);
-		DomicilioDTO domicilio = new DomicilioDTO(idDomicilio, idPais, idProvincia, idLocalidad, calle, altura, piso);
-		return new ReporteDTO(persona, domicilio);
+		LocalidadDAOSQL laux = new LocalidadDAOSQL();
+		LocalidadDTO localidad = laux.getLocalidad(idLocalidad);
+		return new ReporteDTO(persona, localidad);
 	}
 }
