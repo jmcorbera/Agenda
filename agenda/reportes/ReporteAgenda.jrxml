@@ -18,13 +18,13 @@
 	<title>
 		<band height="45" splitType="Stretch">
 			<frame>
-				<reportElement x="0" y="0" width="550" height="40" uuid="fbf866cd-64dc-4043-b98c-ed8d9f31d19c"/>
+				<reportElement mode="Opaque" x="0" y="0" width="550" height="40" forecolor="#990033" backcolor="#F5FFFF" uuid="fbf866cd-64dc-4043-b98c-ed8d9f31d19c"/>
 				<staticText>
-					<reportElement x="0" y="10" width="170" height="30" uuid="df09700e-f0a8-43aa-a9d6-1430d1a7476d"/>
+					<reportElement x="10" y="5" width="310" height="30" uuid="df09700e-f0a8-43aa-a9d6-1430d1a7476d"/>
 					<textElement>
 						<font size="18"/>
 					</textElement>
-					<text><![CDATA[Reporte de personas]]></text>
+					<text><![CDATA[Reporte de personas por Localidad]]></text>
 				</staticText>
 				<textField>
 					<reportElement x="489" y="2" width="56" height="20" uuid="0706116d-f632-4605-96d8-35fe765b5d67"/>
@@ -53,47 +53,85 @@
 			<frame>
 				<reportElement x="2" y="6" width="550" height="23" uuid="23209a62-cc9d-4b81-8e93-aa9cc3a92b36"/>
 				<staticText>
-					<reportElement x="0" y="0" width="228" height="21" uuid="6f5462fa-eb72-479f-bb27-fb5ef7144791"/>
+					<reportElement mode="Opaque" x="8" y="1" width="140" height="20" forecolor="#990033" backcolor="#FFFFCC" uuid="6f5462fa-eb72-479f-bb27-fb5ef7144791"/>
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
 					<text><![CDATA[Nombre y apellido]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="228" y="0" width="215" height="20" uuid="e2252ea3-811b-43d8-ae6b-e9b261b705f9"/>
+					<reportElement mode="Opaque" x="148" y="1" width="90" height="20" forecolor="#990033" backcolor="#FFFFCC" uuid="e2252ea3-811b-43d8-ae6b-e9b261b705f9"/>
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
 					<text><![CDATA[Teléfono]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="448" y="1" width="102" height="20" uuid="a431ae4d-8301-4d01-a924-00b8a3dd9a0a"/>
+					<reportElement mode="Opaque" x="238" y="1" width="131" height="20" forecolor="#990033" backcolor="#FFFFCC" uuid="7a378fa3-ba87-48e5-a183-124796c8c11d"/>
 					<textElement textAlignment="Center">
 						<font size="14"/>
 					</textElement>
-					<text><![CDATA[Localidad]]></text>
+					<text><![CDATA[Email]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="369" y="1" width="90" height="20" forecolor="#990033" backcolor="#FFFFCC" uuid="c4bada68-ba30-4224-8cb5-25f8715d07c0"/>
+					<textElement textAlignment="Center">
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Pais]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="460" y="1" width="88" height="20" forecolor="#990033" backcolor="#FFFFCC" uuid="c56b573a-276d-4a07-bc1b-7d002eb1a5ef"/>
+					<textElement textAlignment="Center">
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[Provincia]]></text>
 				</staticText>
 			</frame>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="38" splitType="Stretch">
+		<band height="58" splitType="Stretch">
 			<textField>
-				<reportElement x="5" y="0" width="225" height="18" uuid="4a345b01-b751-4529-b6d6-2ccf3c13ff66"/>
+				<reportElement mode="Opaque" x="10" y="18" width="140" height="18" backcolor="#FFFFCC" uuid="4a345b01-b751-4529-b6d6-2ccf3c13ff66"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{persona}.getNombre()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="230" y="0" width="215" height="18" uuid="dd3f7d4c-c2c3-4ee6-8d98-1b88fe0228ec"/>
+				<reportElement mode="Opaque" x="150" y="18" width="90" height="18" backcolor="#FFFFCC" uuid="dd3f7d4c-c2c3-4ee6-8d98-1b88fe0228ec"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{persona}.getTelefono()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="445" y="0" width="105" height="30" uuid="472517c5-87dc-4a11-a029-efe5e6aa8034"/>
-				<textFieldExpression><![CDATA[$F{localidad}.getNombre()]]></textFieldExpression>
+				<reportElement isPrintRepeatedValues="false" mode="Opaque" x="10" y="0" width="540" height="18" forecolor="#000033" backcolor="#CCFFFF" uuid="472517c5-87dc-4a11-a029-efe5e6aa8034"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Localidad: "+$F{localidad}.getNombre()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="240" y="18" width="131" height="18" backcolor="#FFFFCC" uuid="34c7a51b-8cfe-4509-88b0-b0688bcd8afd"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{persona}.getEmail()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="372" y="18" width="90" height="18" backcolor="#FFFFCC" uuid="617beee4-65eb-4d1b-9a2e-4ef8abae9715"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{localidad}.getProvincia().getPais().getNombre()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="462" y="18" width="88" height="18" backcolor="#FFFFCC" uuid="7767ef24-6b2a-42cd-b99b-8f4a8c9a6ad9"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{localidad}.getProvincia().getNombre()]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="7" splitType="Stretch"/>
+		<band height="4" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="33" splitType="Stretch">
