@@ -15,22 +15,22 @@ public class Conexion
 	private Logger log = Logger.getLogger(Conexion.class);	
 	
 	private String url = "";
-	private String user = "";
-	private String password = "";	
+	private final static String user = "root";
+	private final static String password = "root";	
 	
 	private Conexion()
 	{
 		try
 		{			
 			this.url = "jdbc:mysql://localhost:3306/grupo_8?useSSL=false&serverTimezone=UTC";
-			this.user = "root";
-			this.password = "root";
+			//this.user = "root";
+			//this.password = "root";
 			
 			Class.forName("com.mysql.cj.jdbc.Driver"); // quitar si no es necesario
 	        
 	        if(dbExist())
 	        {
-		        this.connection = DriverManager.getConnection(this.url, this.user, this.password);
+		        this.connection = DriverManager.getConnection(this.url, Conexion.user, Conexion.password);
 			     
 				this.connection.setAutoCommit(false);
 				log.info("Conexión exitosa");    	
@@ -49,8 +49,8 @@ public class Conexion
 		String url = "jdbc:mysql://localhost:3306";
 		
 		Properties properties = new Properties();
-		properties.setProperty("user", this.user);
-		properties.setProperty("password", this.password);
+		properties.setProperty("user", Conexion.user);
+		properties.setProperty("password", Conexion.password);
 		properties.setProperty("useSSL", "false");
 		properties.setProperty("serverTimezone", "UTC");
 		
@@ -95,5 +95,14 @@ public class Conexion
 			log.error("Error al cerrar la conexión!", e);
 		}
 		instancia = null;
+	}
+	
+	public static String getUser() {
+		return Conexion.user;
+	}
+	
+	public static String getPassword() {
+		return Conexion.password;
+		
 	}
 }
