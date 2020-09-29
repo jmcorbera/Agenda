@@ -23,6 +23,8 @@ public class VentanaNuevoPaisOContacto extends JFrame {
 	
 	public VentanaNuevoPaisOContacto() {
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaNuevoPaisOContacto.class.getName());
+		setResizable(false);
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes();
@@ -31,7 +33,7 @@ public class VentanaNuevoPaisOContacto extends JFrame {
 
 	private void agregarComponentes() {		
 		JLabel lblIngresarNombre = new JLabel("Ingrese el nuevo nombre");
-		lblIngresarNombre.setBounds(10, 11, 210, 24);
+		lblIngresarNombre.setBounds(10, 11, 192, 24);
 		panel.add(lblIngresarNombre);
 		
 		txtNuevoNombre = new JTextField();
@@ -55,14 +57,14 @@ public class VentanaNuevoPaisOContacto extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 212, 116);
+		panel.setBounds(0, 0, 212, 116);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 245, 172);
+		setBounds(100, 100, 218, 144);
 		setVisible(true);
 	}
 	public void cerrar() {

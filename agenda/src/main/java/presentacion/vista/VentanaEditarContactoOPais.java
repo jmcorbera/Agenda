@@ -25,6 +25,7 @@ public class VentanaEditarContactoOPais extends JFrame {
 
 	public VentanaEditarContactoOPais(String contactoAEditar) {
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaEditarContactoOPais.class.getName());
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes(contactoAEditar);
@@ -75,7 +76,9 @@ public class VentanaEditarContactoOPais extends JFrame {
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 378, 173);
+		setBounds(100, 100, 368, 161);
+		setTitle("Editar");
+		setResizable(false);
 	}
 	
 	private void verificarCampos() {

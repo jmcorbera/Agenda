@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class VentanaABMUbicacion extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -48,6 +50,7 @@ public class VentanaABMUbicacion extends JFrame {
 	public VentanaABMUbicacion() 
 	{
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaABMUbicacion.class.getName());
 		configurarVentana();
 		configurarPanel();	
 		agregarComponentes();
@@ -55,8 +58,10 @@ public class VentanaABMUbicacion extends JFrame {
 	
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 461, 312);
+		setBounds(100, 100, 410, 254);
 		this.setVisible(false);
+		setTitle("ABM Ubicacion");
+		setResizable(false);
 	}
 	
 	private void configurarPanel() {
@@ -66,7 +71,7 @@ public class VentanaABMUbicacion extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 428, 255);
+		panel.setBounds(0, 0, 402, 225);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
@@ -74,78 +79,88 @@ public class VentanaABMUbicacion extends JFrame {
 	private void agregarComponentes() {		
 		
 		this.lblPais = new JLabel("Pais");
-		this.lblPais.setBounds(36, 77, 56, 16);
+		this.lblPais.setBounds(21, 60, 56, 16);
 		this.panel.add(lblPais);
 		
 		this.lblProvincia = new JLabel("Provincia");
-		this.lblProvincia.setBounds(36, 126, 56, 16);
+		this.lblProvincia.setBounds(21, 110, 56, 16);
 		this.panel.add(lblProvincia);
 		
 		this.lblLocalidad = new JLabel("Localidad");
-		this.lblLocalidad.setBounds(36, 177, 56, 16);
+		this.lblLocalidad.setBounds(21, 160, 56, 16);
 		this.panel.add(lblLocalidad);
 		
 		this.cmbPais = new JComboBox<String>();
-		this.cmbPais.setBounds(104, 73, 177, 25);
+		this.cmbPais.setBounds(104, 54, 177, 25);
 		this.panel.add(cmbPais);
 		
 		this.cmbProvincia = new JComboBox<String>();
-		this.cmbProvincia.setBounds(104, 123, 177, 25);
+		this.cmbProvincia.setBounds(104, 104, 177, 25);
 		this.panel.add(cmbProvincia);
 		
 		this.cmbLocalidad = new JComboBox<String>();
-		this.cmbLocalidad.setBounds(104, 173, 177, 25);
+		this.cmbLocalidad.setBounds(104, 154, 177, 25);
 		this.panel.add(cmbLocalidad);
 		
 		this.btnEditarPais = new JButton();
 		this.btnEditarPais.setIcon(new ImageIcon("./imagenes/editar.png"));
-		this.btnEditarPais.setBounds(293, 73, 25, 25);
+		this.btnEditarPais.setBounds(291, 54, 25, 25);
 		this.panel.add(btnEditarPais);
 				
 		this.btnAgregarPais = new JButton();
 		this.btnAgregarPais.setIcon(new ImageIcon("./imagenes/guardar.png"));
-		this.btnAgregarPais.setBounds(330, 73, 25, 25);				
+		this.btnAgregarPais.setBounds(326, 54, 25, 25);				
 		this.panel.add(btnAgregarPais);
 		
 		this.btnEliminarPais = new JButton();
 		this.btnEliminarPais.setIcon(new ImageIcon("./imagenes/borrar.png"));
-		this.btnEliminarPais.setBounds(367, 73, 25, 25);
+		this.btnEliminarPais.setBounds(361, 54, 25, 25);
 		this.panel.add(btnEliminarPais);
 		
 		this.btnEditarProv = new JButton();
 		this.btnEditarProv.setIcon(new ImageIcon("./imagenes/editar.png"));
-		this.btnEditarProv.setBounds(293, 123, 25, 25);
+		this.btnEditarProv.setBounds(291, 104, 25, 25);
 		this.panel.add(btnEditarProv);
 		
 		this.btnAgregarProv = new JButton();
 		this.btnAgregarProv.setIcon(new ImageIcon("./imagenes/guardar.png"));
-		this.btnAgregarProv.setBounds(330, 123, 25, 25);
+		this.btnAgregarProv.setBounds(326, 104, 25, 25);
 		this.panel.add(btnAgregarProv);
 		
 		this.btnEliminarProv = new JButton();
 		this.btnEliminarProv.setIcon(new ImageIcon("./imagenes/borrar.png"));
-		this.btnEliminarProv.setBounds(367, 123, 25, 25);
+		this.btnEliminarProv.setBounds(361, 104, 25, 25);
 		this.panel.add(btnEliminarProv);
 		
 		this.btnEditarLoc = new JButton();
 		this.btnEditarLoc.setIcon(new ImageIcon("./imagenes/editar.png"));
-		this.btnEditarLoc.setBounds(293, 173, 25, 25);
+		this.btnEditarLoc.setBounds(291, 154, 25, 25);
 		this.panel.add(btnEditarLoc);
 		
 		this.btnAgregarLoc = new JButton();
 		this.btnAgregarLoc.setIcon(new ImageIcon("./imagenes/guardar.png"));
-		this.btnAgregarLoc.setBounds(330, 173, 25, 25);
+		this.btnAgregarLoc.setBounds(326, 154, 25, 25);
 		this.panel.add(btnAgregarLoc);
 		
 		this.btnEliminarLoc = new JButton();
 		this.btnEliminarLoc.setIcon(new ImageIcon("./imagenes/borrar.png"));
-		this.btnEliminarLoc.setBounds(367, 173, 25, 25);
+		this.btnEliminarLoc.setBounds(361, 154, 25, 25);
 		this.panel.add(btnEliminarLoc);
 		
-		this.lblAbmLocalidad = new JLabel("ABM Localidad");
+		this.lblAbmLocalidad = new JLabel("ABM Ubicación");
 		this.lblAbmLocalidad.setFont(new Font("Tahoma", Font.BOLD, 20));
-		this.lblAbmLocalidad.setBounds(141, 13, 159, 25);
+		this.lblAbmLocalidad.setBounds(124, 11, 159, 25);
 		this.panel.add(lblAbmLocalidad);
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cerrar();
+			}
+		});
+		
+		btnVolver.setBounds(291, 191, 95, 23);
+		panel.add(btnVolver);
 	}
 	
 	public void mostrarVentana() {
@@ -222,5 +237,9 @@ public class VentanaABMUbicacion extends JFrame {
 	public JLabel getLblABMLocalidad() {
 		return lblAbmLocalidad;
 	}
-
+	
+	public void cerrar() {
+		setVisible(false);
+		dispose();
+	}
 }

@@ -23,7 +23,7 @@ import persistencia.conexion.Conexion;
 
 public class Vista
 {
-	private JFrame frame;
+	private JFrame frmAgenda;
 	private JTable tablaPersonas;
 	private JButton btnAgregar;
 	private JButton btnBorrar;
@@ -37,24 +37,26 @@ public class Vista
 	public Vista() 
 	{
 		super();
+		IntermediarioVista.cambiarLookAndFeel(Vista.class.getName());
 		initialize();
 	}
 
 
 	private void initialize() 
 	{
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
-		
+		configurarVentana();
+		agregarComponentes();
+	}
+
+
+	private void agregarComponentes() {
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 262);
-		frame.getContentPane().add(panel);
+		panel.setBounds(0, 0, 489, 260);
+		frmAgenda.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		JScrollPane spPersonas = new JScrollPane();
-		spPersonas.setBounds(8, 30, 414, 182);
+		spPersonas.setBounds(8, 30, 471, 182);
 		panel.add(spPersonas);
 		
 		modelPersonas = new DefaultTableModel(null,nombreColumnas);
@@ -70,24 +72,24 @@ public class Vista
 		spPersonas.setViewportView(tablaPersonas);
 		
 		btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(20, 220, 89, 23);
+		btnAgregar.setBounds(8, 223, 112, 25);
 		panel.add(btnAgregar);
 		
 		btnEditar = new JButton("Editar");
-		btnEditar.setBounds(121, 220, 89, 23);
+		btnEditar.setBounds(130, 223, 112, 25);
 		panel.add(btnEditar);
 		
 		btnBorrar = new JButton("Borrar");
-		btnBorrar.setBounds(222, 220, 89, 23);
+		btnBorrar.setBounds(249, 223, 112, 25);
 		panel.add(btnBorrar);
 		
 		btnReporte = new JButton("Reporte");
-		btnReporte.setBounds(323, 220, 89, 23);
+		btnReporte.setBounds(367, 223, 112, 25);
 		panel.add(btnReporte);
 		
 		// Agrega barra Menu
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 434, 25);
+		menuBar.setBounds(0, 0, 489, 25);
 		panel.add(menuBar);
 		
 		// Agrega Menu
@@ -103,11 +105,21 @@ public class Vista
 		menuItemTipoContacto = new JMenuItem("Tipo Contacto");
 		menu.add(menuItemTipoContacto);
 	}
+
+
+	private void configurarVentana() {
+		frmAgenda = new JFrame();
+		frmAgenda.setTitle("Agenda");
+		frmAgenda.setResizable(false);
+		frmAgenda.setBounds(100, 100, 495, 289);
+		frmAgenda.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAgenda.getContentPane().setLayout(null);
+	}
 	
 	public void show()
 	{
-		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.frame.addWindowListener(new WindowAdapter() 
+		this.frmAgenda.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		this.frmAgenda.addWindowListener(new WindowAdapter() 
 		{
 			@Override
 		    public void windowClosing(WindowEvent e) {
@@ -121,7 +133,7 @@ public class Vista
 		        }
 		    }
 		});
-		this.frame.setVisible(true);
+		this.frmAgenda.setVisible(true);
 	}
 	
 	public JButton getBtnAgregar() 

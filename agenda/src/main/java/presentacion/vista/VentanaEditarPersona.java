@@ -49,6 +49,7 @@ public class VentanaEditarPersona extends JFrame {
 	
 	private VentanaEditarPersona(int idContacto) {
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaEditarPersona.class.getName());
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes(idContacto);
@@ -56,7 +57,6 @@ public class VentanaEditarPersona extends JFrame {
 	}
 
 	private void agregarComponentes(int idContacto) {
-	
 		lblNombre = new JLabel("Nombre:");
 		lblNombre.setBounds(10, 11, 109, 24);
 		panel.add(lblNombre);
@@ -196,7 +196,9 @@ public class VentanaEditarPersona extends JFrame {
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 464, 348);
+		setBounds(100, 100, 451, 336);
+		setTitle("Editar Persona");
+		setResizable(false);
 	}
 	
 	public JButton getBtnAceptar() {

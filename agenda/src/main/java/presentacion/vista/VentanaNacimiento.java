@@ -17,6 +17,7 @@ public class VentanaNacimiento extends JFrame {
 	
 	public VentanaNacimiento() {
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaNacimiento.class.getName());
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes();
@@ -24,15 +25,15 @@ public class VentanaNacimiento extends JFrame {
 
 	private void agregarComponentes() {
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(10, 36, 269, 20);
+		dateChooser.setBounds(10, 36, 213, 20);
 		panel.add(dateChooser);
 		btnAgregarNacimiento = new JButton("Aceptar");
 	
-		btnAgregarNacimiento.setBounds(204, 77, 89, 23);
+		btnAgregarNacimiento.setBounds(134, 61, 89, 23);
 		panel.add(btnAgregarNacimiento);
 
-		JLabel lblNacimiento = new JLabel("Fecha de Nacimiento");
-		lblNacimiento.setBounds(10, 11, 113, 14);
+		JLabel lblNacimiento = new JLabel("Ingrese la fecha de cumpleaños:");
+		lblNacimiento.setBounds(10, 11, 213, 14);
 		panel.add(lblNacimiento);
 	}
 	
@@ -43,15 +44,17 @@ public class VentanaNacimiento extends JFrame {
 		contentPane.setLayout(null);
 
 		panel = new JPanel();
-		panel.setBounds(10, 11, 293, 100);
+		panel.setBounds(0, 0, 230, 97);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 331, 158);
+		setBounds(100, 100, 238, 126);
 		this.setVisible(false);
+		setTitle("Cumpleaños");
+		setResizable(false);
 	}
 
 	public void mostrarVentana() {

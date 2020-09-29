@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
-import persistencia.conexion.Conexion;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JLabel;
@@ -13,31 +12,35 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
-public class VentanaLogin
+public class VentanaLogin extends JFrame
 {
-	private JFrame frame;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
 	private JTextField txtUser;
 	private JPasswordField txtPassword;
-
-	public VentanaLogin() 
+	
+	public VentanaLogin () 
 	{
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaLogin.class.getName());
 		initialize();
 	}
 
 
 	private void initialize() 
 	{
-		frame = new JFrame();
-		frame.setBounds(100, 100, 334, 212);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		setTitle("Login");
+		setResizable(false);
+		setBounds(100, 100, 327, 202);
+		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 318, 172);
-		frame.getContentPane().add(panel);
+		getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -77,25 +80,26 @@ public class VentanaLogin
 	
 	}
 	
-	public void show()
+	public void mostrar()
 	{
-		this.frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		this.frame.addWindowListener(new WindowAdapter() 
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() 
 		{
 			@Override
 		    public void windowClosing(WindowEvent e) {
 		        int confirm = JOptionPane.showOptionDialog(
-		             null, "Estas seguro que quieres salir de la Agenda?", 
+		             null, "Estas seguro que quieres salir?", 
 		             "Confirmación", JOptionPane.YES_NO_OPTION,
 		             JOptionPane.QUESTION_MESSAGE, null, null, null);
 		        if (confirm == 0) {
-		        	Conexion.getConexion().cerrarConexion();
 		           System.exit(0);
 		        }
 		    }
 		});
-		this.frame.setVisible(true);
+		setVisible(true);
 	}
+	
+
 	
 	public JButton getBtnAceptar() 
 	{
@@ -116,13 +120,9 @@ public class VentanaLogin
 	}
 
 
-	public JFrame getFrame() {
-		return frame;
-	}
-
 
 	public void cerrar() {
-		frame.setVisible(false);
-		frame.dispose();
+		setVisible(false);
+		dispose();
 	}
 }

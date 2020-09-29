@@ -23,6 +23,8 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 
 	public VentanaNuevaProvinciaOLocalidad() {
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaNuevaProvinciaOLocalidad.class.getName());
+		setResizable(false);
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes();
@@ -31,31 +33,31 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 
 	private void agregarComponentes() {		
 		JLabel lblIngresarNombre = new JLabel("Nombre:");
-		lblIngresarNombre.setBounds(10, 83, 210, 24);
+		lblIngresarNombre.setBounds(20, 81, 210, 24);
 		panel.add(lblIngresarNombre);
 		
 		nombre = new JTextField();
-		nombre.setBounds(10, 106, 227, 24);
+		nombre.setBounds(20, 106, 179, 24);
 		panel.add(nombre);
 		nombre.setColumns(10);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(148, 153, 89, 23);
+		btnAceptar.setBounds(110, 151, 89, 23);
 		panel.add(btnAceptar);
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(245, 153, 89, 23);
+		btnCancelar.setBounds(209, 151, 89, 23);
 		panel.add(btnCancelar);
 		
 		comboBoxPadre = new JComboBox<String>();
-		comboBoxPadre.setBounds(10, 52, 324, 20);
+		comboBoxPadre.setBounds(20, 50, 278, 20);
 		panel.add(comboBoxPadre);
 		
 		lblPadreAlQuePertenece = new JLabel("Pais al que pertenece: ");
-		lblPadreAlQuePertenece.setBounds(10, 25, 188, 14);
+		lblPadreAlQuePertenece.setBounds(21, 26, 188, 14);
 		panel.add(lblPadreAlQuePertenece);
 		
 		btnCambiar = new JButton("Cambiar");
-		btnCambiar.setBounds(245, 106, 89, 24);
+		btnCambiar.setBounds(209, 106, 89, 24);
 		panel.add(btnCambiar);
 		
 	}
@@ -67,14 +69,14 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 346, 187);
+		panel.setBounds(0, 0, 315, 182);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 377, 247);
+		setBounds(100, 100, 321, 213);
 		setVisible(true);
 	}
 	

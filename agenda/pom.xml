@@ -31,6 +31,13 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.7.7</version>
         </dependency>
+        
+        <!-- https://mvnrepository.com/artifact/com.jtattoo/JTattoo -->
+		<dependency>
+    		<groupId>com.jtattoo</groupId>
+    		<artifactId>JTattoo</artifactId>
+    		<version>1.6.10</version>
+		</dependency>
 
         <!-- Unit testing is mandatory -->
         <dependency>

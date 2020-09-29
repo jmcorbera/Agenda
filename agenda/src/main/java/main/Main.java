@@ -17,7 +17,7 @@ public class Main
 	public static void main(String[] args) 
 	{	
 		VentanaLogin ventanaLogin = new VentanaLogin();
-		ventanaLogin.show();
+		ventanaLogin.mostrar();
 		ventanaLogin.getBtnAceptar().addActionListener(a -> ingresar(ventanaLogin));
 		
 	}
@@ -30,14 +30,14 @@ public class Main
 			DAOSQLFactory factory = new DAOSQLFactory();
 			DBdata.Initialize(factory);
 			ventanaLogin.cerrar();
-			JOptionPane.showMessageDialog(ventanaLogin.getFrame(), "Conexión exitosa");
+			JOptionPane.showMessageDialog(ventanaLogin, "Conexión exitosa");
 			Vista vista = new Vista();
 			Agenda modelo = new Agenda(new DAOSQLFactory());
 			Controlador controlador = new Controlador(vista, modelo);
 			controlador.inicializar();
 		}
 		else
-			JOptionPane.showMessageDialog(ventanaLogin.getFrame(), "Usuario o contraseña incorrectos!");
+			JOptionPane.showMessageDialog(ventanaLogin, "Usuario o contraseña incorrectos!");
 
 	}
 }

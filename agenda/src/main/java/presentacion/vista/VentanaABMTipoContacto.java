@@ -1,7 +1,6 @@
 package presentacion.vista;
 
 import java.util.List;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -11,6 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dto.ContactoDTO;
+import java.awt.Font;
 
 public class VentanaABMTipoContacto extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +26,7 @@ public class VentanaABMTipoContacto extends JFrame {
 
 	public VentanaABMTipoContacto() {
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaABMTipoContacto.class.getName());
 		configurarVentana();
 		configurarPanel();
 		agregarComponentes();
@@ -36,26 +37,29 @@ public class VentanaABMTipoContacto extends JFrame {
 		modelTipoContacto = new DefaultTableModel(nombreColumnas, 0);
 		tablaTipoContactos = new JTable(modelTipoContacto);
 		JScrollPane spTipoContactos = new JScrollPane();
-		spTipoContactos.setBounds(0, 11, 416, 156);
+		spTipoContactos.setBounds(10, 11, 281, 156);
 		panel.add(spTipoContactos);
 
 		spTipoContactos.setViewportView(tablaTipoContactos);
-
 		btnNuevo = new JButton("Nuevo");
-		btnNuevo.setBounds(10, 178, 118, 23);
+		btnNuevo.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnNuevo.setBounds(10, 178, 84, 23);
 		panel.add(btnNuevo);
 
 		btnEditarContacto = new JButton("Editar");
-		btnEditarContacto.setBounds(149, 178, 118, 23);
+		btnEditarContacto.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnEditarContacto.setBounds(104, 178, 90, 23);
 		panel.add(btnEditarContacto);
 
 		btnEliminarContacto = new JButton("Eliminar");
-		btnEliminarContacto.setBounds(277, 178, 129, 23);
+		btnEliminarContacto.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnEliminarContacto.setBounds(204, 178, 87, 23);
 		panel.add(btnEliminarContacto);
 
 		btnAceptar = new JButton("Aceptar");
+		btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
-		btnAceptar.setBounds(10, 212, 396, 23);
+		btnAceptar.setBounds(10, 212, 282, 22);
 		panel.add(btnAceptar);
 
 	}
@@ -67,13 +71,15 @@ public class VentanaABMTipoContacto extends JFrame {
 		contentPane.setLayout(null);
 
 		panel = new JPanel();
-		panel.setBounds(10, 11, 416, 246);
+		panel.setBounds(0, 0, 302, 242);
 		contentPane.add(panel);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 452, 307);
+		setBounds(100, 100, 308, 272);
+		setResizable(false);
+		setTitle("ABM Tipo Contacto");
 		this.setVisible(false);
 	}
 

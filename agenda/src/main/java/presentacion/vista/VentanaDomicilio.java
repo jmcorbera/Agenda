@@ -36,6 +36,7 @@ public class VentanaDomicilio extends JFrame {
 	public VentanaDomicilio() 
 	{
 		super();
+		IntermediarioVista.cambiarLookAndFeel(VentanaDomicilio.class.getName());
 		configurarVentana();
 		configurarPanel();	
 		agregarComponentes();
@@ -44,8 +45,10 @@ public class VentanaDomicilio extends JFrame {
 	
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 597, 312);
+		setBounds(100, 100, 566, 285);
 		this.setVisible(false);
+		setTitle("Domicilio");
+		setResizable(false);
 	}
 	
 	private void configurarPanel() {
@@ -55,39 +58,39 @@ public class VentanaDomicilio extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 561, 255);
+		panel.setBounds(0, 0, 561, 255);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
 		
 	private void agregarComponentes() {		
 		this.lblPais = new JLabel("Pais");
-		this.lblPais.setBounds(38, 77, 56, 16);
+		this.lblPais.setBounds(10, 74, 56, 16);
 		this.panel.add(lblPais);
 		
 		this.lblProvincia = new JLabel("Provincia");
-		this.lblProvincia.setBounds(38, 127, 56, 16);
+		this.lblProvincia.setBounds(10, 124, 56, 16);
 		this.panel.add(lblProvincia);
 		
 		this.lblLocalidad = new JLabel("Localidad");
-		this.lblLocalidad.setBounds(38, 177, 56, 16);
+		this.lblLocalidad.setBounds(10, 174, 56, 16);
 		this.panel.add(lblLocalidad);
 		
 		this.cmbPais = new JComboBox<String>();
-		this.cmbPais.setBounds(104, 70, 177, 25);
+		this.cmbPais.setBounds(76, 70, 177, 25);
 		this.panel.add(cmbPais);
 		
 		this.cmbProvincia = new JComboBox<String>();
-		this.cmbProvincia.setBounds(104, 120, 177, 25);
+		this.cmbProvincia.setBounds(76, 120, 177, 25);
 		this.panel.add(cmbProvincia);
 		
 		this.cmbLocalidad = new JComboBox<String>();
-		this.cmbLocalidad.setBounds(104, 170, 177, 25);
+		this.cmbLocalidad.setBounds(76, 170, 177, 25);
 		this.panel.add(cmbLocalidad);
 		
 		this.lblDomicilio = new JLabel("Datos del domicilio:");
 		this.lblDomicilio.setFont(new Font("Tahoma", Font.BOLD, 20));
-		this.lblDomicilio.setBounds(98, 11, 236, 25);
+		this.lblDomicilio.setBounds(150, 11, 236, 25);
 		this.panel.add(lblDomicilio);
 		
 		txtCalle = new JTextField();
@@ -104,7 +107,7 @@ public class VentanaDomicilio extends JFrame {
 		panel.add(btnAceptar);
 
 		btnCambiar = new JButton("Cambiar");
-		btnCambiar.setBounds(100, 221, 177, 23);
+		btnCambiar.setBounds(76, 221, 177, 23);
 		panel.add(btnCambiar);
 		
 		txtAltura = new JTextField();
@@ -118,15 +121,15 @@ public class VentanaDomicilio extends JFrame {
 		panel.add(txtPiso);
 		
 		JLabel lblCalle = new JLabel("Calle:");
-		lblCalle.setBounds(311, 78, 46, 14);
+		lblCalle.setBounds(305, 75, 46, 14);
 		panel.add(lblCalle);
 		
 		JLabel lblPiso = new JLabel("Piso:");
-		lblPiso.setBounds(318, 178, 46, 14);
+		lblPiso.setBounds(305, 175, 46, 14);
 		panel.add(lblPiso);
 		
-		JLabel lblAltura = new JLabel("Altura");
-		lblAltura.setBounds(318, 127, 46, 14);
+		JLabel lblAltura = new JLabel("Altura:");
+		lblAltura.setBounds(305, 125, 46, 14);
 		panel.add(lblAltura);
 		
 		btnCambiarCalle = new JButton("Cambiar");
