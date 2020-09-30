@@ -3,6 +3,8 @@ package dto;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import presentacion.vista.ContactoPreferente;
+
 public class PersonaDTO 
 {
 	private int id;
@@ -10,16 +12,18 @@ public class PersonaDTO
 	private String telefono;
 	private String nacimiento;
 	private String email;
-    private String contactoId;
+    private String tipoContacto;
+    private String contactoPreferente;
     
-	public PersonaDTO(int id, String nombre, String telefono, String nacimiento, String email, String contactoId)
+	public PersonaDTO(int id, String nombre, String telefono, String nacimiento, String email, String contactoId, String contactoPreferente)
 	{
 		this.id = id;
 		this.nombre = nombre;
 		this.telefono = telefono;
 		this.nacimiento = nacimiento;
 		this.email = email;
-		this.contactoId = contactoId;
+		this.tipoContacto = contactoId;
+		this.contactoPreferente = contactoPreferente;
 	}
 	
 	public int getId() 
@@ -41,7 +45,17 @@ public class PersonaDTO
 	{
 		this.nombre = nombre;
 	}
+	
+	public String getContactoPreferente() 
+	{
+		return this.contactoPreferente;
+	}
 
+	public void setContactoPreferente(String contactoPreferente) 
+	{
+		this.contactoPreferente = contactoPreferente;
+	}
+	
 	public String getTelefono() 
 	{
 		return this.telefono;
@@ -61,29 +75,32 @@ public class PersonaDTO
 	}
 
 	public String getContactoId() {
-		return contactoId;
+		return tipoContacto;
 	}
 	
 	public void setContactoId(String otroTipoContacto) {
-		contactoId = otroTipoContacto;
+		tipoContacto = otroTipoContacto;
 	}
 	public String isValid() {
-	if (this.getNombre().isEmpty()) {
+	if (this.getNombre().isEmpty()) 
 		return "El nombre es obligatorio";
+	if(!this.getEmail().isEmpty() && !isValidEmail(this.getEmail()))
+		return "Email ingresado inválido!";
+	if(this.getContactoPreferente().equals(ContactoPreferente.Email.toString())) {
+		if(this.getEmail().isEmpty())
+			return "El medio de contacto preferente no puede estar vacío!";
 	}
-	if (this.getTelefono().isEmpty() && this.getEmail().isEmpty()) {
-		return "Debe tener al menos una forma de contacto: Email o telefono.";
+	else {
+		if(this.getTelefono().isEmpty())
+			return "El medio de contacto preferente no puede estar vacío!";
 	}
-	if (!isValidEmail(this.getEmail())) {
-		return "Email ingresado inválido";
-	}
-	return "";
+		return "";
 	}
 
 	private boolean isValidEmail(String email) {
 		Pattern pattern = Pattern.compile("[a-z](\\.-_[a-z0-9]+)*[a-z0-9]*@[a-z]+(\\.[a-z]+)+");
 		Matcher mather = pattern.matcher(email);
-		return !mather.find() && !email.isEmpty() ? false : true;
+		return !mather.find() ? false : true;
 	}
 
 	public void setNacimiento(String nacimiento) {

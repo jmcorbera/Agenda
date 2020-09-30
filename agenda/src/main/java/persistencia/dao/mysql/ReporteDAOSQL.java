@@ -46,9 +46,10 @@ public class ReporteDAOSQL implements ReporteDAO
 		String nacimiento = resultSet.getString("p.nacimiento");
 		String email = resultSet.getString("p.email");
 		String contactoId = resultSet.getString("p.contactoId");
-	
+		String contactoPreferente = resultSet.getString("p.contactoPreferente");
+		
 		int idLocalidad = resultSet.getInt("l.id");
-		PersonaDTO persona = new PersonaDTO(id, nombre, tel, nacimiento, email,contactoId);
+		PersonaDTO persona = new PersonaDTO(id, nombre, tel, nacimiento, email,contactoId, contactoPreferente);
 		LocalidadDAOSQL laux = new LocalidadDAOSQL();
 		LocalidadDTO localidad = laux.getLocalidad(idLocalidad);
 		return new ReporteDTO(persona, localidad);

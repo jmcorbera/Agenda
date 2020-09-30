@@ -18,6 +18,8 @@ import presentacion.vista.VentanaEditarPersona;
 import presentacion.vista.VentanaNacimiento;
 import presentacion.vista.VentanaNuevoPaisOContacto;
 import presentacion.vista.VentanaPersona;
+import presentacion.vista.ContactoPreferente;
+import presentacion.vista.IntermediarioVista;
 import presentacion.vista.VentanaABMTipoContacto;
 import presentacion.vista.Vista;
 import dto.ContactoDTO;
@@ -51,7 +53,6 @@ public class Controlador implements ActionListener {
 		this.ventanaNacimiento = new VentanaNacimiento();
 		if(ventanaNacimiento.getBtnAgregarNacimiento().getActionListeners().length == 0) 
 			ventanaNacimiento.getBtnAgregarNacimiento().addActionListener(a -> actualizarFecha());
-		
 	}
 	
 	private void actualizarFecha() {
@@ -72,9 +73,8 @@ public class Controlador implements ActionListener {
 			editarContacto.getBtnAceptar().addActionListener(c -> editarTipoContacto(editarContacto));
 			editarContacto.getBtnCancelar().addActionListener(c -> editarContacto.cerrar());
 			editarContacto.mostrar();
-		} else {
+		} else 
 			JOptionPane.showMessageDialog(ventanaTipoContacto, mensajes[1]);
-		}
 	}
 
 	private void configurarVista(Vista vista) {
@@ -109,6 +109,7 @@ public class Controlador implements ActionListener {
 	private void configurarVentanaPersona() {
 		this.ventanaPersona = VentanaPersona.getInstance();
 		mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
+		cambiarModeloContactoPreferente(ventanaPersona.getJComboBoxContactoPreferente());
 		if(ventanaPersona.getBtnAgregarPersona().getActionListeners().length == 0)
 			this.ventanaPersona.getBtnAgregarPersona().addActionListener(p -> guardarPersona(getPersonaAAgregar()));
 		if(ventanaPersona.getBtnNacimiento().getActionListeners().length == 0)
@@ -117,6 +118,20 @@ public class Controlador implements ActionListener {
 			this.ventanaPersona.getBtnDomicilio().addActionListener(n -> controladorUbicacion.configurarVentanaNuevoDomicilio(personasEnTabla.size()));
 	}
 	
+	private void cambiarModeloContactoPreferente(JComboBox<String> cmbBoxPreferentes) {
+		String[] preferentes = obtenerMedioContactoPreferente();
+		IntermediarioVista.setModel(cmbBoxPreferentes,preferentes);	
+	}
+
+	private String[] obtenerMedioContactoPreferente() {
+		String[] medioContactoPreferentes;
+		int lengthPreferentes = ContactoPreferente.values().length;
+		medioContactoPreferentes = new String[lengthPreferentes];
+		for(int i = 0; i < lengthPreferentes ; i++)
+			medioContactoPreferentes[i] = ContactoPreferente.values()[i].toString();
+		return medioContactoPreferentes;
+	}
+
 	private void configurarVentanaEditarPersona() {
 		PersonaDTO personaSeleccionada = getPersonaSeleccionada();
 		if (personaSeleccionada != null) {
@@ -124,6 +139,8 @@ public class Controlador implements ActionListener {
 			ventanaEditarPersona.mostrar();
 			cambiarValoresDeElementos(personaSeleccionada);
 			agregarListeners(personaSeleccionada);
+			cambiarModeloContactoPreferente(ventanaEditarPersona.getJComboBoxContactoPreferente());
+			mostrarContactoPreferenteSeleccionadoPrimero(personaSeleccionada);
 			if(ventanaEditarPersona.getBtnEditarNacimiento().getActionListeners().length == 0)
 				ventanaEditarPersona.getBtnEditarNacimiento().addActionListener(a -> ventanaNacimiento.mostrarVentana());
 			if(ventanaEditarPersona.getBtnDomicilio().getActionListeners().length == 0)
@@ -134,19 +151,11 @@ public class Controlador implements ActionListener {
 				ventanaEditarPersona.getBtnEliminarDomicilio().addActionListener(a -> eliminarDomicilio(personaSeleccionada.getId()));
 			if(ventanaEditarPersona.getBtnEliminarNacimiento().getActionListeners().length == 0)
 				ventanaEditarPersona.getBtnEliminarNacimiento().addActionListener(a -> eliminarNacimiento(personaSeleccionada));
-			if(ventanaEditarPersona.getBtnEliminarTipoContacto().getActionListeners().length == 0)
-				ventanaEditarPersona.getBtnEliminarTipoContacto().addActionListener(a -> eliminarTipoContacto(personaSeleccionada));
-		} else {
+			} 
+		else 
 			JOptionPane.showMessageDialog(ventanaPersona, mensajes[0]);
-		}
 	}
 	
-	private void eliminarTipoContacto(PersonaDTO personaSeleccionada) {
-		personaSeleccionada.setContactoId("");
-		ventanaEditarPersona.getComboBoxTipoContacto().setSelectedItem(null);
-		JOptionPane.showMessageDialog(ventanaEditarPersona, mensajes[3]);
-	}
-
 	private void eliminarNacimiento(PersonaDTO personaSeleccionada) {
 		personaSeleccionada.setNacimiento("");
 		ventanaEditarPersona.getTxtFechaNacimiento().setText("");
@@ -232,6 +241,23 @@ public class Controlador implements ActionListener {
 			modeloLista.setSelectedItem(null);
 	}
 	
+	private void mostrarContactoPreferenteSeleccionadoPrimero(PersonaDTO personaSeleccionada) {
+		ComboBoxModel<String> modeloLista = ventanaEditarPersona.getJComboBoxContactoPreferente().getModel();
+		int largoLista = modeloLista.getSize();
+		if (largoLista > 0) {
+			String primero = modeloLista.getElementAt(0);
+			modeloLista.setSelectedItem(personaSeleccionada.getContactoPreferente());
+			@SuppressWarnings("unused")
+			String cambiarPrimero = modeloLista.getElementAt(0);
+			cambiarPrimero = personaSeleccionada.getContactoPreferente();
+			@SuppressWarnings("unused")
+			String cambiarUltimo = modeloLista.getElementAt(largoLista);
+			cambiarUltimo = primero;
+		}
+		if(personaSeleccionada.getContactoId() == null)
+			modeloLista.setSelectedItem(null);
+	}
+	
 	private void modificarTxtNacimiento(JTextField txtNacimiento) {
 		txtNacimiento.setText(crearStringFecha(ventanaNacimiento.getFecha().getDate()));
 		ventanaNacimiento.cerrar();
@@ -242,14 +268,15 @@ public class Controlador implements ActionListener {
 		String telefono = !ventanaEditarPersona.getTxtTelefono().isEnabled() ? personaSinEditar.getTelefono(): ventanaEditarPersona.getTxtTelefono().getText();
 		String nacimiento = !ventanaEditarPersona.getTxtFechaNacimiento().isEditable() ? personaSinEditar.getNacimiento(): crearStringFecha(ventanaNacimiento.getFecha().getDate());
 		String email = !ventanaEditarPersona.getTxtEmail().isEnabled() ? personaSinEditar.getEmail(): ventanaEditarPersona.getTxtEmail().getText();
-		String contactoId = !ventanaEditarPersona.getComboBoxTipoContacto().isEnabled() ? personaSinEditar.getContactoId(): ventanaEditarPersona.getComboBoxTipoContacto().getItemAt(ventanaEditarPersona.getComboBoxTipoContacto().getSelectedIndex());
-		return new PersonaDTO(personaSinEditar.getId(), nombre, telefono, nacimiento, email, contactoId);
+		String contactoId = !ventanaEditarPersona.getComboBoxTipoContacto().isEnabled() ? personaSinEditar.getContactoId(): IntermediarioVista.obtenerNombreSeleccionado(ventanaEditarPersona.getComboBoxTipoContacto().getSelectedItem());
+		return new PersonaDTO(personaSinEditar.getId(), nombre, telefono, nacimiento, email, contactoId, IntermediarioVista.obtenerNombreSeleccionado(ventanaEditarPersona.getJComboBoxContactoPreferente().getSelectedItem()));
 	}
 
 	private PersonaDTO getPersonaAAgregar() {
 		return new PersonaDTO(personasEnTabla.size()+1, ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(),
-				crearStringFecha(ventanaNacimiento.getFecha().getDate()), ventanaPersona.getTxtEmail().getText(), ventanaPersona.getJComboBoxTipoContacto()
-						.getItemAt(ventanaPersona.getJComboBoxTipoContacto().getSelectedIndex()));
+				crearStringFecha(ventanaNacimiento.getFecha().getDate()), ventanaPersona.getTxtEmail().getText(), 
+				IntermediarioVista.obtenerNombreSeleccionado(ventanaPersona.getJComboBoxTipoContacto().getSelectedItem()), 
+				IntermediarioVista.obtenerNombreSeleccionado(ventanaPersona.getJComboBoxContactoPreferente().getSelectedItem()));
 	}
 
 	private void actualizarPersona(PersonaDTO personaEditada) {
@@ -343,9 +370,8 @@ public class Controlador implements ActionListener {
 			mostrarListaContactosPredeterminados();
 			mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
 		}
-		else {
+		else 
 			JOptionPane.showMessageDialog(v, mensajeValidezContacto);
-		}
 	}
 
 	private void editarTipoContacto(VentanaEditarContactoOPais v) {
@@ -356,9 +382,8 @@ public class Controlador implements ActionListener {
 			mostrarListaContactosPredeterminados();
 			mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
 		}
-		else {
+		else 
 			JOptionPane.showMessageDialog(v, mensajeValidezContacto);
-		}
 	}
 
 	private void eliminarContacto() {
@@ -367,9 +392,8 @@ public class Controlador implements ActionListener {
 			this.agenda.borrarContacto(seleccionado);
 			mostrarListaContactosPredeterminados();
 			mostrarDesplegableTipoContacto(ventanaPersona.getCBTipoContacto());
-		} else {
+		} else 
 			JOptionPane.showMessageDialog(ventanaTipoContacto, mensajes[1]);
-		}
 	}
 
 	private String crearStringFecha(Object object) {

@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `personas`
   `nacimiento` date DEFAULT NULL, 
   `email` text DEFAULT NULL,
   `contactoId` varchar(20) DEFAULT NULL,
+  `contactoPreferente` text NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`contactoId`) REFERENCES `tipoContacto`(`nombreContacto`)
 );

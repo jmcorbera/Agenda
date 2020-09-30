@@ -13,10 +13,10 @@ import dto.PersonaDTO;
 
 public class PersonaDAOSQL implements PersonaDAO
 {
-	private static final String insert = "INSERT INTO personas(id, nombre, telefono, nacimiento, email, contactoId) VALUES(?, ?, ?, ?, ?, ?)";
+	private static final String insert = "INSERT INTO personas(id, nombre, telefono, nacimiento, email, contactoId, contactoPreferente) VALUES(?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE id = ?";
 	private static final String readall = "SELECT * FROM personas";
-	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, nacimiento = ?, email = ?, contactoId = ? WHERE id = ? ";
+	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, nacimiento = ?, email = ?, contactoId = ?, contactoPreferente = ? WHERE id = ? ";
 
 		
 	public boolean insert(PersonaDTO persona)
@@ -44,6 +44,7 @@ public class PersonaDAOSQL implements PersonaDAO
 				statement.setString(6, persona.getContactoId());
 			else
 				statement.setObject(6,null);
+			statement.setString(7, persona.getContactoPreferente());
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -84,7 +85,8 @@ public class PersonaDAOSQL implements PersonaDAO
 			statement.setString(4, persona.getEmail());
 
 			statement.setString(5, persona.getContactoId());
-			statement.setInt(6, idPersona);
+			statement.setString(6, persona.getContactoPreferente());
+			statement.setInt(7, idPersona);
 			if(statement.executeUpdate() > 0)
 			{
 				conexion.commit();
@@ -157,6 +159,7 @@ public class PersonaDAOSQL implements PersonaDAO
 		String nacimiento = resultSet.getString("nacimiento");
 		String email = resultSet.getString("email");
 		String contactoId = resultSet.getString("contactoId");
-		return new PersonaDTO(id, nombre, tel, nacimiento, email,contactoId);
+		String contactoPreferente = resultSet.getString("contactoPreferente");
+		return new PersonaDTO(id, nombre, tel, nacimiento, email,contactoId, contactoPreferente);
 	}
 }

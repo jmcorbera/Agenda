@@ -2,7 +2,6 @@ package presentacion.controlador;
 
 import java.util.List;
 import javax.swing.ComboBoxModel;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import dto.DomicilioDTO;
@@ -10,6 +9,7 @@ import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
 import modelo.Agenda;
+import presentacion.vista.IntermediarioVista;
 import presentacion.vista.VentanaABMUbicacion;
 import presentacion.vista.VentanaDomicilio;
 import presentacion.vista.VentanaEditarContactoOPais;
@@ -34,7 +34,7 @@ public class ControladorUbicacion {
 
 	private void configurarVentanaABMLocalidades() {
 
-		actualizarComboBox(ventanaAMBLocalidad.getComboBoxPais(), ObtenerNombrePaises());
+		IntermediarioVista.actualizarComboBox(ventanaAMBLocalidad.getComboBoxPais(), ObtenerNombrePaises());
 		deshabilitarCombosDependientes();
 		if(ventanaAMBLocalidad.getBtnAgregarPais().getActionListeners().length == 0)
 			this.ventanaAMBLocalidad.getBtnAgregarPais().addActionListener(l -> configurarVentanaNuevoPais());
@@ -55,28 +55,15 @@ public class ControladorUbicacion {
 		if(ventanaAMBLocalidad.getBtnEliminarLocalidad().getActionListeners().length == 0)
 			this.ventanaAMBLocalidad.getBtnEliminarLocalidad().addActionListener(l -> borrarLocalidad());
 		if(ventanaAMBLocalidad.getComboBoxPais().getActionListeners().length == 0)
-			this.ventanaAMBLocalidad.getComboBoxPais().addActionListener(l -> actualizarComboBox(ventanaAMBLocalidad.getComboBoxProvincia(), ObtenerNombreProvinciasPorPais(
-						obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem()))));
+			this.ventanaAMBLocalidad.getComboBoxPais().addActionListener(l -> IntermediarioVista.actualizarComboBox(ventanaAMBLocalidad.getComboBoxProvincia(), ObtenerNombreProvinciasPorPais(
+						IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem()))));
 		if(ventanaAMBLocalidad.getComboBoxProvincia().getActionListeners().length == 0)
-			this.ventanaAMBLocalidad.getComboBoxProvincia().addActionListener(l -> actualizarComboBox(ventanaAMBLocalidad.getComboBoxLocalidad(),
-						ObtenerNombreLocalidadadesPorPaisYProvincia(obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem()),
-								obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem()))));
+			this.ventanaAMBLocalidad.getComboBoxProvincia().addActionListener(l -> IntermediarioVista.actualizarComboBox(ventanaAMBLocalidad.getComboBoxLocalidad(),
+						ObtenerNombreLocalidadadesPorPaisYProvincia(IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem()),
+								IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem()))));
 		this.refrescarListaPaises();
 		this.refrescarListaProvincias();
 		this.refrescarListaLocalidades();
-	}
-
-	private void actualizarComboBox(JComboBox<String> comboBox, String[] nombres) {
-		comboBox.removeAllItems();
-		if (nombres != null) {
-			comboBox.setEnabled(true);
-			setModel(comboBox, nombres);
-		}
-	}
-
-	private void setModel(JComboBox<String> comboBox, String[] nombres) {
-		DefaultComboBoxModel<String> model = new DefaultComboBoxModel<String>(nombres);
-		comboBox.setModel(model);
 	}
 
 	private String[] ObtenerNombrePaises() {
@@ -109,21 +96,21 @@ public class ControladorUbicacion {
 	}
 
 	private void refrescarListaLocalidades() {
-		actualizarComboBox(ventanaAMBLocalidad.getComboBoxLocalidad(),
+		IntermediarioVista.actualizarComboBox(ventanaAMBLocalidad.getComboBoxLocalidad(),
 				ObtenerNombreLocalidadadesPorPaisYProvincia(
-						obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem()),
-						obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem())));
+						IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem()),
+						IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem())));
 		this.ventanaAMBLocalidad.limpiarCombos();
 	}
 
 	private void refrescarListaPaises() {
-		actualizarComboBox(ventanaAMBLocalidad.getComboBoxPais(), ObtenerNombrePaises());
+		IntermediarioVista.actualizarComboBox(ventanaAMBLocalidad.getComboBoxPais(), ObtenerNombrePaises());
 		this.ventanaAMBLocalidad.limpiarCombos();
 	}
 
 	private void refrescarListaProvincias() {
-		actualizarComboBox(ventanaAMBLocalidad.getComboBoxProvincia(), ObtenerNombreProvinciasPorPais(
-				obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem())));
+		IntermediarioVista.actualizarComboBox(ventanaAMBLocalidad.getComboBoxProvincia(), ObtenerNombreProvinciasPorPais(
+				IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem())));
 		this.ventanaAMBLocalidad.limpiarCombos();
 	}
 
@@ -213,7 +200,7 @@ public class ControladorUbicacion {
 	// ABM Provincia
 	private void configurarVentanaNuevaProvincia() {
 		VentanaNuevaProvinciaOLocalidad ventanaNuevaProvincia = new VentanaNuevaProvinciaOLocalidad();
-		actualizarComboBox(ventanaNuevaProvincia.getComboBoxPadre(), ObtenerNombrePaises());
+		IntermediarioVista.actualizarComboBox(ventanaNuevaProvincia.getComboBoxPadre(), ObtenerNombrePaises());
 		ventanaNuevaProvincia.getBtnAceptar().addActionListener(n -> agregarProvincia(ventanaNuevaProvincia));
 		ventanaNuevaProvincia.getBtnCancelar().addActionListener(c -> ventanaNuevaProvincia.cerrar());
 		ventanaNuevaProvincia.getBtnCambiar().setVisible(false);
@@ -270,7 +257,7 @@ public class ControladorUbicacion {
 		try {
 			String provinciaSeleccionada = this.ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem().toString();
 			VentanaNuevaProvinciaOLocalidad editarProvincia = new VentanaNuevaProvinciaOLocalidad();
-			actualizarComboBox(editarProvincia.getComboBoxPadre(), ObtenerNombrePaises());
+			IntermediarioVista.actualizarComboBox(editarProvincia.getComboBoxPadre(), ObtenerNombrePaises());
 			
 			editarProvincia.getTxtNombre().setEnabled(false);
 			editarProvincia.getTxtNombre().setText(provinciaSeleccionada);
@@ -320,13 +307,13 @@ public class ControladorUbicacion {
 
 	// ABM Localidad
 	private void configurarVentanaNuevaLocalidad() {
-		if (obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxLocalidad().getSelectedItem()).isEmpty()) {
+		if (IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxLocalidad().getSelectedItem()).isEmpty()) {
 			JOptionPane.showMessageDialog(ventanaAMBLocalidad, mensajes[2]);
 			return;
 		}
 		VentanaNuevaProvinciaOLocalidad ventanaNuevaLocalidad = new VentanaNuevaProvinciaOLocalidad();
 		ventanaNuevaLocalidad.getLblPadreAlQuePertenece().setText("Provincia a la que pertenece: ");
-		actualizarComboBox(ventanaNuevaLocalidad.getComboBoxPadre(),ObtenerNombreProvinciasPorPais(obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais())));
+		IntermediarioVista.actualizarComboBox(ventanaNuevaLocalidad.getComboBoxPadre(),ObtenerNombreProvinciasPorPais(IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais())));
 		ventanaNuevaLocalidad.getBtnAceptar().addActionListener(n -> agregarLocalidad(ventanaNuevaLocalidad));
 		ventanaNuevaLocalidad.getBtnCancelar().addActionListener(c -> ventanaNuevaLocalidad.cerrar());
 		ventanaNuevaLocalidad.getBtnCambiar().setVisible(false);
@@ -355,8 +342,8 @@ public class ControladorUbicacion {
 	// Baja
 	private void borrarLocalidad() {
 		try {
-			LocalidadDTO localidad = agenda.obtenerLocalidad(obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxLocalidad()), 
-					agenda.obtenerPaisPorNombre(obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais())).getIdPais());
+			LocalidadDTO localidad = agenda.obtenerLocalidad(IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxLocalidad()), 
+					agenda.obtenerPaisPorNombre(IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais())).getIdPais());
 			this.agenda.borrarLocalidad(localidad);
 			refrescarListaLocalidades();
 			deshabilitarCombosDependientes();
@@ -372,7 +359,7 @@ public class ControladorUbicacion {
 		try {
 			String localidadSeleccionada = this.ventanaAMBLocalidad.getComboBoxLocalidad().getSelectedItem().toString();
 			VentanaNuevaProvinciaOLocalidad editarLocalidad = new VentanaNuevaProvinciaOLocalidad();
-			actualizarComboBox(editarLocalidad.getComboBoxPadre(), ObtenerNombreProvinciasPorPais(obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem())));
+			IntermediarioVista.actualizarComboBox(editarLocalidad.getComboBoxPadre(), ObtenerNombreProvinciasPorPais(IntermediarioVista.obtenerNombreSeleccionado(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem())));
 
 			editarLocalidad.getLblPadreAlQuePertenece().setText("Provincia a la que pertenece");
 			editarLocalidad.getTxtNombre().setEnabled(false);
@@ -412,10 +399,6 @@ public class ControladorUbicacion {
 		}
 	}
 
-	private String obtenerNombreSeleccionado(Object seleccionado) {
-		return seleccionado != null ? seleccionado.toString() : "";
-	}
-
 	private boolean existePais(String pais) {
 		return agenda.existsPais(pais);
 	}
@@ -436,7 +419,7 @@ public class ControladorUbicacion {
 		ventanaDomicilio = new VentanaDomicilio();
 		vaciarCombosDomicilio();
 		ventanaDomicilio.mostrarVentana();
-		actualizarComboBox(ventanaDomicilio.getComboBoxPais(), ObtenerNombrePaises());
+		IntermediarioVista.actualizarComboBox(ventanaDomicilio.getComboBoxPais(), ObtenerNombrePaises());
 		ventanaDomicilio.getComboBoxProvincia().setEnabled(false);
 		ventanaDomicilio.getComboBoxLocalidad().setEnabled(false);
 		if (ventanaDomicilio.getBtnCancelar().getActionListeners().length == 0)
@@ -611,7 +594,7 @@ public class ControladorUbicacion {
 	private void modificarValoresSegunClick() {
 		vaciarCombosDomicilio();
 		if (ventanaDomicilio.getBtnCambiar().getText().equals("Cambiar")) {
-			actualizarComboBox(ventanaDomicilio.getComboBoxPais(), ObtenerNombrePaises());
+			IntermediarioVista.actualizarComboBox(ventanaDomicilio.getComboBoxPais(), ObtenerNombrePaises());
 			ventanaDomicilio.getBtnCambiar().setText("Restablecer");
 		} else {
 			mostrarValoresPredeterminados();
@@ -625,12 +608,12 @@ public class ControladorUbicacion {
 
 	private void agregarListenersMostrarUbicaciones() {
 			if(ventanaDomicilio.getComboBoxPais().getActionListeners().length == 0)
-					ventanaDomicilio.getComboBoxPais().addActionListener(a -> actualizarComboBox(ventanaDomicilio.getComboBoxProvincia(), 
-					ObtenerNombreProvinciasPorPais(obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxPais().getSelectedItem()))));
+					ventanaDomicilio.getComboBoxPais().addActionListener(a -> IntermediarioVista.actualizarComboBox(ventanaDomicilio.getComboBoxProvincia(), 
+					ObtenerNombreProvinciasPorPais(IntermediarioVista.obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxPais().getSelectedItem()))));
 		    if(ventanaDomicilio.getComboBoxProvincia().getActionListeners().length == 0)
-		    		ventanaDomicilio.getComboBoxProvincia().addActionListener(a -> actualizarComboBox(ventanaDomicilio.getComboBoxLocalidad(),
-					ObtenerNombreLocalidadadesPorPaisYProvincia(obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxProvincia().getSelectedItem()),
-					obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxPais().getSelectedItem()))));
+		    		ventanaDomicilio.getComboBoxProvincia().addActionListener(a -> IntermediarioVista.actualizarComboBox(ventanaDomicilio.getComboBoxLocalidad(),
+					ObtenerNombreLocalidadadesPorPaisYProvincia(IntermediarioVista.obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxProvincia().getSelectedItem()),
+							IntermediarioVista.obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxPais().getSelectedItem()))));
 	}
 
 	private void vaciarCombosDomicilio() {

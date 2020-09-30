@@ -36,8 +36,9 @@ public class VentanaEditarPersona extends JFrame {
 	private JButton btnDomicilio;
 	private JLabel lblDomicilio;
 	private static VentanaEditarPersona INSTANCE;
-	private JButton btnEliminarTipoContacto;
 	private JButton btnEliminarDomicilio;
+	private JLabel lblContactoPreferente;
+	private JComboBox<String> cBContactoPreferente;
 	
 	public static VentanaEditarPersona getInstance(int idContacto) {
 		if (INSTANCE == null) {
@@ -78,7 +79,7 @@ public class VentanaEditarPersona extends JFrame {
 		panel.add(txtTelefono);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(227, 256, 89, 23);
+		btnAceptar.setBounds(228, 287, 89, 23);
 		panel.add(btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -87,7 +88,7 @@ public class VentanaEditarPersona extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setBounds(329, 256, 89, 23);
+		btnCancelar.setBounds(329, 287, 89, 23);
 		panel.add(btnCancelar);	
 		
 		btnCambiarNombre = new JButton("Cambiar");
@@ -124,7 +125,7 @@ public class VentanaEditarPersona extends JFrame {
 		panel.add(txtFechaNacimiento);
 		
 		cBTipoContacto = new JComboBox<String>();
-		cBTipoContacto.setBounds(119, 180, 177, 24);
+		cBTipoContacto.setBounds(151, 180, 177, 24);
 		panel.add(cBTipoContacto);
 		
 		btnCambiarEmail = new JButton("Cambiar");
@@ -141,11 +142,11 @@ public class VentanaEditarPersona extends JFrame {
 		panel.add(lblFormatoFecha);
 		
 		btnDomicilio = new JButton("Editar");
-		btnDomicilio.setBounds(118, 215, 178, 23);
+		btnDomicilio.setBounds(151, 253, 178, 23);
 		panel.add(btnDomicilio);
 		
 		lblDomicilio = new JLabel("Domicilio:");
-		lblDomicilio.setBounds(10, 219, 97, 14);
+		lblDomicilio.setBounds(10, 257, 97, 14);
 		panel.add(lblDomicilio);
 		ImageIcon borrar = new ImageIcon("./imagenes/borrar.png");
 		btnEliminarNacimiento = new JButton("");
@@ -153,15 +154,18 @@ public class VentanaEditarPersona extends JFrame {
 		btnEliminarNacimiento.setIcon(borrar);
 		panel.add(btnEliminarNacimiento);
 		
-		btnEliminarTipoContacto = new JButton("");
-		btnEliminarTipoContacto.setBounds(321, 181, 46, 23);
-		btnEliminarTipoContacto.setIcon(borrar);
-		panel.add(btnEliminarTipoContacto);
-		
 		btnEliminarDomicilio = new JButton("");
-		btnEliminarDomicilio.setBounds(321, 215, 46, 23);
+		btnEliminarDomicilio.setBounds(351, 253, 46, 23);
 		btnEliminarDomicilio.setIcon(borrar);
 		panel.add(btnEliminarDomicilio);
+		
+		lblContactoPreferente = new JLabel("Medio contacto preferente:");
+		lblContactoPreferente.setBounds(10, 223, 150, 14);
+		panel.add(lblContactoPreferente);
+		
+		cBContactoPreferente = new JComboBox<String>();
+		cBContactoPreferente.setBounds(151, 218, 177, 24);
+		panel.add(cBContactoPreferente);
 	}
 
 	private void configurarPanel() {
@@ -171,7 +175,7 @@ public class VentanaEditarPersona extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 428, 287);
+		panel.setBounds(10, 11, 428, 321);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
@@ -196,7 +200,7 @@ public class VentanaEditarPersona extends JFrame {
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 451, 336);
+		setBounds(100, 100, 451, 372);
 		setTitle("Editar Persona");
 		setResizable(false);
 	}
@@ -259,8 +263,9 @@ public class VentanaEditarPersona extends JFrame {
 	public JButton getBtnEliminarNacimiento() {
 		return btnEliminarNacimiento;
 	}
-	
-	public JButton getBtnEliminarTipoContacto() {
-		return btnEliminarTipoContacto;
+
+	public JComboBox<String> getJComboBoxContactoPreferente() {
+		return cBContactoPreferente;
 	}
+
 }

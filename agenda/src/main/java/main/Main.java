@@ -18,8 +18,7 @@ public class Main
 	{	
 		VentanaLogin ventanaLogin = new VentanaLogin();
 		ventanaLogin.mostrar();
-		ventanaLogin.getBtnAceptar().addActionListener(a -> ingresar(ventanaLogin));
-		
+		ventanaLogin.getBtnAceptar().addActionListener(a -> ingresar(ventanaLogin));	
 	}
 
 	private static void ingresar(VentanaLogin ventanaLogin) {
