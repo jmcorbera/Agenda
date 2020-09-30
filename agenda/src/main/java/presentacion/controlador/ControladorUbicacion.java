@@ -417,15 +417,14 @@ public class ControladorUbicacion {
 
 	private void configurarVentanaDomicilio(int id) {
 		ventanaDomicilio = new VentanaDomicilio();
+		ventanaDomicilio.eliminarActionListeners();
 		vaciarCombosDomicilio();
 		ventanaDomicilio.mostrarVentana();
 		IntermediarioVista.actualizarComboBox(ventanaDomicilio.getComboBoxPais(), ObtenerNombrePaises());
 		ventanaDomicilio.getComboBoxProvincia().setEnabled(false);
 		ventanaDomicilio.getComboBoxLocalidad().setEnabled(false);
-		if (ventanaDomicilio.getBtnCancelar().getActionListeners().length == 0)
-			ventanaDomicilio.getBtnCancelar().addActionListener(a -> cerrarVentanaDomicilio());
-		if (ventanaDomicilio.getBtnAceptar().getActionListeners().length == 0)
-			ventanaDomicilio.getBtnAceptar().addActionListener(a -> guardarDomicilio(id));
+		ventanaDomicilio.getBtnCancelar().addActionListener(a -> cerrarVentanaDomicilio());
+		ventanaDomicilio.getBtnAceptar().addActionListener(a -> guardarDomicilio(id));
 	}
 
 	private void guardarDomicilio(int id) {
@@ -463,29 +462,30 @@ public class ControladorUbicacion {
 	}
 
 	protected void configurarVentanaNuevoDomicilio(int id) {
-		configurarVentanaDomicilio(id);
-		ventanaDomicilio.ocultarBotonesCambiar();
-		agregarListenersMostrarUbicaciones();
+		if(ventanaDomicilio == null) {
+			configurarVentanaDomicilio(id);
+			ventanaDomicilio.ocultarBotonesCambiar();
+			agregarListenersMostrarUbicaciones();
+		}
 	}
 
 	protected void configurarVentanaEditarDomicilio(int idPersona) {
-		configurarVentanaDomicilio(idPersona);
-		obtenerDomicilioActual(idPersona);
-		vaciarCombosDomicilio();
-		ventanaDomicilio.mostrarBotonesCambiar();
-		mostrarValoresPredeterminados();
-		ventanaDomicilio.establecerTextoCambiar();
-		configurarBtnCambiarTxts();
-		configurarBtnCambiarUbicacion();
-		agregarListenersMostrarUbicaciones();
+		if(ventanaDomicilio ==  null) {
+			configurarVentanaDomicilio(idPersona);
+			obtenerDomicilioActual(idPersona);
+			vaciarCombosDomicilio();
+			ventanaDomicilio.mostrarBotonesCambiar();
+			mostrarValoresPredeterminados();
+			ventanaDomicilio.establecerTextoCambiar();
+			configurarBtnCambiarTxts();
+			configurarBtnCambiarUbicacion();
+			agregarListenersMostrarUbicaciones();
+		}
 	}
 
 	private void configurarBtnCambiarTxts() {
-		if (ventanaDomicilio.getBtnCambiarCalle().getActionListeners().length == 0)
 			ventanaDomicilio.getBtnCambiarCalle().addActionListener(a -> configurarBtnCambiarCalle());
-		if (ventanaDomicilio.getBtnCambiarAltura().getActionListeners().length == 0)
 			ventanaDomicilio.getBtnCambiarAltura().addActionListener(a -> configurarBtnCambiarAltura());
-		if (ventanaDomicilio.getBtnCambiarPiso().getActionListeners().length == 0)
 			ventanaDomicilio.getBtnCambiarPiso().addActionListener(a -> configurarBtnCambiarPiso());
 	}
 
@@ -526,16 +526,17 @@ public class ControladorUbicacion {
 		try {
 			mostrarTxtsPredeterminados();
 			PaisDTO pais = agenda.obtenerPaisPorId(domicilio.getIdPais());
-			if (pais != null) {
+			if (pais != null && !pais.getNombre().isEmpty()) {
 				mostrarSeleccionadoPrimero(pais.getNombre(), ventanaDomicilio.getComboBoxPais());
 				ProvinciaDTO provincia = agenda.obtenerProvincia(domicilio.getIdProvincia());
-				if (provincia != null) {
+				if (provincia != null && !provincia.getNombre().isEmpty()) {
 					mostrarSeleccionadoPrimero(provincia.getNombre(), ventanaDomicilio.getComboBoxProvincia());
 					LocalidadDTO localidad = agenda.obtenerLocalidad(domicilio.getIdLocalidad());
-					if (localidad != null)
+					if (localidad != null && !provincia.getNombre().isEmpty())
 						mostrarSeleccionadoPrimero(localidad.getNombre(), ventanaDomicilio.getComboBoxLocalidad());
 				}
 			}
+			ventanaDomicilio.deshabilitarCombos();
 
 		} catch (Exception e) {
 
@@ -549,7 +550,6 @@ public class ControladorUbicacion {
 		}
 		ComboBoxModel<String> modeloLista = combo.getModel();
 		int largoLista = modeloLista.getSize();
-		combo.setEnabled(false);
 		if (largoLista > 0) {
 			String primero = modeloLista.getElementAt(0);
 			modeloLista.setSelectedItem(seleccionado);
@@ -562,6 +562,7 @@ public class ControladorUbicacion {
 		} else {
 			modeloLista.setSelectedItem(seleccionado);
 		}
+		combo.setEnabled(false);
 	}
 
 	private void mostrarTxtsPredeterminados() {
@@ -587,12 +588,12 @@ public class ControladorUbicacion {
 	}
 
 	private void configurarBtnCambiarUbicacion() {
-		if (ventanaDomicilio.getBtnCambiar().getActionListeners().length == 0) 
-			ventanaDomicilio.getBtnCambiar().addActionListener(a -> modificarValoresSegunClick());	
+		ventanaDomicilio.getBtnCambiar().addActionListener(a -> modificarValoresSegunClick());	
 	}
 
 	private void modificarValoresSegunClick() {
-		vaciarCombosDomicilio();
+		ventanaDomicilio.vaciarCombos();
+		ventanaDomicilio.deshabilitarCombos();
 		if (ventanaDomicilio.getBtnCambiar().getText().equals("Cambiar")) {
 			IntermediarioVista.actualizarComboBox(ventanaDomicilio.getComboBoxPais(), ObtenerNombrePaises());
 			ventanaDomicilio.getBtnCambiar().setText("Restablecer");
@@ -603,14 +604,12 @@ public class ControladorUbicacion {
 	}
 
 	private void obtenerDomicilioActual(int idPersona) {
-		domicilio = agenda.obtenerDomicilio(idPersona) != null ? agenda.obtenerDomicilio(idPersona) : null;
+		domicilio = agenda.obtenerDomicilio(idPersona);
 	}
 
 	private void agregarListenersMostrarUbicaciones() {
-			if(ventanaDomicilio.getComboBoxPais().getActionListeners().length == 0)
 					ventanaDomicilio.getComboBoxPais().addActionListener(a -> IntermediarioVista.actualizarComboBox(ventanaDomicilio.getComboBoxProvincia(), 
 					ObtenerNombreProvinciasPorPais(IntermediarioVista.obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxPais().getSelectedItem()))));
-		    if(ventanaDomicilio.getComboBoxProvincia().getActionListeners().length == 0)
 		    		ventanaDomicilio.getComboBoxProvincia().addActionListener(a -> IntermediarioVista.actualizarComboBox(ventanaDomicilio.getComboBoxLocalidad(),
 					ObtenerNombreLocalidadadesPorPaisYProvincia(IntermediarioVista.obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxProvincia().getSelectedItem()),
 							IntermediarioVista.obtenerNombreSeleccionado(ventanaDomicilio.getComboBoxPais().getSelectedItem()))));

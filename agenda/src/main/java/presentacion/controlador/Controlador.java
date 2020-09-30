@@ -27,7 +27,6 @@ import dto.PersonaDTO;
 
 public class Controlador implements ActionListener {
 	private Vista vista;
-	private List<PersonaDTO> personasEnTabla;
 	private VentanaPersona ventanaPersona;
 	private Agenda agenda;
 	private VentanaNacimiento ventanaNacimiento;
@@ -79,18 +78,13 @@ public class Controlador implements ActionListener {
 
 	private void configurarVista(Vista vista) {
 		this.vista = vista;
-		if(vista.getBtnAgregar().getActionListeners().length == 0)
-			this.vista.getBtnAgregar().addActionListener(a -> ventanaPersona.mostrarVentana());
-		if(vista.getBtnBorrar().getActionListeners().length == 0)
-			this.vista.getBtnBorrar().addActionListener(s -> borrarPersona());
-		if(vista.getBtnEditar().getActionListeners().length == 0)
-			this.vista.getBtnEditar().addActionListener(s -> configurarVentanaEditarPersona());
-		if(vista.getBtnReporte().getActionListeners().length == 0)
-			this.vista.getBtnReporte().addActionListener(r -> mostrarReporte());
-		if(vista.getMenuItemLocalidad().getActionListeners().length == 0)
-			this.vista.getMenuItemLocalidad().addActionListener(l -> controladorUbicacion.getVentanaABMLocalidad().mostrarVentana());
-		if(vista.getMenuItemTipoContacto().getActionListeners().length == 0)
-			this.vista.getMenuItemTipoContacto().addActionListener(t -> ventanaTipoContacto.mostrarVentana());
+		vista.eliminarActionListeners();
+		this.vista.getBtnAgregar().addActionListener(a -> ventanaPersona.mostrarVentana());
+		this.vista.getBtnBorrar().addActionListener(s -> borrarPersona());
+		this.vista.getBtnEditar().addActionListener(s -> configurarVentanaEditarPersona());
+		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte());
+		this.vista.getMenuItemLocalidad().addActionListener(l -> controladorUbicacion.getVentanaABMLocalidad().mostrarVentana());
+		this.vista.getMenuItemTipoContacto().addActionListener(t -> ventanaTipoContacto.mostrarVentana());
 	}
 
 	private void configurarVentanaTipoContacto() {
@@ -115,7 +109,7 @@ public class Controlador implements ActionListener {
 		if(ventanaPersona.getBtnNacimiento().getActionListeners().length == 0)
 			this.ventanaPersona.getBtnNacimiento().addActionListener(n -> ventanaNacimiento.mostrarVentana());
 		if(ventanaPersona.getBtnDomicilio().getActionListeners().length == 0)
-			this.ventanaPersona.getBtnDomicilio().addActionListener(n -> controladorUbicacion.configurarVentanaNuevoDomicilio(personasEnTabla.size()));
+			this.ventanaPersona.getBtnDomicilio().addActionListener(n -> controladorUbicacion.configurarVentanaNuevoDomicilio(agenda.obtenerPersonas().size()));
 	}
 	
 	private void cambiarModeloContactoPreferente(JComboBox<String> cmbBoxPreferentes) {
@@ -134,28 +128,33 @@ public class Controlador implements ActionListener {
 
 	private void configurarVentanaEditarPersona() {
 		PersonaDTO personaSeleccionada = getPersonaSeleccionada();
-		if (personaSeleccionada != null) {
-			ventanaEditarPersona = VentanaEditarPersona.getInstance(personaSeleccionada.getId());
+		if (personaSeleccionada != null && ventanaEditarPersona == null) {
+			int id = personaSeleccionada.getId();
+			System.out.println("ID: "+id);
+			ventanaEditarPersona = VentanaEditarPersona.getInstance(id);
 			ventanaEditarPersona.mostrar();
+			ventanaEditarPersona.eliminarActionListeners();
+			
 			cambiarValoresDeElementos(personaSeleccionada);
 			agregarListeners(personaSeleccionada);
 			cambiarModeloContactoPreferente(ventanaEditarPersona.getJComboBoxContactoPreferente());
 			mostrarContactoPreferenteSeleccionadoPrimero(personaSeleccionada);
-			if(ventanaEditarPersona.getBtnEditarNacimiento().getActionListeners().length == 0)
-				ventanaEditarPersona.getBtnEditarNacimiento().addActionListener(a -> ventanaNacimiento.mostrarVentana());
-			if(ventanaEditarPersona.getBtnDomicilio().getActionListeners().length == 0)
-				ventanaEditarPersona.getBtnDomicilio().addActionListener(a -> controladorUbicacion.configurarVentanaEditarDomicilio(personaSeleccionada.getId()));
-			if(ventanaEditarPersona.getBtnAceptar().getActionListeners().length == 0)
-				ventanaEditarPersona.getBtnAceptar().addActionListener(a -> actualizarPersona(getPersonaEditada(personaSeleccionada)));
-			if(ventanaEditarPersona.getBtnEliminarDomicilio().getActionListeners().length == 0)
-				ventanaEditarPersona.getBtnEliminarDomicilio().addActionListener(a -> eliminarDomicilio(personaSeleccionada.getId()));
-			if(ventanaEditarPersona.getBtnEliminarNacimiento().getActionListeners().length == 0)
-				ventanaEditarPersona.getBtnEliminarNacimiento().addActionListener(a -> eliminarNacimiento(personaSeleccionada));
+			ventanaEditarPersona.getBtnEditarNacimiento().addActionListener(a -> ventanaNacimiento.mostrarVentana());
+			ventanaEditarPersona.getBtnDomicilio().addActionListener(a -> controladorUbicacion.configurarVentanaEditarDomicilio(id));
+			ventanaEditarPersona.getBtnAceptar().addActionListener(a -> actualizarPersona(getPersonaEditada(personaSeleccionada)));
+			ventanaEditarPersona.getBtnCancelar().addActionListener(a -> cerrarVentanaEditarPersona());
+			ventanaEditarPersona.getBtnEliminarDomicilio().addActionListener(a -> eliminarDomicilio(id));
+			ventanaEditarPersona.getBtnEliminarNacimiento().addActionListener(a -> eliminarNacimiento(personaSeleccionada));
 			} 
 		else 
 			JOptionPane.showMessageDialog(ventanaPersona, mensajes[0]);
 	}
 	
+	private void cerrarVentanaEditarPersona() {
+		ventanaEditarPersona.cerrar();
+		ventanaEditarPersona = null;
+	}
+
 	private void eliminarNacimiento(PersonaDTO personaSeleccionada) {
 		personaSeleccionada.setNacimiento("");
 		ventanaEditarPersona.getTxtFechaNacimiento().setText("");
@@ -169,7 +168,7 @@ public class Controlador implements ActionListener {
 
 	private PersonaDTO getPersonaSeleccionada() {
 		int[] filasSeleccionadas = this.vista.getTablaPersonas().getSelectedRows();
-		return filasSeleccionadas.length != 0 ? personasEnTabla.get(filasSeleccionadas[0]) : null;
+		return filasSeleccionadas.length != 0 ? agenda.obtenerPersonas().get(filasSeleccionadas[0]) : null;
 	}
 	
 	private void agregarListeners(PersonaDTO personaSeleccionada) {
@@ -273,7 +272,7 @@ public class Controlador implements ActionListener {
 	}
 
 	private PersonaDTO getPersonaAAgregar() {
-		return new PersonaDTO(personasEnTabla.size()+1, ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(),
+		return new PersonaDTO(agenda.obtenerUltimoId()+1, ventanaPersona.getTxtNombre().getText(), ventanaPersona.getTxtTelefono().getText(),
 				crearStringFecha(ventanaNacimiento.getFecha().getDate()), ventanaPersona.getTxtEmail().getText(), 
 				IntermediarioVista.obtenerNombreSeleccionado(ventanaPersona.getJComboBoxTipoContacto().getSelectedItem()), 
 				IntermediarioVista.obtenerNombreSeleccionado(ventanaPersona.getJComboBoxContactoPreferente().getSelectedItem()));
@@ -298,7 +297,7 @@ public class Controlador implements ActionListener {
 		}
 	
 		this.refrescarTabla();
-		this.ventanaEditarPersona.cerrar();
+		cerrarVentanaEditarPersona();
 		JOptionPane.showMessageDialog(ventanaPersona, mensajes[3]);
 	}
 
@@ -416,8 +415,7 @@ public class Controlador implements ActionListener {
 	}
 
 	private void refrescarTabla() {
-		this.personasEnTabla = agenda.obtenerPersonas();
-		this.vista.llenarTabla(this.personasEnTabla);
+		this.vista.llenarTabla(agenda.obtenerPersonas());
 	}
 
 	@Override

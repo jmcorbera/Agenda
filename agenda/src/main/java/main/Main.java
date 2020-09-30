@@ -29,6 +29,7 @@ public class Main
 			DAOSQLFactory factory = new DAOSQLFactory();
 			DBdata.Initialize(factory);
 			ventanaLogin.cerrar();
+			ventanaLogin = null;
 			JOptionPane.showMessageDialog(ventanaLogin, "Conexión exitosa");
 			Vista vista = new Vista();
 			Agenda modelo = new Agenda(new DAOSQLFactory());

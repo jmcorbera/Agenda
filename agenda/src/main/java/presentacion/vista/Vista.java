@@ -193,6 +193,15 @@ public class Vista
 		}
 	}
 
+	public void eliminarActionListeners() {
+		IntermediarioVista.eliminarListener(btnAgregar);
+		IntermediarioVista.eliminarListener(btnReporte);
+		IntermediarioVista.eliminarListener(btnBorrar);
+		IntermediarioVista.eliminarListener(btnEditar);
+		IntermediarioVista.eliminarListener(menuItemLocalidad);
+		IntermediarioVista.eliminarListener(menuItemTipoContacto);
+	}
+
 
 	
 }

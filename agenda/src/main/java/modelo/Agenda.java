@@ -43,7 +43,12 @@ public class Agenda
 	{
 		this.persona.insert(nuevaPersona);
 	}
-
+	
+	public int obtenerUltimoId() {
+		List<PersonaDTO> personas = obtenerPersonas();
+		return !personas.isEmpty() ? personas.get(personas.size()-1).getId() : 0;
+	}
+	
 	public void borrarPersona(PersonaDTO persona_a_eliminar) 
 	{
 		this.persona.delete(persona_a_eliminar);

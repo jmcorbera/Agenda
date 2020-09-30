@@ -1,7 +1,11 @@
 package presentacion.vista;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 
 public class IntermediarioVista {
@@ -31,4 +35,25 @@ public class IntermediarioVista {
 	public static String obtenerNombreSeleccionado(Object seleccionado) {
 		return seleccionado != null ? seleccionado.toString() : "";
 	}
+	
+	public static void eliminarListener(JComboBox<String> componente) {
+		ActionListener[] listeners;
+		listeners = componente.getActionListeners();
+		for(int i=0; i<listeners.length ;i++)
+			componente.removeActionListener(listeners[i]);
+	}
+	public static void eliminarListener(JButton componente) {
+		ActionListener[] listeners;
+		listeners = componente.getActionListeners();
+		for(int i=0; i<listeners.length ;i++)
+			componente.removeActionListener(listeners[i]);
+	}
+
+	public static void eliminarListener(JMenuItem menuItem) {
+		ActionListener[] listeners;
+		listeners = menuItem.getActionListeners();
+		for(int i=0; i<listeners.length ;i++)
+			menuItem.removeActionListener(listeners[i]);
+	}
+
 }

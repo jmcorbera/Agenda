@@ -44,7 +44,7 @@ public class VentanaDomicilio extends JFrame {
 	}
 	
 	private void configurarVentana() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 566, 285);
 		this.setVisible(false);
 		setTitle("Domicilio");
@@ -281,5 +281,27 @@ public class VentanaDomicilio extends JFrame {
 		btnCambiarAltura.setText("Cambiar");
 		btnCambiarPiso.setText("Cambiar");
 		btnCambiar.setText("Cambiar");
+	}
+
+	public void eliminarActionListeners() {
+		IntermediarioVista.eliminarListener(cmbPais);
+		IntermediarioVista.eliminarListener(cmbProvincia);
+		IntermediarioVista.eliminarListener(btnCambiar);
+		IntermediarioVista.eliminarListener(btnAceptar);
+		IntermediarioVista.eliminarListener(btnCambiarAltura);
+		IntermediarioVista.eliminarListener(btnCambiarCalle);
+		IntermediarioVista.eliminarListener(btnCambiarPiso);
+	}
+	
+	public void vaciarCombos() {
+		cmbPais.removeAllItems();
+		cmbProvincia.removeAllItems();
+		cmbLocalidad.removeAllItems();
+	}
+	
+	public void deshabilitarCombos() {
+		cmbPais.setEnabled(false);
+		cmbProvincia.setEnabled(false);
+		cmbLocalidad.setEnabled(false);
 	}
 }

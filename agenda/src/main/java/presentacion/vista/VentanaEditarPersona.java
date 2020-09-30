@@ -9,10 +9,8 @@ import javax.swing.JTextField;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.ActionEvent;
 
 public class VentanaEditarPersona extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -83,11 +81,6 @@ public class VentanaEditarPersona extends JFrame {
 		panel.add(btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
 		btnCancelar.setBounds(329, 287, 89, 23);
 		panel.add(btnCancelar);	
 		
@@ -199,7 +192,7 @@ public class VentanaEditarPersona extends JFrame {
 	}
 
 	private void configurarVentana() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 451, 372);
 		setTitle("Editar Persona");
 		setResizable(false);
@@ -267,5 +260,22 @@ public class VentanaEditarPersona extends JFrame {
 	public JComboBox<String> getJComboBoxContactoPreferente() {
 		return cBContactoPreferente;
 	}
+
+	public void eliminarActionListeners() {
+		IntermediarioVista.eliminarListener(btnDomicilio);
+		IntermediarioVista.eliminarListener(btnCambiarNacimiento);
+		IntermediarioVista.eliminarListener(btnCambiarNombre);
+		IntermediarioVista.eliminarListener(btnCambiarEmail);
+		IntermediarioVista.eliminarListener(btnCambiarTelefono);
+		IntermediarioVista.eliminarListener(btnEliminarNacimiento);
+		IntermediarioVista.eliminarListener(btnAceptar);
+		IntermediarioVista.eliminarListener(btnCancelar);
+		IntermediarioVista.eliminarListener(btnEliminarDomicilio);
+	}
+
+	public JButton getBtnCancelar() {
+		return btnCancelar;
+	}
+
 
 }

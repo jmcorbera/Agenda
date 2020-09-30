@@ -15,7 +15,7 @@ public class PersonaDAOSQL implements PersonaDAO
 {
 	private static final String insert = "INSERT INTO personas(id, nombre, telefono, nacimiento, email, contactoId, contactoPreferente) VALUES(?, ?, ?, ?, ?, ?, ?)";
 	private static final String delete = "DELETE FROM personas WHERE id = ?";
-	private static final String readall = "SELECT * FROM personas";
+	private static final String readall = "SELECT * FROM personas ORDER BY id";
 	private static final String update = "UPDATE personas SET nombre = ?, telefono = ?, nacimiento = ?, email = ?, contactoId = ?, contactoPreferente = ? WHERE id = ? ";
 
 		

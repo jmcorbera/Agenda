@@ -122,7 +122,7 @@ public class VentanaLogin extends JFrame
 
 
 	public void cerrar() {
-		setVisible(false);
 		dispose();
+		setVisible(false);
 	}
 }
