@@ -23,10 +23,8 @@ public class Conexion
 		try
 		{			
 			this.url = "jdbc:mysql://localhost:3306/grupo_8?useSSL=false&serverTimezone=UTC";
-			//this.user = "root";
-			//this.password = "root";
 			
-			Class.forName("com.mysql.cj.jdbc.Driver"); // quitar si no es necesario
+			Class.forName("com.mysql.cj.jdbc.Driver"); 
 	        
 	        if(dbExist())
 	        {
@@ -97,12 +95,12 @@ public class Conexion
 		instancia = null;
 	}
 	
-	public static String getUser() {
-		return Conexion.user;
+	public static boolean isCorrectUser(String user) {
+		return Conexion.user.equals(user);
 	}
 	
-	public static String getPassword() {
-		return Conexion.password;
+	public static boolean isCorrectPassword(String password) {
+		return Conexion.password.equals(password);
 		
 	}
 }

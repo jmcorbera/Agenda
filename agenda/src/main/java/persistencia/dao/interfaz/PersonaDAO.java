@@ -14,4 +14,6 @@ public interface PersonaDAO
 	public List<PersonaDTO> readAll();
 	
 	public boolean update(int id, PersonaDTO persona_nueva);
+
+	public boolean eliminarFecha(int id);
 }

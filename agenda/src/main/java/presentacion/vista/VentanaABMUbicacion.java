@@ -10,8 +10,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class VentanaABMUbicacion extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -33,6 +31,7 @@ public class VentanaABMUbicacion extends JFrame {
 	private JButton btnEditarLoc;
 	private JButton btnAgregarLoc;
 	private JButton btnEliminarLoc;
+	private JButton btnVolver;
 	
 	private static VentanaABMUbicacion INSTANCE;
 
@@ -57,7 +56,7 @@ public class VentanaABMUbicacion extends JFrame {
 	}
 	
 	private void configurarVentana() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 410, 254);
 		this.setVisible(false);
 		setTitle("ABM Ubicacion");
@@ -152,13 +151,7 @@ public class VentanaABMUbicacion extends JFrame {
 		this.lblAbmLocalidad.setBounds(124, 11, 159, 25);
 		this.panel.add(lblAbmLocalidad);
 		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cerrar();
-			}
-		});
-		
+		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(291, 191, 95, 23);
 		panel.add(btnVolver);
 	}
@@ -209,6 +202,10 @@ public class VentanaABMUbicacion extends JFrame {
 		return btnEliminarPais;
 	}
 	
+	public JButton getBtnVolver() {
+		return btnVolver;
+	}
+	
 	public JButton getBtnAgregarProvincia() {
 		return btnAgregarProv;
 	}
@@ -229,7 +226,6 @@ public class VentanaABMUbicacion extends JFrame {
 		return btnEditarLoc;
 	}
 
-	
 	public JButton getBtnEliminarLocalidad() {
 		return btnEliminarLoc;
 	}
@@ -241,5 +237,26 @@ public class VentanaABMUbicacion extends JFrame {
 	public void cerrar() {
 		setVisible(false);
 		dispose();
+	}
+
+	public void eliminarActionListeners() {
+		IntermediarioVista.eliminarListener(btnAgregarLoc);
+		IntermediarioVista.eliminarListener(btnAgregarPais);
+		IntermediarioVista.eliminarListener(btnAgregarProv);
+		IntermediarioVista.eliminarListener(btnEditarPais);
+		IntermediarioVista.eliminarListener(btnEditarProv);
+		IntermediarioVista.eliminarListener(btnEditarLoc);
+		IntermediarioVista.eliminarListener(btnEliminarPais);
+		IntermediarioVista.eliminarListener(btnEliminarProv);
+		IntermediarioVista.eliminarListener(btnEliminarLoc);
+		IntermediarioVista.eliminarListener(btnVolver);
+		IntermediarioVista.eliminarListener(cmbPais);
+		IntermediarioVista.eliminarListener(cmbProvincia);
+
+	}
+
+	public void deshabilitarDependientes() {
+		cmbProvincia.setEnabled(false);
+		cmbLocalidad.setEnabled(false);
 	}
 }

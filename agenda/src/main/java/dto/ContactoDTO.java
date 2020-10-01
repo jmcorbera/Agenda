@@ -14,9 +14,4 @@ public class ContactoDTO {
 	public void setNombre(String otroNombre) {
 		this.nombreContacto = otroNombre;
 	}
-	
-	public String isValid() {
-		return this.nombreContacto != null && !this.nombreContacto.isEmpty() ? "": "El nombre es obligatorio!";
-	}
-
 }

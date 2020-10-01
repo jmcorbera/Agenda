@@ -167,21 +167,21 @@ public class VentanaDomicilio extends JFrame {
 		this.setVisible(true);
 	}
 	
-	public void limpiarCombos() {
-		limpiarComboPais();
-		limpiarComboProvincia();
-		limpiarComboLocalidad();
+	public void eliminarSelecciones() {
+		eliminarSeleccionPais();
+		eliminarSeleccionProvincia();
+		eliminarSeleccionLocalidad();
 	}
 	
-	public void limpiarComboPais() {
+	public void eliminarSeleccionPais() {
 		this.cmbPais.setSelectedIndex(-1);
 	}
 	
-	public void limpiarComboProvincia() {
+	public void eliminarSeleccionProvincia() {
 		this.cmbProvincia.setSelectedIndex(-1);
 	}
 	
-	public void limpiarComboLocalidad() {
+	public void eliminarSeleccionLocalidad() {
 		this.cmbLocalidad.setSelectedIndex(-1);
 	}
 	
@@ -301,6 +301,11 @@ public class VentanaDomicilio extends JFrame {
 	
 	public void deshabilitarCombos() {
 		cmbPais.setEnabled(false);
+		cmbProvincia.setEnabled(false);
+		cmbLocalidad.setEnabled(false);
+	}
+
+	public void deshabilitarDependientes() {
 		cmbProvincia.setEnabled(false);
 		cmbLocalidad.setEnabled(false);
 	}

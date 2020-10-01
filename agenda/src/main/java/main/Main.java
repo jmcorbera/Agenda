@@ -24,7 +24,7 @@ public class Main
 	private static void ingresar(VentanaLogin ventanaLogin) {
 		String user = ventanaLogin.getUser();
 		String password = ventanaLogin.getPassword();
-		if(user.equals(Conexion.getUser()) && password.equals(Conexion.getPassword())) {
+		if(Conexion.isCorrectUser(user) && Conexion.isCorrectPassword(password)) {
 			// inicio carga de BD
 			DAOSQLFactory factory = new DAOSQLFactory();
 			DBdata.Initialize(factory);

@@ -204,4 +204,13 @@ public class VentanaPersona extends JFrame {
 			}
 		}));
 	}
+
+	public void eliminarActionListeners() {
+		IntermediarioVista.eliminarListener(btnAgregarPersona);
+		IntermediarioVista.eliminarListener(btnDomicilio);
+		IntermediarioVista.eliminarListener(btnNacimiento);
+		IntermediarioVista.eliminarListener(contactoPreferente);
+		IntermediarioVista.eliminarListener(tipoContacto);
+		
+	}
 }

@@ -213,4 +213,9 @@ public class Agenda
 	public LocalidadDTO obtenerLocalidad(int idLocalidad) {
 		return this.localidad.getLocalidad(idLocalidad);
 	}
+
+	public void eliminarFecha(int id) {
+		this.persona.eliminarFecha(id);
+		
+	}
 }

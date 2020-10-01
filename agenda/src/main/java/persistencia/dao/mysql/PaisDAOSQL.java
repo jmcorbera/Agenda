@@ -171,6 +171,8 @@ public class PaisDAOSQL implements PaisDAO {
 	
 	@Override
 	public PaisDTO getPais(String pais) {
+		if(pais.isEmpty())
+			return null;
 		PreparedStatement statement;
 		ResultSet resultSet; 
 		Conexion conexion = Conexion.getConexion();

@@ -131,11 +131,9 @@ public class ContactoDAOSQL implements ContactoDAO {
 			statement = conexion.getSQLConexion().prepareStatement(exists);
 			statement.setString(1, nombre);
 			resultSet = statement.executeQuery();
-			if(resultSet.next())
-			{
-				return resultSet.getInt(1) > 0;
-			}
-		} 
+			resultSet.next();
+			return resultSet.getInt(1) == 1;
+			} 
 		catch (SQLException e) 
 		{
 			e.printStackTrace();

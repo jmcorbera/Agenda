@@ -22,7 +22,7 @@ public class VentanaABMTipoContacto extends JFrame {
 	private JButton btnNuevo;
 	private JButton btnEditarContacto;
 	private JButton btnEliminarContacto;
-	private JButton btnAceptar;
+	private JButton btnVolver;
 
 	public VentanaABMTipoContacto() {
 		super();
@@ -56,11 +56,11 @@ public class VentanaABMTipoContacto extends JFrame {
 		btnEliminarContacto.setBounds(204, 178, 87, 23);
 		panel.add(btnEliminarContacto);
 
-		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnVolver = new JButton("Volver");
+		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
-		btnAceptar.setBounds(10, 212, 282, 22);
-		panel.add(btnAceptar);
+		btnVolver.setBounds(10, 212, 282, 22);
+		panel.add(btnVolver);
 
 	}
 
@@ -76,7 +76,7 @@ public class VentanaABMTipoContacto extends JFrame {
 	}
 
 	private void configurarVentana() {
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 308, 272);
 		setResizable(false);
 		setTitle("ABM Tipo Contacto");
@@ -120,8 +120,8 @@ public class VentanaABMTipoContacto extends JFrame {
 		return btnNuevo;
 	}
 
-	public JButton getBtnAceptar() {
-		return btnAceptar;
+	public JButton getBtnVolver() {
+		return btnVolver;
 	}
 
 	public JButton getBtnEliminarContacto() {
@@ -134,5 +134,12 @@ public class VentanaABMTipoContacto extends JFrame {
 
 	public void setModel(DefaultTableModel otroModelo) {
 		modelTipoContacto = otroModelo;
+	}
+
+	public void eliminarActionListeners() {
+		IntermediarioVista.eliminarListener(btnVolver);
+		IntermediarioVista.eliminarListener(btnEditarContacto);
+		IntermediarioVista.eliminarListener(btnEliminarContacto);
+		IntermediarioVista.eliminarListener(btnNuevo);
 	}
 }
