@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
+import presentacion.vista.Intermediario.IntermediarioVista;
+
 public class VentanaLogin extends JFrame
 {
 	/**

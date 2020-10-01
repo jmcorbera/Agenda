@@ -1,4 +1,4 @@
-package presentacion.vista;
+package presentacion.vista.Intermediario;
 
 import java.awt.event.ActionListener;
 import javax.swing.ComboBoxModel;

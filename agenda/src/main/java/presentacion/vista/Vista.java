@@ -20,6 +20,7 @@ import dto.PersonaDTO;
 import javax.swing.JButton;
 
 import persistencia.conexion.Conexion;
+import presentacion.vista.Intermediario.IntermediarioVista;
 
 public class Vista
 {

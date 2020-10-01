@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
+import presentacion.vista.Intermediario.IntermediarioVista;
+
 public class VentanaNacimiento extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

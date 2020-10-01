@@ -3,7 +3,7 @@ package dto;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import presentacion.vista.ContactoPreferente;
+import presentacion.vista.Intermediario.ContactoPreferente;
 
 public class PersonaDTO 
 {

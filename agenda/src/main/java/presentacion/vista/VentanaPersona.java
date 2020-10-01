@@ -10,6 +10,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import presentacion.vista.Intermediario.IntermediarioVista;
+import presentacion.vista.Intermediario.ValidadorTeclado;
 
 import javax.swing.JComboBox;
 import java.awt.Font;

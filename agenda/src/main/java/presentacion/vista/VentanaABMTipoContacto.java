@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import dto.ContactoDTO;
+import presentacion.vista.Intermediario.IntermediarioVista;
+
 import java.awt.Font;
 
 public class VentanaABMTipoContacto extends JFrame {

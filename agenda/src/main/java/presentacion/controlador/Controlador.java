@@ -15,10 +15,11 @@ import presentacion.vista.VentanaEditarPersona;
 import presentacion.vista.VentanaNacimiento;
 import presentacion.vista.VentanaNuevoPaisOContacto;
 import presentacion.vista.VentanaPersona;
-import presentacion.vista.ContactoPreferente;
-import presentacion.vista.IntermediarioVista;
 import presentacion.vista.VentanaABMTipoContacto;
 import presentacion.vista.Vista;
+import presentacion.vista.Intermediario.ContactoPreferente;
+import presentacion.vista.Intermediario.IntermediarioVista;
+import presentacion.vista.Intermediario.Mensajes;
 import dto.ContactoDTO;
 import dto.PersonaDTO;
 
@@ -30,15 +31,7 @@ public class Controlador implements ActionListener {
 	private VentanaABMTipoContacto ventanaTipoContacto;
 	private VentanaEditarPersona ventanaEditarPersona;
 	private ControladorUbicacion controladorUbicacion;
-	private String[] mensajes = { 
-			"No ha seleccionado ninguna persona!", 
-			"No ha seleccionado ningún contacto",
-			"El nombre es obligatorio!",
-			"Operación realizada con éxito",
-			"Ya existe un contacto con ese nombre!",
-			"No existe ninguna fecha para eliminar!",
-			"No existe ningún domicilio para eliminar!"};
-
+	
 	public Controlador(Vista vista, Agenda agenda) {
 		this.agenda = agenda;
 		configurarVentanaNacimiento();
@@ -73,7 +66,7 @@ public class Controlador implements ActionListener {
 			editarContacto.getBtnCancelar().addActionListener(c -> editarContacto.cerrar());
 			editarContacto.mostrar();
 		} else 
-			JOptionPane.showMessageDialog(ventanaTipoContacto, mensajes[1]);
+			JOptionPane.showMessageDialog(ventanaTipoContacto, Mensajes.noSelecciono);
 	}
 
 	private void configurarVista(Vista vista) {
@@ -138,7 +131,7 @@ public class Controlador implements ActionListener {
 			ventanaEditarPersona.mostrar();
 		} 
 		else 
-			JOptionPane.showMessageDialog(ventanaPersona, mensajes[0]);
+			JOptionPane.showMessageDialog(ventanaPersona, Mensajes.noSelecciono);
 	}
 	
 	private void cerrarVentanaEditarPersona() {
@@ -148,22 +141,22 @@ public class Controlador implements ActionListener {
 
 	private void eliminarNacimiento(PersonaDTO personaSeleccionada) {
 		if(ventanaEditarPersona.getTxtFechaNacimiento().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(ventanaEditarPersona, mensajes[5]);
+			JOptionPane.showMessageDialog(ventanaEditarPersona, Mensajes.noExiste);
 			return;
 		}
 		agenda.eliminarFecha(personaSeleccionada.getId());
 		ventanaEditarPersona.getTxtFechaNacimiento().setText("");
-		JOptionPane.showMessageDialog(ventanaEditarPersona, mensajes[3]);
+		JOptionPane.showMessageDialog(ventanaEditarPersona, Mensajes.operacionExitosa);
 	}
 
 	private void eliminarDomicilio(int id) {
 		if(controladorUbicacion.getDomicilio() == null) {
-			JOptionPane.showMessageDialog(ventanaEditarPersona, mensajes[6]);
+			JOptionPane.showMessageDialog(ventanaEditarPersona, Mensajes.noExiste);
 			return;
 		}
 		agenda.borrarDomicilio(id);
 		controladorUbicacion.setDomicilio(null);
-		JOptionPane.showMessageDialog(ventanaEditarPersona, mensajes[3]);
+		JOptionPane.showMessageDialog(ventanaEditarPersona, Mensajes.operacionExitosa);
 	}
 
 	private PersonaDTO getPersonaSeleccionada() {
@@ -247,7 +240,7 @@ public class Controlador implements ActionListener {
 		}
 		this.refrescarTabla();
 		cerrarVentanaEditarPersona();
-		JOptionPane.showMessageDialog(ventanaPersona, mensajes[3]);
+		JOptionPane.showMessageDialog(ventanaPersona, Mensajes.operacionExitosa);
 	}
 
 	private void mostrarListaContactosPredeterminados() {
@@ -293,7 +286,7 @@ public class Controlador implements ActionListener {
 		}
 		this.refrescarTabla();
 		this.ventanaPersona.cerrar();
-		JOptionPane.showMessageDialog(ventanaPersona, mensajes[3]);
+		JOptionPane.showMessageDialog(ventanaPersona, Mensajes.operacionExitosa);
 	}
 
 	public void borrarPersona() {
@@ -303,16 +296,16 @@ public class Controlador implements ActionListener {
 			agenda.borrarPersona(personaSeleccionada);
 			refrescarTabla();
 		} else 
-			JOptionPane.showMessageDialog(ventanaPersona, mensajes[0]);	
+			JOptionPane.showMessageDialog(ventanaPersona, Mensajes.noSelecciono);	
 	}
 	
 	private void agregarContacto(VentanaNuevoPaisOContacto v) {
 		if(v.getTxtNuevoNombre().getText() == null || v.getTxtNuevoNombre().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(v, mensajes[2]);
+			JOptionPane.showMessageDialog(v, Mensajes.esObligatorio);
 			return;
 		}
 		if(agenda.existsContacto(v.getTxtNuevoNombre().getText())) {	
-			JOptionPane.showMessageDialog(v, mensajes[4]);
+			JOptionPane.showMessageDialog(v, Mensajes.yaExiste);
 			return;
 		}
 		agenda.agregarContacto(v.getTxtNuevoNombre().getText());
@@ -323,11 +316,11 @@ public class Controlador implements ActionListener {
 
 	private void editarTipoContacto(VentanaEditarContactoOPais v) {
 		if(v.getTxtNuevo().getText() == null || v.getTxtNuevo().getText().isEmpty()) {
-			JOptionPane.showMessageDialog(v, mensajes[2]);
+			JOptionPane.showMessageDialog(v, Mensajes.esObligatorio);
 			return;
 		}
 		if(agenda.existsContacto(v.getTxtNuevo().getText())) {
-			JOptionPane.showMessageDialog(v, mensajes[4]);
+			JOptionPane.showMessageDialog(v, Mensajes.yaExiste);
 			return;
 		}
 		agenda.editarContacto(v.getTxtNombreAnterior().getText(), v.getTxtNuevo().getText());
@@ -343,7 +336,7 @@ public class Controlador implements ActionListener {
 			mostrarListaContactosPredeterminados();
 			IntermediarioVista.setModel(ventanaPersona.getCBTipoContacto(), getNombreTipoContactoPredeterminados());
 		} else 
-			JOptionPane.showMessageDialog(ventanaTipoContacto, mensajes[1]);
+			JOptionPane.showMessageDialog(ventanaTipoContacto, Mensajes.noSelecciono);
 	}
 
 	private String crearStringFecha(Object object) {

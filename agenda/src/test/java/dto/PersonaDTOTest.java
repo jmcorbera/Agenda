@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import presentacion.vista.ContactoPreferente;
+import presentacion.vista.Intermediario.ContactoPreferente;
 
 public class PersonaDTOTest {
 
