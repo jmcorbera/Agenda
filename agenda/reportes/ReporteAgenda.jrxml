@@ -27,11 +27,11 @@
 							<property name="com.jaspersoft.studio.unit.spacingBefore" value="pixel"/>
 							<property name="com.jaspersoft.studio.unit.leftIndent" value="px"/>
 						</reportElement>
-						<textElement textAlignment="Left" verticalAlignment="Middle">
-							<font isBold="true"/>
+						<textElement textAlignment="Center" verticalAlignment="Middle">
+							<font size="13" isBold="true"/>
 							<paragraph leftIndent="5"/>
 						</textElement>
-						<textFieldExpression><![CDATA[$F{localidad}.getNombre()]]></textFieldExpression>
+						<textFieldExpression><![CDATA["Localidad: "+$F{localidad}.getNombre()]]></textFieldExpression>
 					</textField>
 				</frame>
 			</band>
@@ -104,32 +104,32 @@
 			<frame>
 				<reportElement mode="Opaque" x="0" y="0" width="550" height="30" backcolor="#DBDBDB" uuid="e7862ed3-56f8-4c5e-8336-4747ec43fa3a"/>
 				<staticText>
-					<reportElement x="60" y="0" width="130" height="30" uuid="86056ed1-9130-4a2d-80f1-9b339ecff851"/>
+					<reportElement x="0" y="0" width="160" height="30" uuid="86056ed1-9130-4a2d-80f1-9b339ecff851"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="14" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Nombre y Apellido]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="190" y="0" width="100" height="30" uuid="f4daae2f-288b-405f-88ad-a064b97f8171"/>
+					<reportElement x="160" y="0" width="100" height="30" uuid="f4daae2f-288b-405f-88ad-a064b97f8171"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="14" isBold="true"/>
 					</textElement>
 					<text><![CDATA[Teléfono]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="390" y="0" width="100" height="30" uuid="b641aa85-4313-4c40-9650-c26ab73c90da"/>
+					<reportElement x="260" y="0" width="160" height="30" uuid="5dff8f0b-2c1e-4cfe-82f0-65ba86c4ec61"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="14" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Localidad]]></text>
+					<text><![CDATA[Email]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="290" y="0" width="100" height="30" uuid="5dff8f0b-2c1e-4cfe-82f0-65ba86c4ec61"/>
+					<reportElement x="420" y="0" width="130" height="30" uuid="4f423e5e-4627-4936-9a24-840f447dd51c"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="14" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Localidad]]></text>
+					<text><![CDATA[Tipo de contacto]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -139,24 +139,24 @@
 			<frame>
 				<reportElement x="0" y="0" width="550" height="30" uuid="4cd2a873-103b-4678-827a-da478ad282d1"/>
 				<textField>
-					<reportElement x="60" y="0" width="130" height="30" uuid="8fa74efe-758f-4f57-892c-cdd675b9faf9"/>
+					<reportElement x="0" y="0" width="160" height="30" uuid="8fa74efe-758f-4f57-892c-cdd675b9faf9"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{persona}.getNombre()]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="190" y="0" width="100" height="30" uuid="4b71e223-d4dd-4ae8-841f-afee8d2522bf"/>
+					<reportElement x="160" y="0" width="100" height="30" uuid="4b71e223-d4dd-4ae8-841f-afee8d2522bf"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{persona}.getTelefono()]]></textFieldExpression>
 				</textField>
-				<textField evaluationTime="Auto">
-					<reportElement x="390" y="0" width="100" height="30" uuid="7a9390c1-cb87-4704-a9b3-964d1fbf2b47"/>
-					<textElement textAlignment="Center" verticalAlignment="Middle"/>
-					<textFieldExpression><![CDATA[$F{localidad}.getNombre()]]></textFieldExpression>
-				</textField>
 				<textField>
-					<reportElement x="290" y="0" width="100" height="30" uuid="8b698062-490d-4dc0-a1e3-9708ba4fa921"/>
+					<reportElement x="260" y="0" width="160" height="30" uuid="8b698062-490d-4dc0-a1e3-9708ba4fa921"/>
 					<textElement textAlignment="Center" verticalAlignment="Middle"/>
 					<textFieldExpression><![CDATA[$F{persona}.getEmail()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="420" y="0" width="130" height="30" uuid="0e671482-2a28-4eeb-b48e-e34b42d592d0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<textFieldExpression><![CDATA[$F{persona}.getContactoId()]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
