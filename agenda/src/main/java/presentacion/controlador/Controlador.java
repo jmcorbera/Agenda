@@ -3,6 +3,7 @@ package presentacion.controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -152,7 +153,7 @@ public class Controlador implements ActionListener {
 	}
 
 	private void eliminarDomicilio(int id) {
-		if(controladorUbicacion.getDomicilio() == null) {
+		if(agenda.obtenerDomicilio(id) == null) {
 			JOptionPane.showMessageDialog(ventanaEditarPersona, Mensajes.noExiste);
 			return;
 		}
@@ -248,19 +249,25 @@ public class Controlador implements ActionListener {
 	private void mostrarListaContactosPredeterminados() {
 		ventanaTipoContacto.getModelTipoContactos().setRowCount(0);
 		List<ContactoDTO> contactos = agenda.obtenerContactos();
-		for (int i = 0; i < contactos.size(); i++) {
-			String nombre = contactos.get(i).getNombreContacto();
-			Object[] fila = { nombre };
-			ventanaTipoContacto.getModelTipoContactos().addRow(fila);
+		for (ContactoDTO contacto : contactos) {
+			if(contacto.getNombreContacto()!= null
+					&& !contacto.getNombreContacto().isEmpty()) {
+				String nombre = contacto.getNombreContacto();
+				Object[] fila = { nombre };
+				ventanaTipoContacto.getModelTipoContactos().addRow(fila);
+			}
 		}
 	}
 
 	private String[] getNombreTipoContactoPredeterminados() {
 		List<ContactoDTO> contactos = agenda.obtenerContactos();
-		String[] nombreContactos = new String[contactos.size()];
-		for (int i = 0; i < nombreContactos.length; i++) 
-			nombreContactos[i] = contactos.get(i).getNombreContacto();
-		return nombreContactos;
+		List<String> nombreContactos = new ArrayList<String>();
+		for (ContactoDTO contacto : contactos) {
+			if(contacto.getNombreContacto()!= null
+					&& !contacto.getNombreContacto().isEmpty())
+					nombreContactos.add(contacto.getNombreContacto());
+		}
+		return nombreContactos.toArray(new String[nombreContactos.size()] );
 	}
 
 	private String getTipoContactoSeleccionado() {
@@ -334,7 +341,6 @@ public class Controlador implements ActionListener {
 	private void eliminarContacto() {
 		String seleccionado = getTipoContactoSeleccionado();
 		if (!seleccionado.isEmpty()) {
-			this.agenda.borrarTipoContacto(seleccionado);
 			this.agenda.borrarContacto(seleccionado);
 			mostrarListaContactosPredeterminados();
 			IntermediarioVista.setModel(ventanaPersona.getCBTipoContacto(), getNombreTipoContactoPredeterminados());

@@ -18,7 +18,7 @@ public class PaisDAOSQL implements PaisDAO {
 	private static final String delete = "DELETE FROM paises WHERE id = ?";
 	private static final String update = "UPDATE paises SET nombre = ? WHERE id = ?";
 	private static final String readall = "SELECT * FROM paises ORDER BY nombre";
-	private static final String exists = "SELECT COUNT(*) FROM paises WHERE nombre = ?";
+	private static final String exists = "SELECT COUNT(id) FROM paises WHERE nombre = ?";
 	private static final String ifExist = "SELECT EXISTS (SELECT 1 FROM paises)";
 	private static final String get = "SELECT * FROM paises WHERE nombre = ?";
 	
@@ -54,6 +54,7 @@ public class PaisDAOSQL implements PaisDAO {
 
 	@Override
 	public boolean delete(PaisDTO pais_a_eliminar) {
+		
 		PreparedStatement statement;
 		Connection conexion = Conexion.getConexion().getSQLConexion();
 		boolean isdeleteExitoso = false;

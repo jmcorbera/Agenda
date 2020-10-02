@@ -15,5 +15,4 @@ public interface DomicilioDAO {
 			public boolean delete(int id);
 			
 			public DomicilioDTO getDomicilio (int id);
-	
 }

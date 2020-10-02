@@ -84,6 +84,8 @@ public class PersonaDTO
 	public String isValid() {
 	if (this.getNombre().isEmpty()) 
 		return "El nombre es obligatorio";
+	if (this.getContactoId() == null || this.getContactoId().isEmpty())
+		return "El tipo de contacto no puede estar vacío!";
 	if(!this.getEmail().isEmpty() && !isValidEmail(this.getEmail()))
 		return "Email ingresado inválido!";
 	if(this.getContactoPreferente().equals(ContactoPreferente.Email.toString())) {

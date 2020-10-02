@@ -49,7 +49,7 @@ FOREIGN KEY (`provinciaId`) REFERENCES `provincias` (`id`) ON DELETE CASCADE
 CREATE TABLE IF NOT EXISTS `domicilios`
 (
 `id` int (11) NOT NULL,
-`paisId` int(11) NOT NULL,
+`paisId` int(11) DEFAULT NULL,
 `provinciaId` int(11) DEFAULT NULL,
 `localidadId` int(11) DEFAULT NULL,
 `calle` varchar(45) DEFAULT NULL,

@@ -262,6 +262,10 @@ public class ControladorUbicacion {
 	private void configurarVentanaEditarProvincia() {
 		try {
 			String provinciaSeleccionada = getNombre(ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem());
+			if(provinciaSeleccionada.isEmpty()) {
+				JOptionPane.showMessageDialog(ventanaAMBLocalidad, Mensajes.noSelecciono);
+				return;
+			}
 			VentanaNuevaProvinciaOLocalidad editarProvincia = new VentanaNuevaProvinciaOLocalidad();
 			mostrarPaisesPredeterminados(editarProvincia.getComboBoxPadre());
 			editarProvincia.getTxtNombre().setEnabled(false);
@@ -352,13 +356,16 @@ public class ControladorUbicacion {
 	private void borrarLocalidad() {
 		try {
 			String nombreLocalidad = getNombre(ventanaAMBLocalidad.getComboBoxLocalidad().getSelectedItem());
+			System.out.println("NOMBRE LOCALIDAD: "+nombreLocalidad);
 			if(nombreLocalidad.isEmpty()) {
 				JOptionPane.showMessageDialog(ventanaAMBLocalidad, Mensajes.noSelecciono);
 				return;
 			}
 			String nombrePais = getNombre(ventanaAMBLocalidad.getComboBoxPais().getSelectedItem());
 			PaisDTO pais = agenda.obtenerPaisPorNombre(nombrePais);
-			LocalidadDTO localidad = agenda.obtenerLocalidad(nombreLocalidad, pais.getIdPais());
+			ProvinciaDTO provincia = agenda.obtenerProvincia
+					(getNombre(ventanaAMBLocalidad.getComboBoxProvincia().getSelectedItem()), pais.getIdPais());
+			LocalidadDTO localidad = agenda.obtenerLocalidad(nombreLocalidad, provincia.getIdProvincia());
 			this.agenda.borrarLocalidad(localidad);
 			refrescarListaLocalidades();
 			ventanaAMBLocalidad.deshabilitarDependientes();

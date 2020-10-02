@@ -17,11 +17,11 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	private static final String insert = "INSERT INTO localidades(nombre, provinciaId) VALUES(?, ?)";
 	private static final String delete = "DELETE FROM localidades WHERE id = ?";
 	private static final String update = "UPDATE localidades SET nombre = ?, provinciaId = ? WHERE id = ?";
-	private static final String readall = "SELECT * FROM localidades ORDER BY nombre";
-	private static final String groupByProvincia = "SELECT * FROM localidades WHERE provinciaId = ? ORDER BY nombre";
-	private static final String exists = "SELECT COUNT(*) FROM localidades WHERE nombre = ? AND provinciaId = ? ";
+	private static final String readall = "SELECT id, nombre, provinciaId FROM localidades ORDER BY nombre";
+	private static final String groupByProvincia = "SELECT id, nombre, provinciaId FROM localidades WHERE provinciaId = ? ORDER BY nombre";
+	private static final String exists = "SELECT COUNT(id) FROM localidades WHERE nombre = ? AND provinciaId = ? ";
 	private static final String ifExist = "SELECT EXISTS (SELECT 1 FROM localidades)";
-	private static final String get = "SELECT * FROM localidades WHERE nombre = ? AND provinciaId = ?";
+	private static final String get = "SELECT id, nombre, provinciaId FROM localidades WHERE nombre = ? AND provinciaId = ?";
 
 	@Override
 	public boolean insert(LocalidadDTO localidad) {
@@ -280,7 +280,7 @@ public class LocalidadDAOSQL implements LocalidadDAO {
 	public LocalidadDTO getLocalidad(int id) {
 		PreparedStatement statement;
 		ResultSet resultSet; 
-		String getLocalidad = "SELECT * FROM localidades WHERE id = " + id + ";";
+		String getLocalidad = "SELECT nombre, provinciaId FROM localidades WHERE id = " + id + ";";
 		Conexion conexion = Conexion.getConexion();
 		try 
 		{

@@ -15,9 +15,9 @@ public class ContactoDAOSQL implements ContactoDAO {
 
 	private static final String insert = "INSERT INTO tipoContacto(nombreContacto) VALUES(?)";
 	private static final String delete = "DELETE FROM tipoContacto WHERE nombreContacto = ?";
-	private static final String readall = "SELECT * FROM tipoContacto";
+	private static final String readall = "SELECT nombreContacto FROM tipoContacto";
 	private static final String update = "UPDATE tipoContacto SET nombreContacto = ? WHERE nombreContacto = ? ";
-	private static final String exists = "SELECT COUNT(*) FROM tipoContacto WHERE nombreContacto = ? ";
+	private static final String exists = "SELECT COUNT(nombreContacto) FROM tipoContacto WHERE nombreContacto = ? ";
 		
 	public boolean insert(String contacto)
 	{

@@ -69,6 +69,7 @@ public class Agenda
 
 	public void borrarContacto(String contacto_a_eliminar) 
 	{
+		this.persona.borrrarTipoContacto(contacto_a_eliminar);
 		this.contacto.delete(contacto_a_eliminar);
 	}
 	
@@ -92,6 +93,7 @@ public class Agenda
 	}
 	
 	public void borrarPais(PaisDTO pais_a_eliminar) {
+		//this.domicilio.deletePais(pais_a_eliminar);
 		this.pais.delete(pais_a_eliminar);
 	}
 	
@@ -110,6 +112,7 @@ public class Agenda
 	}
 	
 	public void borrarProvincia(ProvinciaDTO provincia_a_eliminar) {
+		//this.domicilio.deleteProvincia(provincia_a_eliminar);
 		this.provincia.delete(provincia_a_eliminar);
 	}
 	

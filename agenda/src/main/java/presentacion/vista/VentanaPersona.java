@@ -122,11 +122,11 @@ public class VentanaPersona extends JFrame {
 		panel.add(lblNacimiento);
 
 		JLabel lblDomicilio = new JLabel("Domicilio:");
-		lblDomicilio.setBounds(20, 288, 46, 14);
+		lblDomicilio.setBounds(20, 288, 113, 14);
 		panel.add(lblDomicilio);
 
 		JLabel lblTipoContacto = new JLabel("Tipo de Contacto:");
-		lblTipoContacto.setBounds(20, 169, 89, 14);
+		lblTipoContacto.setBounds(20, 169, 113, 14);
 		panel.add(lblTipoContacto);
 	}
 
