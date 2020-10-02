@@ -31,7 +31,7 @@
 							<font size="13" isBold="true"/>
 							<paragraph leftIndent="5"/>
 						</textElement>
-						<textFieldExpression><![CDATA["Localidad: "+$F{localidad}.getNombre()]]></textFieldExpression>
+						<textFieldExpression><![CDATA[$F{localidad}.getNombre()]]></textFieldExpression>
 					</textField>
 				</frame>
 			</band>
