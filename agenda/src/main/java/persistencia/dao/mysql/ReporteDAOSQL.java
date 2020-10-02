@@ -14,7 +14,7 @@ import dto.ReporteDTO;
 
 public class ReporteDAOSQL implements ReporteDAO
 {
-	private static final String readall = "SELECT p.id, p.nombre, p.telefono, p.nacimiento, p.email, p.contactoId, p.contactoPreferente, l.id FROM personas AS p LEFT JOIN domicilios AS d USING (id) LEFT JOIN localidades AS l ON d.localidadId = l.id order by ISNULL(l.id), l.id;";
+	private static final String readall = "SELECT p.id, p.nombre, p.telefono, p.nacimiento, p.email, p.contactoId, p.contactoPreferente, l.id FROM personas AS p LEFT JOIN domicilios AS d USING (id) LEFT JOIN localidades AS l ON d.localidadId = l.id order by ISNULL(l.id), l.nombre;";
 	
 	public List<ReporteDTO> readAllgroupBy()
 	{
