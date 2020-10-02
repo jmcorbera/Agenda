@@ -55,6 +55,7 @@ public class Controlador implements ActionListener {
 	
 	private void configurarVentanaNuevoContacto() {
 		VentanaNuevoPaisOContacto ventNuevoContacto = new VentanaNuevoPaisOContacto();
+		ventNuevoContacto.cambiarTitulo("Nuevo tipo de contacto");
 		ventNuevoContacto.getBtnAceptar().addActionListener(n -> agregarContacto(ventNuevoContacto));
 		ventNuevoContacto.getBtnCancelar().addActionListener(c -> ventNuevoContacto.cerrar());
 	}
@@ -62,6 +63,7 @@ public class Controlador implements ActionListener {
 	private void configurarVentanaEditarContacto(String contactoSeleccionado) {
 		if (!contactoSeleccionado.isEmpty()) {
 			VentanaEditarContactoOPais editarContacto = new VentanaEditarContactoOPais(contactoSeleccionado);	
+			editarContacto.cambiaTitulo("Edición tipo de Contacto");
 			editarContacto.getBtnAceptar().addActionListener(c -> editarTipoContacto(editarContacto));
 			editarContacto.getBtnCancelar().addActionListener(c -> editarContacto.cerrar());
 			editarContacto.mostrar();
@@ -332,6 +334,7 @@ public class Controlador implements ActionListener {
 	private void eliminarContacto() {
 		String seleccionado = getTipoContactoSeleccionado();
 		if (!seleccionado.isEmpty()) {
+			this.agenda.borrarTipoContacto(seleccionado);
 			this.agenda.borrarContacto(seleccionado);
 			mostrarListaContactosPredeterminados();
 			IntermediarioVista.setModel(ventanaPersona.getCBTipoContacto(), getNombreTipoContactoPredeterminados());

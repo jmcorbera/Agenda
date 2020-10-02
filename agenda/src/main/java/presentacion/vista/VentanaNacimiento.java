@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import com.toedter.calendar.JDateChooser;
 
 import presentacion.vista.Intermediario.IntermediarioVista;
+import java.awt.Font;
 
 public class VentanaNacimiento extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -16,6 +17,7 @@ public class VentanaNacimiento extends JFrame {
 	private JPanel panel;
 	private JButton btnAgregarNacimiento;
 	private JDateChooser dateChooser;
+	private JLabel lblAgregarNacimiento;
 	
 	public VentanaNacimiento() {
 		super();
@@ -27,16 +29,21 @@ public class VentanaNacimiento extends JFrame {
 
 	private void agregarComponentes() {
 		dateChooser = new JDateChooser();
-		dateChooser.setBounds(10, 36, 213, 20);
+		dateChooser.setBounds(10, 75, 213, 20);
 		panel.add(dateChooser);
 		btnAgregarNacimiento = new JButton("Aceptar");
 	
-		btnAgregarNacimiento.setBounds(134, 61, 89, 23);
+		btnAgregarNacimiento.setBounds(134, 106, 89, 23);
 		panel.add(btnAgregarNacimiento);
 
-		JLabel lblNacimiento = new JLabel("Ingrese la fecha de cumpleaños:");
-		lblNacimiento.setBounds(10, 11, 213, 14);
+		JLabel lblNacimiento = new JLabel("Elija la fecha de cumpleaños:");
+		lblNacimiento.setBounds(10, 55, 213, 14);
 		panel.add(lblNacimiento);
+		
+		lblAgregarNacimiento = new JLabel("Ingresar cumpleaños");
+		lblAgregarNacimiento.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblAgregarNacimiento.setBounds(39, 11, 193, 33);
+		panel.add(lblAgregarNacimiento);
 	}
 	
 	private void configurarPanel() {
@@ -46,14 +53,14 @@ public class VentanaNacimiento extends JFrame {
 		contentPane.setLayout(null);
 
 		panel = new JPanel();
-		panel.setBounds(0, 0, 230, 97);
+		panel.setBounds(0, 0, 232, 140);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 238, 126);
+		setBounds(100, 100, 238, 169);
 		this.setVisible(false);
 		setTitle("Cumpleaños");
 		setResizable(false);

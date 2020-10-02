@@ -15,6 +15,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JButton;
+import java.awt.Font;
 
 public class VentanaEditarContactoOPais extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -26,6 +27,7 @@ public class VentanaEditarContactoOPais extends JFrame {
 	private JTextField txtNombreNuevo;
 	private JPanel panel;
 	private JButton btnCancelar;
+	private JLabel lblTitulo;
 
 	public VentanaEditarContactoOPais(String contactoAEditar) {
 		super();
@@ -38,32 +40,37 @@ public class VentanaEditarContactoOPais extends JFrame {
 
 	private void agregarComponentes(String contactoAEditar) {
 		lblNombreAnterior = new JLabel("Nombre a editar: ");
-		lblNombreAnterior.setBounds(10, 11, 109, 24);
+		lblNombreAnterior.setBounds(10, 53, 109, 24);
 		panel.add(lblNombreAnterior);
 		
 		lblNombreNuevo = new JLabel("Nombre nuevo: ");
-		lblNombreNuevo.setBounds(10, 53, 97, 14);
+		lblNombreNuevo.setBounds(10, 99, 97, 14);
 		panel.add(lblNombreNuevo);
 		
 		txtNombreAnterior = new JTextField();
 		txtNombreAnterior.setEditable(false);
 		txtNombreAnterior.setText(contactoAEditar);
-		txtNombreAnterior.setBounds(167, 11, 165, 24);
+		txtNombreAnterior.setBounds(133, 53, 183, 24);
 		panel.add(txtNombreAnterior);
 		txtNombreAnterior.setColumns(10);
 		
 		txtNombreNuevo = new JTextField();
 		txtNombreNuevo.setColumns(10);
-		txtNombreNuevo.setBounds(167, 49, 165, 22);
+		txtNombreNuevo.setBounds(133, 95, 183, 22);
 		panel.add(txtNombreNuevo);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(144, 82, 89, 23);
+		btnAceptar.setBounds(167, 128, 89, 23);
 		panel.add(btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(243, 82, 89, 23);
+		btnCancelar.setBounds(263, 128, 89, 23);
 		panel.add(btnCancelar);	
+		
+		lblTitulo = new JLabel("");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTitulo.setBounds(10, 11, 342, 31);
+		panel.add(lblTitulo);
 	}
 
 	private void configurarPanel() {
@@ -73,14 +80,14 @@ public class VentanaEditarContactoOPais extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(10, 11, 342, 112);
+		panel.setBounds(0, 0, 362, 162);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 368, 161);
+		setBounds(100, 100, 368, 191);
 		setTitle("Editar");
 		setResizable(false);
 	}
@@ -110,6 +117,11 @@ public class VentanaEditarContactoOPais extends JFrame {
 	public void cerrar() {
 		setVisible(false);
 	}
+	
+	public void cambiaTitulo(String titulo) {
+		lblTitulo.setText(titulo);
+	}
+	
 	public void mostrar() {
 		setVisible(true);
 	}

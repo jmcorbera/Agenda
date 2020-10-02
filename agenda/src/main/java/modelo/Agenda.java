@@ -215,7 +215,10 @@ public class Agenda
 	}
 
 	public void eliminarFecha(int id) {
-		this.persona.eliminarFecha(id);
-		
+		this.persona.eliminarFecha(id);	
+	}
+
+	public void borrarTipoContacto(String seleccionado) {
+		this.persona.borrrarTipoContacto(seleccionado);	
 	}
 }

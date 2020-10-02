@@ -13,6 +13,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
 import presentacion.vista.Intermediario.IntermediarioVista;
+import java.awt.Font;
 
 public class VentanaLogin extends JFrame
 {
@@ -24,6 +25,7 @@ public class VentanaLogin extends JFrame
 	private JButton btnCancelar;
 	private JTextField txtUser;
 	private JPasswordField txtPassword;
+	private JLabel lblMensaje;
 	
 	public VentanaLogin () 
 	{
@@ -37,11 +39,11 @@ public class VentanaLogin extends JFrame
 	{
 		setTitle("Login");
 		setResizable(false);
-		setBounds(100, 100, 327, 202);
+		setBounds(100, 100, 326, 193);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 318, 172);
+		panel.setBounds(0, 0, 318, 163);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -51,34 +53,40 @@ public class VentanaLogin extends JFrame
 				cerrar();
 			}
 		});
-		btnCancelar.setBounds(219, 133, 89, 23);
+		btnCancelar.setBounds(219, 135, 89, 23);
 		panel.add(btnCancelar);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(120, 133, 89, 23);
+		btnAceptar.setBounds(120, 135, 89, 23);
 		panel.add(btnAceptar);
 		
 		txtUser = new JTextField();
-		txtUser.setBounds(101, 60, 207, 20);
+		txtUser.setBounds(101, 67, 207, 23);
 		panel.add(txtUser);
 		txtUser.setColumns(10);
 		
 		txtPassword = new JPasswordField();
-		txtPassword.setBounds(101, 102, 207, 23);
+		txtPassword.setBounds(101, 101, 207, 23);
 		panel.add(txtPassword);
 		
 		JLabel lblUser = new JLabel("Usuario:");
-		lblUser.setBounds(10, 63, 81, 14);
+		lblUser.setBounds(10, 71, 81, 14);
 		panel.add(lblUser);
 		
 		JLabel lblPassword = new JLabel("Contraseña:");
-		lblPassword.setBounds(10, 105, 81, 14);
+		lblPassword.setBounds(10, 108, 89, 14);
 		panel.add(lblPassword);
 		
-		JLabel lblIngreso = new JLabel("Ingrese los siguientes datos para continuar");
-		lblIngreso.setVerticalAlignment(SwingConstants.TOP);
-		lblIngreso.setBounds(10, 27, 298, 14);
-		panel.add(lblIngreso);
+		JLabel lblTitulo = new JLabel("Login");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblTitulo.setVerticalAlignment(SwingConstants.TOP);
+		lblTitulo.setBounds(124, 11, 124, 30);
+		panel.add(lblTitulo);
+		
+		lblMensaje = new JLabel("Ingrese los siguientes datos para continuar");
+		lblMensaje.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		lblMensaje.setBounds(10, 37, 298, 23);
+		panel.add(lblMensaje);
 	
 	}
 	

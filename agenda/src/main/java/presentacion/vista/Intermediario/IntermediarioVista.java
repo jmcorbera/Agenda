@@ -13,7 +13,7 @@ public class IntermediarioVista {
 	
 	public static void cambiarLookAndFeel(String nameClass) {
 		 try {
-	            UIManager.setLookAndFeel("com.jtattoo.plaf.texture.TextureLookAndFeel");
+	            UIManager.setLookAndFeel("com.jtattoo.plaf.bernstein.BernsteinLookAndFeel");
 	        }
 		 catch(Exception e){
 			  java.util.logging.Logger.getLogger(nameClass).log(java.util.logging.Level.SEVERE, null, e);

@@ -13,6 +13,7 @@ import dto.ContactoDTO;
 import presentacion.vista.Intermediario.IntermediarioVista;
 
 import java.awt.Font;
+import javax.swing.JLabel;
 
 public class VentanaABMTipoContacto extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -39,30 +40,35 @@ public class VentanaABMTipoContacto extends JFrame {
 		modelTipoContacto = new DefaultTableModel(nombreColumnas, 0);
 		tablaTipoContactos = new JTable(modelTipoContacto);
 		JScrollPane spTipoContactos = new JScrollPane();
-		spTipoContactos.setBounds(10, 11, 281, 156);
+		spTipoContactos.setBounds(10, 53, 281, 156);
 		panel.add(spTipoContactos);
 
 		spTipoContactos.setViewportView(tablaTipoContactos);
 		btnNuevo = new JButton("Nuevo");
 		btnNuevo.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnNuevo.setBounds(10, 178, 84, 23);
+		btnNuevo.setBounds(10, 220, 84, 23);
 		panel.add(btnNuevo);
 
 		btnEditarContacto = new JButton("Editar");
 		btnEditarContacto.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnEditarContacto.setBounds(104, 178, 90, 23);
+		btnEditarContacto.setBounds(104, 220, 90, 23);
 		panel.add(btnEditarContacto);
 
 		btnEliminarContacto = new JButton("Eliminar");
 		btnEliminarContacto.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnEliminarContacto.setBounds(204, 178, 87, 23);
+		btnEliminarContacto.setBounds(204, 220, 87, 23);
 		panel.add(btnEliminarContacto);
 
 		btnVolver = new JButton("Volver");
 		btnVolver.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
-		btnVolver.setBounds(10, 212, 282, 22);
+		btnVolver.setBounds(10, 254, 282, 22);
 		panel.add(btnVolver);
+		
+		JLabel lblTitulo = new JLabel("Tipos de contacto preferentes");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTitulo.setBounds(49, 11, 242, 29);
+		panel.add(lblTitulo);
 
 	}
 
@@ -73,13 +79,13 @@ public class VentanaABMTipoContacto extends JFrame {
 		contentPane.setLayout(null);
 
 		panel = new JPanel();
-		panel.setBounds(0, 0, 302, 242);
+		panel.setBounds(0, 0, 302, 287);
 		contentPane.add(panel);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 308, 272);
+		setBounds(100, 100, 308, 316);
 		setResizable(false);
 		setTitle("ABM Tipo Contacto");
 		this.setVisible(false);

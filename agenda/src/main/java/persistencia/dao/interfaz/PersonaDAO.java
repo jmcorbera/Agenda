@@ -16,4 +16,6 @@ public interface PersonaDAO
 	public boolean update(int id, PersonaDTO persona_nueva);
 
 	public boolean eliminarFecha(int id);
+
+	public boolean borrrarTipoContacto(String seleccionado);
 }

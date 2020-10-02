@@ -124,6 +124,7 @@ public class ControladorUbicacion {
 	// ABM Pais
 	private void configurarVentanaNuevoPais() {
 		VentanaNuevoPaisOContacto ventNuevoPais = new VentanaNuevoPaisOContacto();
+		ventNuevoPais.cambiarTitulo("Nuevo país");
 		ventNuevoPais.getBtnAceptar().addActionListener(n -> agregarPais(ventNuevoPais));
 		ventNuevoPais.getBtnCancelar().addActionListener(c -> ventNuevoPais.cerrar());
 	}
@@ -171,6 +172,7 @@ public class ControladorUbicacion {
 				return;
 			}
 			VentanaEditarContactoOPais editarPais = new VentanaEditarContactoOPais(paisSeleccionado);
+			editarPais.cambiaTitulo("Edición país");
 			editarPais.getBtnAceptar().addActionListener(c -> editarPais(editarPais));
 			editarPais.getBtnCancelar().addActionListener(c -> editarPais.cerrar());
 			editarPais.mostrar();

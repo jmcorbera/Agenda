@@ -13,6 +13,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import java.awt.Font;
 
 public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -24,9 +25,11 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 	private JButton btnCambiar;
 	private JComboBox <String> comboBoxPadre;
 	private JLabel lblPadreAlQuePertenece;
+	private JLabel lblTitulo;
 
 	public VentanaNuevaProvinciaOLocalidad() {
 		super();
+		setTitle("Editar");
 		IntermediarioVista.cambiarLookAndFeel(VentanaNuevaProvinciaOLocalidad.class.getName());
 		setResizable(false);
 		configurarVentana();
@@ -37,32 +40,37 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 
 	private void agregarComponentes() {		
 		JLabel lblIngresarNombre = new JLabel("Nombre:");
-		lblIngresarNombre.setBounds(20, 81, 210, 24);
+		lblIngresarNombre.setBounds(20, 123, 210, 24);
 		panel.add(lblIngresarNombre);
 		
 		nombre = new JTextField();
-		nombre.setBounds(20, 106, 179, 24);
+		nombre.setBounds(20, 145, 179, 24);
 		panel.add(nombre);
 		nombre.setColumns(10);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(110, 151, 89, 23);
+		btnAceptar.setBounds(110, 191, 89, 23);
 		panel.add(btnAceptar);
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setBounds(209, 151, 89, 23);
+		btnCancelar.setBounds(209, 191, 89, 23);
 		panel.add(btnCancelar);
 		
 		comboBoxPadre = new JComboBox<String>();
-		comboBoxPadre.setBounds(20, 50, 278, 20);
+		comboBoxPadre.setBounds(20, 88, 278, 24);
 		panel.add(comboBoxPadre);
 		
 		lblPadreAlQuePertenece = new JLabel("Pais al que pertenece: ");
-		lblPadreAlQuePertenece.setBounds(21, 26, 188, 14);
+		lblPadreAlQuePertenece.setBounds(20, 63, 188, 14);
 		panel.add(lblPadreAlQuePertenece);
 		
 		btnCambiar = new JButton("Cambiar");
-		btnCambiar.setBounds(209, 106, 89, 24);
+		btnCambiar.setBounds(209, 145, 89, 24);
 		panel.add(btnCambiar);
+		
+		lblTitulo = new JLabel("Modificación de datos");
+		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblTitulo.setBounds(70, 11, 195, 41);
+		panel.add(lblTitulo);
 		
 	}
 
@@ -73,14 +81,14 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 		contentPane.setLayout(null);
 		
 		panel = new JPanel();
-		panel.setBounds(0, 0, 315, 182);
+		panel.setBounds(0, 0, 315, 225);
 		contentPane.add(panel);
 		panel.setLayout(null);
 	}
 
 	private void configurarVentana() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 321, 213);
+		setBounds(100, 100, 321, 254);
 		setVisible(true);
 	}
 	
