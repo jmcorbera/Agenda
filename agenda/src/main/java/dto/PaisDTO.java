@@ -4,6 +4,9 @@ public class PaisDTO {
 	private int idPais;
 	private String nombre;
 	
+	public PaisDTO() {
+	}
+	
 	public PaisDTO(int idPais, String nombre) {
 		this.idPais = idPais;
 		this.nombre = nombre;

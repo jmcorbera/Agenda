@@ -14,7 +14,7 @@ import dto.ReporteDTO;
 
 public class ReporteDAOSQL implements ReporteDAO
 {
-	private static final String readall = "SELECT * FROM `personas` AS p,`domicilios` AS d,`provincias` AS pvs,`paises` as pss,`localidades` AS l WHERE  p.id = d.id AND d.provinciaId = pvs.id AND d.paisId = pss.id AND d.localidadId = l.id ORDER BY l.nombre, p.nombre;";
+	private static final String readall = "SELECT p.id, p.nombre, p.telefono, p.nacimiento, p.email, p.contactoId, p.contactoPreferente, l.id FROM personas AS p LEFT JOIN domicilios AS d USING (id) LEFT JOIN localidades AS l ON d.localidadId = l.id;";
 	
 	public List<ReporteDTO> readAllgroupBy()
 	{
@@ -48,10 +48,22 @@ public class ReporteDAOSQL implements ReporteDAO
 		String contactoId = resultSet.getString("p.contactoId");
 		String contactoPreferente = resultSet.getString("p.contactoPreferente");
 		
-		int idLocalidad = resultSet.getInt("l.id");
 		PersonaDTO persona = new PersonaDTO(id, nombre, tel, nacimiento, email,contactoId, contactoPreferente);
-		LocalidadDAOSQL laux = new LocalidadDAOSQL();
-		LocalidadDTO localidad = laux.getLocalidad(idLocalidad);
+		
+		int idLocalidad = resultSet.getInt("l.id");
+			
+		LocalidadDTO localidad = new LocalidadDTO();
+		
+		if(idLocalidad != 0)
+		{
+			LocalidadDAOSQL laux = new LocalidadDAOSQL();
+			localidad = laux.getLocalidad(idLocalidad);
+		}
+		else
+		{
+			localidad.setNombre("Desconocida");
+		}
+
 		return new ReporteDTO(persona, localidad);
 	}
 }

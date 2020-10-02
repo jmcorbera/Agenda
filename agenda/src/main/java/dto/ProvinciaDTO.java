@@ -5,6 +5,10 @@ public class ProvinciaDTO {
 	private String nombre;
 	private PaisDTO pais;
 	
+	public ProvinciaDTO() {
+		this.pais = new PaisDTO();
+	}
+	
 	public ProvinciaDTO(int idProvincia, String nombre, PaisDTO pais) {
 		this.idProvincia = idProvincia;
 		this.nombre = nombre;

@@ -5,6 +5,10 @@ public class LocalidadDTO {
 	private String nombre;
 	private ProvinciaDTO provincia;
 	
+	public LocalidadDTO() {
+		this.provincia = new ProvinciaDTO();
+	}
+	
 	public LocalidadDTO(int idLocalidad, String nombre, ProvinciaDTO provincia) {
 		this.idLocalidad = idLocalidad;
 		this.nombre = nombre;
