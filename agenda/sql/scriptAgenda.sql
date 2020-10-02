@@ -1,5 +1,5 @@
---DROP DATABASE IF EXISTS grupo_8;
---CREATE DATABASE grupo_8;
+DROP DATABASE IF EXISTS grupo_8;
+CREATE DATABASE grupo_8;
 USE grupo_8;
 
 CREATE TABLE IF NOT EXISTS `tipoContacto`
@@ -56,11 +56,17 @@ CREATE TABLE IF NOT EXISTS `domicilios`
 `altura` varchar(45) DEFAULT NULL,
 `piso` varchar(45) DEFAULT NULL,
 PRIMARY KEY (`id`),
-FOREIGN KEY (`id`) REFERENCES `personas`(`id`),
-FOREIGN KEY (`paisId`) REFERENCES `paises`(`id`),
-FOREIGN KEY (`provinciaId`) REFERENCES `provincias`(`id`),
-FOREIGN KEY (`localidadId`) REFERENCES `localidades`(`id`)
+FOREIGN KEY (`id`) REFERENCES `personas`(`id`)
 );
+ALTER TABLE `domicilios` ADD CONSTRAINT `provincia_fk`
+FOREIGN KEY (`provinciaId`) REFERENCES `provincias` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `domicilios` ADD CONSTRAINT `localidad_fk`
+FOREIGN KEY (`localidadId`) REFERENCES `localidades` (`id`) ON DELETE SET NULL;
+
+ALTER TABLE `domicilios` ADD CONSTRAINT `pais_fk`
+FOREIGN KEY (`paisId`) REFERENCES `paises` (`id`) ON DELETE SET NULL;
+
 INSERT IGNORE INTO `tipoContacto` (`nombreContacto`) VALUES ('Amigo');
 INSERT IGNORE INTO `tipoContacto` (`nombreContacto`) VALUES ('Familia');
 INSERT IGNORE INTO `tipoContacto` (`nombreContacto`) VALUES ('Trabajo');
