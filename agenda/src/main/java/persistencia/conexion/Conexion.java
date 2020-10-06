@@ -22,7 +22,7 @@ public class Conexion
 	{
 		try
 		{			
-			this.url = "jdbc:mysql://localhost:3306/grupo_8?useSSL=false&serverTimezone=UTC";
+			this.url = "jdbc:mysql://localhost:3306/grupo_8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
 			
 			Class.forName("com.mysql.cj.jdbc.Driver"); 
 	        
@@ -47,6 +47,7 @@ public class Conexion
 		String url = "jdbc:mysql://localhost:3306";
 		
 		Properties properties = new Properties();
+		properties.setProperty("allowPublicKeyRetrieval","true");
 		properties.setProperty("user", Conexion.user);
 		properties.setProperty("password", Conexion.password);
 		properties.setProperty("useSSL", "false");

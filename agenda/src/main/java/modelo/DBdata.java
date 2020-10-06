@@ -24,10 +24,8 @@ public class DBdata {
 		
 		try {
 			crearTablas(); // Initialize database
-			System.out.println("Base de datos actualizada con éxito.");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Error al intentar crear la base de datos.");
 		}
 		
 		// Paises
@@ -46,7 +44,6 @@ public class DBdata {
 	}
 	
 	public static void crearTablas() throws Exception {
-		
 		Connection conn = Conexion.getConexion().getSQLConexion();
 		ScriptRunner runner = new ScriptRunner(conn);
 		InputStreamReader reader = null;

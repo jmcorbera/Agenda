@@ -32,6 +32,7 @@ public class Main
 			ventanaLogin = null;
 			JOptionPane.showMessageDialog(ventanaLogin, "Conexión exitosa");
 			Vista vista = new Vista();
+			vista.show();
 			Agenda modelo = new Agenda(new DAOSQLFactory());
 			Controlador controlador = new Controlador(vista, modelo);
 			controlador.inicializar();
