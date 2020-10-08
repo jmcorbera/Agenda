@@ -111,6 +111,7 @@ public class Vista
 	private void configurarVentana() {
 		frmAgenda = new JFrame();
 		frmAgenda.setTitle("Agenda");
+		frmAgenda.setVisible(false);
 		frmAgenda.setResizable(false);
 		frmAgenda.setBounds(100, 100, 495, 289);
 		frmAgenda.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

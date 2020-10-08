@@ -147,15 +147,12 @@ public class VentanaEditarPersona extends JFrame {
 		lblDomicilio = new JLabel("Domicilio:");
 		lblDomicilio.setBounds(22, 309, 97, 14);
 		panel.add(lblDomicilio);
-		ImageIcon borrar = new ImageIcon("./imagenes/borrar.png");
 		btnEliminarNacimiento = new JButton("");
 		btnEliminarNacimiento.setBounds(282, 166, 46, 24);
-		btnEliminarNacimiento.setIcon(borrar);
 		panel.add(btnEliminarNacimiento);
 		
 		btnEliminarDomicilio = new JButton("");
 		btnEliminarDomicilio.setBounds(396, 305, 46, 23);
-		btnEliminarDomicilio.setIcon(borrar);
 		panel.add(btnEliminarDomicilio);
 		
 		lblContactoPreferente = new JLabel("Medio contacto preferente:");
@@ -170,6 +167,14 @@ public class VentanaEditarPersona extends JFrame {
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblTitulo.setBounds(136, 11, 291, 30);
 		panel.add(lblTitulo);
+		agregarIconos();
+	}
+	
+	private void agregarIconos() {
+		String dir_current = System.getProperty("user.dir");
+		this.btnEliminarNacimiento.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
+		this.btnEliminarDomicilio.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
+	
 	}
 
 	private void configurarPanel() {

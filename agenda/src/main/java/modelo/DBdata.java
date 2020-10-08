@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
-
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
@@ -20,12 +19,12 @@ import persistencia.dao.interfaz.ProvinciaDAO;
 
 public class DBdata {
 	
-	public static void Initialize(DAOAbstractFactory DAOFactory) {
-		
+	public static boolean Initialize(DAOAbstractFactory DAOFactory, String user, String password) {
+		if(Conexion.isCorrectUser(user) && Conexion.isCorrectPassword(password)) {
 		try {
 			crearTablas(); // Initialize database
+			return true;
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
 		// Paises
@@ -40,16 +39,21 @@ public class DBdata {
 		LocalidadDAO localidadDAO = DAOFactory.createLocalidadDAO();
 		@SuppressWarnings("unused")
 		List<LocalidadDTO> localidades = getLocalidades(localidadDAO, provincias);
+		}
+		return false;
 		
 	}
 	
 	public static void crearTablas() throws Exception {
+		
 		Connection conn = Conexion.getConexion().getSQLConexion();
 		ScriptRunner runner = new ScriptRunner(conn);
 		InputStreamReader reader = null;
 		
 		try {
-			reader = new InputStreamReader(new FileInputStream("sql/scriptAgenda.sql"), "UTF-8");
+			String dir_current = System.getProperty("user.dir")+"/recursos/sql/scriptAgenda.sql";
+    		FileInputStream file = new FileInputStream(dir_current);
+			reader = new InputStreamReader(file);
 			runner.runScript(reader);
 			reader.close();
 			Conexion.getConexion().cerrarConexion();

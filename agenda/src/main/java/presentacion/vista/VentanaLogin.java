@@ -135,4 +135,9 @@ public class VentanaLogin extends JFrame
 		dispose();
 		setVisible(false);
 	}
+
+
+	public void borrarListeners() {
+		IntermediarioVista.eliminarListener(btnAceptar);	
+	}
 }

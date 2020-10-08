@@ -8,11 +8,17 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.log4j.BasicConfigurator;
+
 import modelo.Agenda;
+import modelo.DBdata;
+import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaABMUbicacion;
 import presentacion.vista.VentanaEditarContactoOPais;
 import presentacion.vista.VentanaEditarPersona;
+import presentacion.vista.VentanaLogin;
 import presentacion.vista.VentanaNacimiento;
 import presentacion.vista.VentanaNuevoPaisOContacto;
 import presentacion.vista.VentanaPersona;
@@ -26,22 +32,49 @@ import dto.PersonaDTO;
 
 public class Controlador implements ActionListener {
 	private Vista vista;
+
 	private VentanaPersona ventanaPersona;
 	private Agenda agenda;
 	private VentanaNacimiento ventanaNacimiento;
 	private VentanaABMTipoContacto ventanaTipoContacto;
 	private VentanaEditarPersona ventanaEditarPersona;
 	private ControladorUbicacion controladorUbicacion;
+	private VentanaLogin ventanaLogin;
 	
 	public Controlador(Vista vista, Agenda agenda) {
+		this.vista = vista;
 		this.agenda = agenda;
+		this.ventanaLogin = new VentanaLogin();
+		ventanaLogin.mostrar();
+		ventanaLogin.borrarListeners();
+		ventanaLogin.getBtnAceptar().addActionListener(a -> ingresar());	
+	}
+	
+	private void ingresar() {
+		BasicConfigurator.configure();
+		DAOSQLFactory factory = new DAOSQLFactory();
+		boolean loginCorrecto = DBdata.Initialize(factory, ventanaLogin.getUser(), ventanaLogin.getPassword());
+		
+		if(loginCorrecto) {
+			JOptionPane.showMessageDialog(ventanaLogin, "Conexión exitosa");
+			ventanaLogin.cerrar();
+			ventanaLogin = null;
+			this.inicializar();	
+		}
+		else
+			JOptionPane.showMessageDialog(ventanaLogin, "Usuario o contraseña incorrectos!");
+		inicializarConfiguraciones();
+	}
+
+	private void inicializarConfiguraciones() {
 		configurarVentanaNacimiento();
 		configurarVentanaPersona();
 		configurarVentanaTipoContacto();
 		this.controladorUbicacion = new ControladorUbicacion(agenda, new VentanaABMUbicacion());
 		configurarVista(vista);
+		vista.show();
 	}
-	
+
 	private void configurarVentanaNacimiento() {
 		this.ventanaNacimiento = new VentanaNacimiento();
 		if(ventanaNacimiento.getBtnAgregarNacimiento().getActionListeners().length == 0) 
@@ -364,7 +397,6 @@ public class Controlador implements ActionListener {
 
 	public void inicializar() {
 		this.refrescarTabla();
-		this.vista.show();
 	}
 
 	private void refrescarTabla() {

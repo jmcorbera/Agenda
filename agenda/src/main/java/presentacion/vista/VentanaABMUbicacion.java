@@ -103,47 +103,38 @@ public class VentanaABMUbicacion extends JFrame {
 		this.panel.add(cmbLocalidad);
 		
 		this.btnEditarPais = new JButton();
-		this.btnEditarPais.setIcon(new ImageIcon("./imagenes/editar.png"));
 		this.btnEditarPais.setBounds(291, 54, 25, 25);
 		this.panel.add(btnEditarPais);
 				
 		this.btnAgregarPais = new JButton();
-		this.btnAgregarPais.setIcon(new ImageIcon("./imagenes/guardar.png"));
-		this.btnAgregarPais.setBounds(326, 54, 25, 25);				
+			this.btnAgregarPais.setBounds(326, 54, 25, 25);				
 		this.panel.add(btnAgregarPais);
 		
 		this.btnEliminarPais = new JButton();
-		this.btnEliminarPais.setIcon(new ImageIcon("./imagenes/borrar.png"));
 		this.btnEliminarPais.setBounds(361, 54, 25, 25);
 		this.panel.add(btnEliminarPais);
 		
 		this.btnEditarProv = new JButton();
-		this.btnEditarProv.setIcon(new ImageIcon("./imagenes/editar.png"));
 		this.btnEditarProv.setBounds(291, 104, 25, 25);
 		this.panel.add(btnEditarProv);
 		
 		this.btnAgregarProv = new JButton();
-		this.btnAgregarProv.setIcon(new ImageIcon("./imagenes/guardar.png"));
 		this.btnAgregarProv.setBounds(326, 104, 25, 25);
 		this.panel.add(btnAgregarProv);
 		
 		this.btnEliminarProv = new JButton();
-		this.btnEliminarProv.setIcon(new ImageIcon("./imagenes/borrar.png"));
 		this.btnEliminarProv.setBounds(361, 104, 25, 25);
 		this.panel.add(btnEliminarProv);
 		
 		this.btnEditarLoc = new JButton();
-		this.btnEditarLoc.setIcon(new ImageIcon("./imagenes/editar.png"));
 		this.btnEditarLoc.setBounds(291, 154, 25, 25);
 		this.panel.add(btnEditarLoc);
 		
 		this.btnAgregarLoc = new JButton();
-		this.btnAgregarLoc.setIcon(new ImageIcon("./imagenes/guardar.png"));
 		this.btnAgregarLoc.setBounds(326, 154, 25, 25);
 		this.panel.add(btnAgregarLoc);
 		
 		this.btnEliminarLoc = new JButton();
-		this.btnEliminarLoc.setIcon(new ImageIcon("./imagenes/borrar.png"));
 		this.btnEliminarLoc.setBounds(361, 154, 25, 25);
 		this.panel.add(btnEliminarLoc);
 		
@@ -155,6 +146,23 @@ public class VentanaABMUbicacion extends JFrame {
 		btnVolver = new JButton("Volver");
 		btnVolver.setBounds(291, 191, 95, 23);
 		panel.add(btnVolver);
+		
+		cargarIconos();
+	}
+	
+	private void cargarIconos() {
+		String dir_current = System.getProperty("user.dir");
+		this.btnEditarPais.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/editar.png"));
+		this.btnEditarProv.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/editar.png"));
+		this.btnEditarLoc.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/editar.png"));
+		
+		this.btnAgregarPais.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/guardar.png"));
+		this.btnAgregarProv.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/guardar.png"));
+		this.btnAgregarLoc.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/guardar.png"));
+		
+		this.btnEliminarPais.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
+		this.btnEliminarProv.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
+		this.btnEliminarLoc.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
 	}
 	
 	public void mostrarVentana() {
