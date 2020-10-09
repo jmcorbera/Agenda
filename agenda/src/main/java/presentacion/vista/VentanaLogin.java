@@ -23,6 +23,8 @@ public class VentanaLogin extends JFrame
 	private static final long serialVersionUID = 1L;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
+	private JTextField txtIP;
+	private JTextField txtPort;
 	private JTextField txtUser;
 	private JPasswordField txtPassword;
 	private JLabel lblMensaje;
@@ -39,11 +41,11 @@ public class VentanaLogin extends JFrame
 	{
 		setTitle("Login");
 		setResizable(false);
-		setBounds(100, 100, 326, 193);
+		setBounds(100, 100, 326, 264);
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 318, 163);
+		panel.setBounds(0, 0, 318, 235);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -53,40 +55,57 @@ public class VentanaLogin extends JFrame
 				cerrar();
 			}
 		});
-		btnCancelar.setBounds(219, 135, 89, 23);
+		btnCancelar.setBounds(219, 203, 89, 23);
 		panel.add(btnCancelar);
 		
 		btnAceptar = new JButton("Aceptar");
-		btnAceptar.setBounds(120, 135, 89, 23);
+		btnAceptar.setBounds(113, 203, 89, 23);
 		panel.add(btnAceptar);
 		
-		txtUser = new JTextField();
-		txtUser.setBounds(101, 67, 207, 23);
-		panel.add(txtUser);
-		txtUser.setColumns(10);
+		txtIP = new JTextField();
+		txtIP.setBounds(101, 67, 207, 23);
+		panel.add(txtIP);
+		txtIP.setColumns(10);
 		
-		txtPassword = new JPasswordField();
-		txtPassword.setBounds(101, 101, 207, 23);
-		panel.add(txtPassword);
+		txtPort = new JTextField();
+		txtPort.setBounds(101, 101, 207, 23);
+		panel.add(txtPort);
 		
-		JLabel lblUser = new JLabel("Usuario:");
-		lblUser.setBounds(10, 71, 81, 14);
-		panel.add(lblUser);
+		JLabel lblIP = new JLabel("IP:");
+		lblIP.setBounds(10, 71, 81, 14);
+		panel.add(lblIP);
 		
-		JLabel lblPassword = new JLabel("Contraseña:");
-		lblPassword.setBounds(10, 108, 89, 14);
-		panel.add(lblPassword);
+		JLabel lblPort = new JLabel("Puerto:");
+		lblPort.setBounds(10, 108, 89, 14);
+		panel.add(lblPort);
 		
-		JLabel lblTitulo = new JLabel("Login");
+		JLabel lblTitulo = new JLabel("Conexion");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblTitulo.setVerticalAlignment(SwingConstants.TOP);
 		lblTitulo.setBounds(124, 11, 124, 30);
 		panel.add(lblTitulo);
 		
-		lblMensaje = new JLabel("Ingrese los siguientes datos para continuar");
+		lblMensaje = new JLabel("Ingrese los datos de conexion para continuar");
 		lblMensaje.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		lblMensaje.setBounds(10, 37, 298, 23);
 		panel.add(lblMensaje);
+		
+		JLabel lblUser = new JLabel("Usuario:");
+		lblUser.setBounds(10, 139, 81, 14);
+		panel.add(lblUser);
+		
+		txtUser = new JTextField();
+		txtUser.setColumns(10);
+		txtUser.setBounds(101, 135, 207, 23);
+		panel.add(txtUser);
+		
+		JLabel lblPassword = new JLabel("Contraseña:");
+		lblPassword.setBounds(10, 176, 89, 14);
+		panel.add(lblPassword);
+		
+		txtPassword = new JPasswordField();
+		txtPassword.setBounds(101, 169, 207, 23);
+		panel.add(txtPassword);
 	
 	}
 	
@@ -121,6 +140,14 @@ public class VentanaLogin extends JFrame
 		return btnCancelar;
 	}
 	
+	public String getIp() {
+		return txtIP.getText();
+	}
+	
+	public String getPort() {
+		return txtPort.getText();
+	}
+	
 	public String getUser() {
 		return txtUser.getText();
 	}
@@ -128,8 +155,6 @@ public class VentanaLogin extends JFrame
 	public String getPassword() {
 		return txtPassword != null ? new String(txtPassword.getPassword()) : "";
 	}
-
-
 
 	public void cerrar() {
 		dispose();

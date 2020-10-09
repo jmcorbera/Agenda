@@ -32,8 +32,10 @@ public class Vista
 	private JButton btnEditar;
 	private JMenuItem menuItemLocalidad;
 	private JMenuItem menuItemTipoContacto;
+	private JMenuItem menuItemConfig;
 	private DefaultTableModel modelPersonas;
 	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email"};
+	private JMenu menuConn;
 
 	public Vista() 
 	{
@@ -105,6 +107,13 @@ public class Vista
 		// Agrega Item Menu
 		menuItemTipoContacto = new JMenuItem("Tipo Contacto");
 		menu.add(menuItemTipoContacto);
+		
+		JMenu menuConn = new JMenu("Conexion");
+		menuBar.add(menuConn);
+		
+		// Agrega Item MenuConn
+		menuItemConfig = new JMenuItem("Configuracion");
+		menuConn.add(menuItemConfig);
 	}
 
 
@@ -163,6 +172,10 @@ public class Vista
 	
 	public JMenuItem getMenuItemTipoContacto() {
 		return menuItemTipoContacto;
+	}
+	
+	public JMenuItem getMenuConexion() {
+		return menuItemConfig;
 	}
 	
 	public DefaultTableModel getModelPersonas() 

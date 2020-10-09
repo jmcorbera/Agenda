@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.BasicConfigurator;
 
 import modelo.Agenda;
+import modelo.DBconfiguration;
 import modelo.DBdata;
 import persistencia.conexion.Conexion;
 import persistencia.dao.mysql.DAOSQLFactory;
@@ -45,29 +46,67 @@ public class Controlador implements ActionListener {
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
 		this.agenda = agenda;
-		this.ventanaLogin = new VentanaLogin();
-		ventanaLogin.mostrar();
+		this.ventanaLogin = new VentanaLogin();		
 		ventanaLogin.borrarListeners();
-		ventanaLogin.getBtnAceptar().addActionListener(a -> ingresar());	
+		ventanaLogin.getBtnAceptar().addActionListener(a -> conectarBaseDeDatos());
 	}
 	
-	private void ingresar() {
-	boolean loginCorrecto = Conexion.isCorrectUser(ventanaLogin.getUser()) &&
-				Conexion.isCorrectPassword(ventanaLogin.getPassword());
-		if(loginCorrecto) {
-			JOptionPane.showMessageDialog(ventanaLogin, "Conexión exitosa");
-			BasicConfigurator.configure();
-			DAOSQLFactory factory = new DAOSQLFactory();
-			DBdata.Initialize(factory);
-			ventanaLogin.cerrar();
-			ventanaLogin = null;
-			this.inicializar();	
-			inicializarConfiguraciones();
+	public void iniciar() {
+		if (Conexion.getConexion().conectar()) {
+			this.inicializar();
+			this.inicializarConfiguraciones();
 		}
-		else
-			JOptionPane.showMessageDialog(ventanaLogin, "Usuario o contraseña incorrectos!");
-		
+		else {
+			JOptionPane.showMessageDialog(null, "Error al conectarse a la Base de Datos", "ERROR", JOptionPane.ERROR_MESSAGE);
+			ventanaLogin.mostrar();
+		}
 	}
+	
+	private void conectarBaseDeDatos()
+	{
+		String ip = this.ventanaLogin.getIp();
+		String puerto = this.ventanaLogin.getPort();
+		String usuario =  this.ventanaLogin.getUser();
+		String contraseña = this.ventanaLogin.getPassword();
+			
+		if(ip.isEmpty() || puerto.isEmpty())
+			JOptionPane.showMessageDialog(this.ventanaLogin, "Debe ingresar la url y puerto de la base de datos a la que desea conectarse.");
+		
+		else if (usuario.isEmpty() || contraseña.isEmpty())
+			JOptionPane.showMessageDialog(this.ventanaLogin, "Debe proporcionar el usuario y la contraseña para acceder a la base de datos.");
+		
+		DBconfiguration.GuardarConfig(ip, puerto, usuario, contraseña);
+			
+		this.ventanaLogin.cerrar();
+		
+//		try {
+//			SeedData.EnsureDatabaseTablesCreated();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			JOptionPane.showMessageDialog(null, "La base de datos estaba vacía y no se pudo crear el esquema.");
+//		}
+		
+		this.iniciar();
+	}
+	
+//	private void ingresar() {
+//		
+//	boolean loginCorrecto = Conexion.isCorrectUser(ventanaLogin.getUser()) &&
+//				Conexion.isCorrectPassword(ventanaLogin.getPassword());
+//		if(loginCorrecto) {
+//			JOptionPane.showMessageDialog(ventanaLogin, "Conexión exitosa");
+//			BasicConfigurator.configure();
+//			DAOSQLFactory factory = new DAOSQLFactory();
+//			DBdata.Initialize(factory);
+//			ventanaLogin.cerrar();
+//			ventanaLogin = null;
+//			this.inicializar();	
+//			inicializarConfiguraciones();
+//		}
+//		else
+//			JOptionPane.showMessageDialog(ventanaLogin, "Usuario o contraseña incorrectos!");
+//		
+//	}
 
 	private void inicializarConfiguraciones() {
 		configurarVentanaNacimiento();
