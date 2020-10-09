@@ -171,10 +171,8 @@ public class VentanaEditarPersona extends JFrame {
 	}
 	
 	private void agregarIconos() {
-		String dir_current = System.getProperty("user.dir");
-		this.btnEliminarNacimiento.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
-		this.btnEliminarDomicilio.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
-	
+		this.btnEliminarNacimiento.setIcon(new ImageIcon(getClass().getClassLoader().getResource("borrar.png")));
+		this.btnEliminarDomicilio.setIcon(new ImageIcon(getClass().getClassLoader().getResource("borrar.png")));
 	}
 
 	private void configurarPanel() {

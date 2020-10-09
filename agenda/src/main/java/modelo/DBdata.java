@@ -1,7 +1,7 @@
 package modelo;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -19,11 +19,9 @@ import persistencia.dao.interfaz.ProvinciaDAO;
 
 public class DBdata {
 	
-	public static boolean Initialize(DAOAbstractFactory DAOFactory, String user, String password) {
-		if(Conexion.isCorrectUser(user) && Conexion.isCorrectPassword(password)) {
+	public static void Initialize(DAOAbstractFactory DAOFactory) {
 		try {
 			crearTablas(); // Initialize database
-			return true;
 		} catch (Exception e) {
 		}
 		
@@ -39,21 +37,16 @@ public class DBdata {
 		LocalidadDAO localidadDAO = DAOFactory.createLocalidadDAO();
 		@SuppressWarnings("unused")
 		List<LocalidadDTO> localidades = getLocalidades(localidadDAO, provincias);
-		}
-		return false;
-		
 	}
-	
+
 	public static void crearTablas() throws Exception {
-		
 		Connection conn = Conexion.getConexion().getSQLConexion();
 		ScriptRunner runner = new ScriptRunner(conn);
-		InputStreamReader reader = null;
+		InputStreamReader reader = null;		
+        InputStream stream = DBdata.class.getResourceAsStream("/scriptAgenda.sql");
 		
 		try {
-			String dir_current = System.getProperty("user.dir")+"/recursos/sql/scriptAgenda.sql";
-    		FileInputStream file = new FileInputStream(dir_current);
-			reader = new InputStreamReader(file);
+			reader = new InputStreamReader(stream, "UTF-8");
 			runner.runScript(reader);
 			reader.close();
 			Conexion.getConexion().cerrarConexion();

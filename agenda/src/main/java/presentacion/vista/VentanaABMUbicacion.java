@@ -151,18 +151,17 @@ public class VentanaABMUbicacion extends JFrame {
 	}
 	
 	private void cargarIconos() {
-		String dir_current = System.getProperty("user.dir");
-		this.btnEditarPais.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/editar.png"));
-		this.btnEditarProv.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/editar.png"));
-		this.btnEditarLoc.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/editar.png"));
+		this.btnEditarPais.setIcon(new ImageIcon(getClass().getClassLoader().getResource("editar.png")));
+		this.btnEditarProv.setIcon(new ImageIcon(getClass().getClassLoader().getResource("editar.png")));
+		this.btnEditarLoc.setIcon(new ImageIcon(getClass().getClassLoader().getResource("editar.png")));
 		
-		this.btnAgregarPais.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/guardar.png"));
-		this.btnAgregarProv.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/guardar.png"));
-		this.btnAgregarLoc.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/guardar.png"));
+		this.btnAgregarPais.setIcon(new ImageIcon(getClass().getClassLoader().getResource("guardar.png")));
+		this.btnAgregarProv.setIcon(new ImageIcon(getClass().getClassLoader().getResource("guardar.png")));
+		this.btnAgregarLoc.setIcon(new ImageIcon(getClass().getClassLoader().getResource("guardar.png")));
 		
-		this.btnEliminarPais.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
-		this.btnEliminarProv.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
-		this.btnEliminarLoc.setIcon(new ImageIcon(dir_current+"/recursos/imagenes/borrar.png"));
+		this.btnEliminarPais.setIcon(new ImageIcon(getClass().getClassLoader().getResource("borrar.png")));
+		this.btnEliminarProv.setIcon(new ImageIcon(getClass().getClassLoader().getResource("borrar.png")));
+		this.btnEliminarLoc.setIcon(new ImageIcon(getClass().getClassLoader().getResource("borrar.png")));		
 	}
 	
 	public void mostrarVentana() {

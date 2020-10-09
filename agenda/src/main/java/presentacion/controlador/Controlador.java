@@ -13,6 +13,7 @@ import org.apache.log4j.BasicConfigurator;
 
 import modelo.Agenda;
 import modelo.DBdata;
+import persistencia.conexion.Conexion;
 import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaABMUbicacion;
@@ -51,19 +52,21 @@ public class Controlador implements ActionListener {
 	}
 	
 	private void ingresar() {
-		BasicConfigurator.configure();
-		DAOSQLFactory factory = new DAOSQLFactory();
-		boolean loginCorrecto = DBdata.Initialize(factory, ventanaLogin.getUser(), ventanaLogin.getPassword());
-		
+	boolean loginCorrecto = Conexion.isCorrectUser(ventanaLogin.getUser()) &&
+				Conexion.isCorrectPassword(ventanaLogin.getPassword());
 		if(loginCorrecto) {
 			JOptionPane.showMessageDialog(ventanaLogin, "Conexión exitosa");
+			BasicConfigurator.configure();
+			DAOSQLFactory factory = new DAOSQLFactory();
+			DBdata.Initialize(factory);
 			ventanaLogin.cerrar();
 			ventanaLogin = null;
 			this.inicializar();	
+			inicializarConfiguraciones();
 		}
 		else
 			JOptionPane.showMessageDialog(ventanaLogin, "Usuario o contraseña incorrectos!");
-		inicializarConfiguraciones();
+		
 	}
 
 	private void inicializarConfiguraciones() {
