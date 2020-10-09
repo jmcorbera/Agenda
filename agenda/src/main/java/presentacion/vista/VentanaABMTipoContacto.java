@@ -65,7 +65,7 @@ public class VentanaABMTipoContacto extends JFrame {
 		btnVolver.setBounds(10, 254, 282, 22);
 		panel.add(btnVolver);
 		
-		JLabel lblTitulo = new JLabel("Tipos de contacto preferentes");
+		JLabel lblTitulo = new JLabel("Tipos de contacto existentes");
 		lblTitulo.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblTitulo.setBounds(49, 11, 242, 29);
 		panel.add(lblTitulo);
