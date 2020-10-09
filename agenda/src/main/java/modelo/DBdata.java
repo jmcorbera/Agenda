@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -46,10 +47,11 @@ public class DBdata {
 	public static void crearTablas() throws Exception {
 		Connection conn = Conexion.getConexion().getSQLConexion();
 		ScriptRunner runner = new ScriptRunner(conn);
-		InputStreamReader reader = null;
+		InputStreamReader reader = null;		
+        InputStream stream = DBdata.class.getResourceAsStream("/scriptAgenda.sql");
 		
 		try {
-			reader = new InputStreamReader(new FileInputStream("sql/scriptAgenda.sql"), "UTF-8");
+			reader = new InputStreamReader(stream, "UTF-8");
 			runner.runScript(reader);
 			reader.close();
 			Conexion.getConexion().cerrarConexion();

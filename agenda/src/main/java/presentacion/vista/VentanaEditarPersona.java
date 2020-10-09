@@ -147,7 +147,7 @@ public class VentanaEditarPersona extends JFrame {
 		lblDomicilio = new JLabel("Domicilio:");
 		lblDomicilio.setBounds(22, 309, 97, 14);
 		panel.add(lblDomicilio);
-		ImageIcon borrar = new ImageIcon("./imagenes/borrar.png");
+		ImageIcon borrar = new ImageIcon(getClass().getClassLoader().getResource("borrar.png"));
 		btnEliminarNacimiento = new JButton("");
 		btnEliminarNacimiento.setBounds(282, 166, 46, 24);
 		btnEliminarNacimiento.setIcon(borrar);
