@@ -103,7 +103,7 @@ public class VentanaEditarPersona extends JFrame {
 		lblEmail.setBounds(22, 131, 97, 14);
 		panel.add(lblEmail);
 		
-		JLabel lblNacimiento = new JLabel("Fecha de Nacimiento: ");
+		JLabel lblNacimiento = new JLabel("Cumpleaños:");
 		lblNacimiento.setBounds(22, 171, 109, 14);
 		panel.add(lblNacimiento);
 		
