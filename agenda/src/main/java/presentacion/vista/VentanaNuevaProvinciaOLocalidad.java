@@ -29,7 +29,7 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 
 	public VentanaNuevaProvinciaOLocalidad() {
 		super();
-		setTitle("Editar");
+		setTitle("Agregar");
 		IntermediarioVista.cambiarLookAndFeel(VentanaNuevaProvinciaOLocalidad.class.getName());
 		setResizable(false);
 		configurarVentana();
@@ -118,6 +118,10 @@ public class VentanaNuevaProvinciaOLocalidad extends JFrame {
 
 	public JLabel getLblPadreAlQuePertenece() {
 		return lblPadreAlQuePertenece;
+	}
+	
+	public JLabel getLblTitulo() {
+		return lblTitulo;
 	}
 	
 	private void verificarCampos() {

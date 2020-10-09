@@ -208,6 +208,7 @@ public class ControladorUbicacion {
 	// ABM Provincia
 	private void configurarVentanaNuevaProvincia() {
 		VentanaNuevaProvinciaOLocalidad ventanaNuevaProvincia = new VentanaNuevaProvinciaOLocalidad();
+		ventanaNuevaProvincia.getLblTitulo().setText("Datos de la nueva provincia");
 		mostrarPaisesPredeterminados(ventanaNuevaProvincia.getComboBoxPadre());
 		ventanaNuevaProvincia.getBtnAceptar().addActionListener(n -> agregarProvincia(ventanaNuevaProvincia));
 		ventanaNuevaProvincia.getBtnCancelar().addActionListener(c -> ventanaNuevaProvincia.cerrar());
@@ -322,6 +323,7 @@ public class ControladorUbicacion {
 		}
 		VentanaNuevaProvinciaOLocalidad ventanaNuevaLocalidad = new VentanaNuevaProvinciaOLocalidad();
 		ventanaNuevaLocalidad.getLblPadreAlQuePertenece().setText("Provincia a la que pertenece: ");
+		ventanaNuevaLocalidad.getLblTitulo().setText("Datos de la nueva localidad");
 		mostrarProvinciasAsociadas(ventanaNuevaLocalidad.getComboBoxPadre(), ventanaAMBLocalidad.getComboBoxPais().getSelectedItem());
 		ventanaNuevaLocalidad.getBtnAceptar().addActionListener(n -> agregarLocalidad(ventanaNuevaLocalidad));
 		ventanaNuevaLocalidad.getBtnCancelar().addActionListener(c -> ventanaNuevaLocalidad.cerrar());
