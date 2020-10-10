@@ -1,10 +1,12 @@
 package modelo;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.Properties;
 
 public class DBconfiguration {
@@ -13,16 +15,16 @@ public class DBconfiguration {
 	private static Properties properties = new Properties();
 	private static FileOutputStream outputStream;
 	
-	private static String propFileName = "config.properties";
+	private static String propFileName = "/config.properties";
 	
 	public static DBconfiguration instance;
 	
 	public static boolean cargarConfiguracion() {
 		boolean ret = false;
 		
-		try {
-	
-			inputStream = new FileInputStream("src/main/resources/" + propFileName);
+		try {		
+			//inputStream = new FileInputStream("src/main/resources/" + propFileName);
+			inputStream = DBconfiguration.class.getResourceAsStream(propFileName);
 			
 			if (inputStream != null)
 			{
@@ -57,7 +59,12 @@ public class DBconfiguration {
 			properties.setProperty("db_user", usuario);
 			properties.setProperty("db_password", contraseña);
 			
-			outputStream = new FileOutputStream("src/main/resources/" + propFileName);
+			//outputStream = new FileOutputStream("src/main/resources/" + propFileName);
+			
+			URL resourceUrl = DBdata.class.getResource(propFileName);
+			File file = new File(resourceUrl.toURI());		
+			outputStream = new FileOutputStream(file);
+					 	
 			properties.store(outputStream, null);
 			
 			outputStream.close();

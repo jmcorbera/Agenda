@@ -62,6 +62,10 @@ public class Controlador implements ActionListener {
 		}
 	}
 	
+	private void ventanaConfiguracion(ActionEvent e) {
+		this.ventanaLogin.mostrar();
+	}
+	
 	private void conectarBaseDeDatos()
 	{
 		String ip = this.ventanaLogin.getIp();
@@ -112,7 +116,7 @@ public class Controlador implements ActionListener {
 		configurarVentanaNacimiento();
 		configurarVentanaPersona();
 		configurarVentanaTipoContacto();
-		this.controladorUbicacion = new ControladorUbicacion(agenda, new VentanaABMUbicacion());
+		this.controladorUbicacion = new ControladorUbicacion(agenda, new VentanaABMUbicacion());		
 		configurarVista(vista);
 		vista.show();
 	}
@@ -156,6 +160,7 @@ public class Controlador implements ActionListener {
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte());
 		this.vista.getMenuItemLocalidad().addActionListener(l -> setControladorUbicacion());
 		this.vista.getMenuItemTipoContacto().addActionListener(t -> ventanaTipoContacto.mostrarVentana());
+		this.vista.getMenuConexion().addActionListener(a->ventanaConfiguracion(a));
 	}
 
 	private void setControladorUbicacion() {
