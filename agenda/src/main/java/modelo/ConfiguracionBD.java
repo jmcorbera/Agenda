@@ -1,15 +1,13 @@
 package modelo;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
-public class DBconfiguration {
+public class ConfiguracionBD {
 	private static InputStream inputStream;
 	
 	private static Properties properties = new Properties();
@@ -17,23 +15,24 @@ public class DBconfiguration {
 	
 	private static String propFileName = "/config.properties";
 	
-	public static DBconfiguration instance;
+	public static ConfiguracionBD instance;
 	
 	public static boolean cargarConfiguracion() {
 		boolean ret = false;
-		
-		try {		
-			//inputStream = new FileInputStream("src/main/resources/" + propFileName);
-			inputStream = DBconfiguration.class.getResourceAsStream(propFileName);
+		try {
+			inputStream = ConfiguracionBD.class.getResourceAsStream(propFileName);
 			
 			if (inputStream != null)
 			{
 				properties.load(inputStream);
 				ret = true;
 			}		
-			else
-				throw new FileNotFoundException(String.format("La Property file '%s' no existe", propFileName));
-			
+			else {
+			//	String dirActual = System.getProperty("user.dir");
+			//	inputStream = DBconfiguration.class.getResourceAsStream(dirActual+propFileName);
+			//	if(inputStream == null)
+				//throw new FileNotFoundException(String.format("La Property file '%s' no existe", dirActual+" \\config.properties"));
+			}
 		} catch (Exception e) {
 			
 			System.out.println("Exception: " + e);
@@ -61,7 +60,7 @@ public class DBconfiguration {
 			
 			//outputStream = new FileOutputStream("src/main/resources/" + propFileName);
 			
-			URL resourceUrl = DBdata.class.getResource(propFileName);
+			URL resourceUrl = DataBD.class.getResource(propFileName);
 			File file = new File(resourceUrl.toURI());		
 			outputStream = new FileOutputStream(file);
 					 	

@@ -17,7 +17,7 @@ import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.ProvinciaDAO;
 
-public class DBdata {
+public class DataBD {
 	
 	public static void Initialize(DAOAbstractFactory DAOFactory) {
 		try {
@@ -43,7 +43,7 @@ public class DBdata {
 		Connection conn = Conexion.getConexion().getSQLConexion();
 		ScriptRunner runner = new ScriptRunner(conn);
 		InputStreamReader reader = null;		
-        InputStream stream = DBdata.class.getResourceAsStream("/scriptAgenda.sql");
+        InputStream stream = DataBD.class.getResourceAsStream("/scriptAgenda.sql");
 		
 		try {
 			reader = new InputStreamReader(stream, "UTF-8");

@@ -9,13 +9,10 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.BasicConfigurator;
 
 import modelo.Agenda;
-import modelo.DBconfiguration;
-import modelo.DBdata;
+import modelo.ConfiguracionBD;
 import persistencia.conexion.Conexion;
-import persistencia.dao.mysql.DAOSQLFactory;
 import presentacion.reportes.ReporteAgenda;
 import presentacion.vista.VentanaABMUbicacion;
 import presentacion.vista.VentanaEditarContactoOPais;
@@ -79,7 +76,7 @@ public class Controlador implements ActionListener {
 		else if (usuario.isEmpty() || contraseña.isEmpty())
 			JOptionPane.showMessageDialog(this.ventanaLogin, "Debe proporcionar el usuario y la contraseña para acceder a la base de datos.");
 		
-		DBconfiguration.GuardarConfig(ip, puerto, usuario, contraseña);
+		ConfiguracionBD.GuardarConfig(ip, puerto, usuario, contraseña);
 			
 		this.ventanaLogin.cerrar();
 		

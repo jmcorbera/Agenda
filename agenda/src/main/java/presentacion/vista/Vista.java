@@ -35,8 +35,7 @@ public class Vista
 	private JMenuItem menuItemConfig;
 	private DefaultTableModel modelPersonas;
 	private  String[] nombreColumnas = {"Nombre y apellido","Telefono","Email"};
-	private JMenu menuConn;
-
+	
 	public Vista() 
 	{
 		super();

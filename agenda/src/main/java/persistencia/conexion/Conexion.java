@@ -8,20 +8,15 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-import modelo.DBconfiguration;
+import modelo.ConfiguracionBD;
 
-//import modelo.ConfigurationReader;
 
 public class Conexion 
 {
-	public static Conexion instancia;
+	public static Conexion INSTANCE;
 	private Connection connection;
 	private Logger log = Logger.getLogger(Conexion.class);	
-	
-	private boolean conectado;
-	
 	private String url = "";
-
 	private String ip = "";
 	private String puerto = "";
 	private String user = "";
@@ -32,14 +27,13 @@ public class Conexion
 		try {			
 			Class.forName("com.mysql.cj.jdbc.Driver"); 
 			
-			if(this.loadConnectionData())
+			if(this.cargarDatosConfiguracion())
 			{
 				this.url = "jdbc:mysql://" + this.ip + ":" + this.puerto + "/grupo_8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
 	        
 				if(dbExist())
 				{
 					this.connection = DriverManager.getConnection(this.url, this.user, this.password);
-			     
 					this.connection.setAutoCommit(false);
 					log.info("Conexión exitosa"); 
 					ret = true;
@@ -48,40 +42,13 @@ public class Conexion
 		} catch (Exception e) {
 			log.error("Conexión fallida", e);
 		}
-		conectado = ret;
 		return ret;
 	}
-	
-//	private Conexion()
-//	{
-//		try
-//		{						
-//			Class.forName("com.mysql.cj.jdbc.Driver"); 
-//			
-//			this.loadConnectionData();
-//			
-//			this.url = "jdbc:mysql://" + this.ip + ":" + this.puerto + "/grupo_8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
-//	        
-//	        if(dbExist())
-//	        {
-//		        this.connection = DriverManager.getConnection(this.url, this.user, this.password);
-//			     
-//				this.connection.setAutoCommit(false);
-//				log.info("Conexión exitosa");    	
-//	        }
-//		}
-//		catch(Exception e)
-//		{
-//			log.error("Conexión fallida", e);
-//		}
-//	}
 	
 	private boolean dbExist() 
 	{
 		boolean ret = true;
-		
-		//String url = "jdbc:mysql://localhost:3306";
-		
+	
 		String url = "jdbc:mysql://" + this.ip + ":" + this.puerto;
 		
 		Properties properties = new Properties();
@@ -108,11 +75,11 @@ public class Conexion
 	
 	public static Conexion getConexion()   
 	{								
-		if(instancia == null)
+		if(INSTANCE == null)
 		{
-			instancia = new Conexion();
+			INSTANCE = new Conexion();
 		}
-		return instancia;
+		return INSTANCE;
 	}
 
 	public Connection getSQLConexion() 
@@ -131,27 +98,17 @@ public class Conexion
 		{
 			log.error("Error al cerrar la conexión!", e);
 		}
-		instancia = null;
+		INSTANCE = null;
 	}
 	
-//	public static boolean isCorrectUser(String user) {
-//		return Conexion.user.equals(user);
-//	}
-//	
-//	public static boolean isCorrectPassword(String password) {
-//		return Conexion.password.equals(password);
-//		
-//	}
-	
-	private boolean loadConnectionData() {
+	private boolean cargarDatosConfiguracion() {
 		
-		if(DBconfiguration.cargarConfiguracion());
+		if(ConfiguracionBD.cargarConfiguracion());
 		{
-			this.ip = DBconfiguration.getIP();
-			this.puerto = DBconfiguration.getPort();
-			this.user = DBconfiguration.getUser();
-			this.password = DBconfiguration.getPassword();
-			
+			this.ip = ConfiguracionBD.getIP();
+			this.puerto = ConfiguracionBD.getPort();
+			this.user = ConfiguracionBD.getUser();
+			this.password = ConfiguracionBD.getPassword();
 			return true;
 		}
 	}
