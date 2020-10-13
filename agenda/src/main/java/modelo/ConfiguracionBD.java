@@ -13,7 +13,6 @@ public class ConfiguracionBD {
 	private Logger log = Logger.getLogger(ConfiguracionBD.class);
 	private static ConfiguracionBD INSTANCE;
 	private Properties properties;
-	private boolean existiaConfig;
 	
 	public static ConfiguracionBD getInstance() {
 		if (INSTANCE == null)
@@ -50,7 +49,6 @@ public class ConfiguracionBD {
 		properties = new Properties();
 		try {
 			properties.load(new FileInputStream(System.getProperty("user.dir") +"/config.properties"));
-			existiaConfig = true;
 		} catch (IOException e) {
 			log.info("Creando nuevo archivo de configuración");
 			File folder = new File("config");
@@ -58,11 +56,7 @@ public class ConfiguracionBD {
 				folder.mkdir();
 			}
 			guardar();
-			existiaConfig = false;
 		}
 	}
 	
-	public boolean existiaConfig() {
-		return existiaConfig;
-	}
 }

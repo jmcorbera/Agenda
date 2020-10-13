@@ -18,6 +18,7 @@ public class Conexion
 	private ConfiguracionBD configBD = ConfiguracionBD.getInstance();
 	private Logger log = Logger.getLogger(Conexion.class);	
 	private String url;
+	private boolean estaConectado;
 	
 	public boolean conectar() {
 		try {
@@ -30,16 +31,19 @@ public class Conexion
 			this.connection = DriverManager.getConnection(this.url, configBD.obtenerProperty("user"), configBD.obtenerProperty("password"));
 			this.connection.setAutoCommit(false);
 			
-			if(!configBD.existiaConfig()) {
+			if(!estaConectado) {
 				DAOSQLFactory factory = new DAOSQLFactory();
 				if(DataBD.Initialize(factory, connection))
 					return true;
 				else
 					return false;
 			}
+			
+			estaConectado = true;
 			log.info("Conexión exitosa");
 			return true;
 		} catch (Exception e) {
+			estaConectado = false;
 			log.error("Conexión fallida");
 		}
 		return false;
