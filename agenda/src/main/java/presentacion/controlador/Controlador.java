@@ -40,6 +40,7 @@ public class Controlador implements ActionListener {
 	private ControladorUbicacion controladorUbicacion;
 	private VentanaLogin ventanaLogin;
 	private ConfiguracionBD config = ConfiguracionBD.getInstance();
+	
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
 		this.agenda = agenda;
@@ -59,7 +60,11 @@ public class Controlador implements ActionListener {
 		}
 	}
 	
-	private void ventanaConfiguracion(ActionEvent e) {
+	private void ventanaConfiguracion() {
+		this.ventanaLogin.setUser(config.obtenerProperty("user"));
+		this.ventanaLogin.setPassword(config.obtenerProperty("password"));
+		this.ventanaLogin.setIp(config.obtenerProperty("ip"));
+		this.ventanaLogin.setPort(config.obtenerProperty("port"));	
 		this.ventanaLogin.mostrar();
 	}
 	
@@ -133,7 +138,7 @@ public class Controlador implements ActionListener {
 		this.vista.getBtnReporte().addActionListener(r -> mostrarReporte());
 		this.vista.getMenuItemLocalidad().addActionListener(l -> setControladorUbicacion());
 		this.vista.getMenuItemTipoContacto().addActionListener(t -> ventanaTipoContacto.mostrarVentana());
-		this.vista.getMenuConexion().addActionListener(a->ventanaConfiguracion(a));
+		this.vista.getMenuConexion().addActionListener(a->ventanaConfiguracion());
 		refrescarTabla();
 	}
 

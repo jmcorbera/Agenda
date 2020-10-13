@@ -1,8 +1,5 @@
 package presentacion.vista;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -110,24 +107,8 @@ public class VentanaLogin extends JFrame
 	
 	public void mostrar()
 	{
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter() 
-		{
-			@Override
-		    public void windowClosing(WindowEvent e) {
-		        int confirm = JOptionPane.showOptionDialog(
-		             null, "Estas seguro que quieres salir?", 
-		             "Confirmación", JOptionPane.YES_NO_OPTION,
-		             JOptionPane.QUESTION_MESSAGE, null, null, null);
-		        if (confirm == 0) {
-		           System.exit(0);
-		        }
-		    }
-		});
 		setVisible(true);
 	}
-	
-
 	
 	public JButton getBtnAceptar() 
 	{
@@ -153,6 +134,22 @@ public class VentanaLogin extends JFrame
 	
 	public String getPassword() {
 		return txtPassword != null ? new String(txtPassword.getPassword()) : "";
+	}
+	
+	public void setUser(String user) {
+		txtUser.setText(user);
+	}
+	
+	public void setPassword(String pass) {
+		txtPassword.setText(pass);
+	}
+
+	public void setPort(String port) {
+		txtPort.setText(port);
+	}
+	
+	public void setIp(String ip) {
+		txtIP.setText(ip);
 	}
 
 	public void cerrar() {
