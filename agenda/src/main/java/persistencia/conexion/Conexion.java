@@ -6,9 +6,12 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import modelo.ConfiguracionBD;
+import modelo.DataBD;
+import persistencia.dao.mysql.DAOSQLFactory;
 
 
 public class Conexion 
@@ -24,19 +27,24 @@ public class Conexion
 	
 	public boolean conectar() {
 		boolean ret = false;
-		try {			
-			Class.forName("com.mysql.cj.jdbc.Driver"); 
-			
+		try {	
 			if(this.cargarDatosConfiguracion())
 			{
-				this.url = "jdbc:mysql://" + this.ip + ":" + this.puerto + "/grupo_8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";
-	        
+				BasicConfigurator.configure();
+				this.url = "jdbc:mysql://" + this.ip + ":" + this.puerto + "/grupo_8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";	 
+		
 				if(dbExist())
 				{
-					this.connection = DriverManager.getConnection(this.url, this.user, this.password);
-					this.connection.setAutoCommit(false);
 					log.info("Conexión exitosa"); 
+					this.connection = DriverManager.getConnection(this.url, user, password);
+					this.connection.setAutoCommit(false);
 					ret = true;
+					
+					DAOSQLFactory factory = new DAOSQLFactory();
+			    	if(DataBD.Initialize(factory, connection))
+			    		return true;
+			    	else
+			    		return false;
 				}
 	        }
 		} catch (Exception e) {
@@ -46,11 +54,9 @@ public class Conexion
 	}
 	
 	private boolean dbExist() 
-	{
-		boolean ret = true;
+	{	
 	
-		String url = "jdbc:mysql://" + this.ip + ":" + this.puerto;
-		
+		String url = "jdbc:mysql://" + this.ip + ":" + this.puerto;	
 		Properties properties = new Properties();
 		properties.setProperty("allowPublicKeyRetrieval","true");
 		properties.setProperty("user", this.user);
@@ -63,14 +69,14 @@ public class Conexion
 		
         try (Connection conn = DriverManager.getConnection(url, properties);
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
-
                stmt.execute();
+               return true;
            } catch (Exception e) {
                e.printStackTrace();
-               ret = false;
+               return false;
            }
         
-		return ret;
+      
 	}
 	
 	public static Conexion getConexion()   
@@ -102,8 +108,7 @@ public class Conexion
 	}
 	
 	private boolean cargarDatosConfiguracion() {
-		
-		if(ConfiguracionBD.cargarConfiguracion());
+		if(ConfiguracionBD.cargarConfiguracion())
 		{
 			this.ip = ConfiguracionBD.getIP();
 			this.puerto = ConfiguracionBD.getPort();
@@ -111,5 +116,6 @@ public class Conexion
 			this.password = ConfiguracionBD.getPassword();
 			return true;
 		}
+		return false;
 	}
 }

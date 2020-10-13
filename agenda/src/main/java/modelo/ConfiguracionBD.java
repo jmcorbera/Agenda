@@ -1,10 +1,10 @@
 package modelo;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.Properties;
 
 public class ConfiguracionBD {
@@ -28,10 +28,7 @@ public class ConfiguracionBD {
 				ret = true;
 			}		
 			else {
-			//	String dirActual = System.getProperty("user.dir");
-			//	inputStream = DBconfiguration.class.getResourceAsStream(dirActual+propFileName);
-			//	if(inputStream == null)
-				//throw new FileNotFoundException(String.format("La Property file '%s' no existe", dirActual+" \\config.properties"));
+	           throw new FileNotFoundException(String.format("Archivo .properties no Encontrado"));
 			}
 		} catch (Exception e) {
 			
@@ -49,26 +46,32 @@ public class ConfiguracionBD {
 		return ret;		
 	}
 	
-	public static void GuardarConfig(String ip, String puerto, String usuario, String contraseña) {
-		
+	public static void GuardarConfig(String ip, String port, String user, String password) {
 		try {
+			if(properties.getProperty("ip")== null)
+				properties.put("ip", ip);
+			else
+				properties.setProperty("ip", ip);
+			if(properties.getProperty("port")==null)
+				properties.put("port", port);
+			else
+				properties.setProperty("port", port);
+			if(properties.getProperty("user")==null)
+				properties.put("user",user);
+			else
+				properties.setProperty("user", user);
+			if(properties.getProperty("password")==null)
+				properties.put("password", password);
+			else
+				properties.setProperty("password", password);
 			
-			properties.setProperty("db_ip", ip);
-			properties.setProperty("db_port", puerto);
-			properties.setProperty("db_user", usuario);
-			properties.setProperty("db_password", contraseña);
-			
-			//outputStream = new FileOutputStream("src/main/resources/" + propFileName);
-			
-			URL resourceUrl = DataBD.class.getResource(propFileName);
-			File file = new File(resourceUrl.toURI());		
+			DataBD.class.getResourceAsStream(propFileName);
+			File file = new File(DataBD.class.getResourceAsStream(propFileName).toString());		
 			outputStream = new FileOutputStream(file);
 					 	
 			properties.store(outputStream, null);
 			
 			outputStream.close();
-			
-			System.out.println("Almacenando configuracion: " + properties);
 			
 		} catch (Exception e) {
 			
@@ -77,33 +80,30 @@ public class ConfiguracionBD {
 		} finally {
 			
 			if (outputStream != null)
-				
 				try {
 					outputStream.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			
 			outputStream = null;
-			
 		}
 		
 	}
 	
 	public static String getIP() {
-		return properties.getProperty("db_ip");
+		return properties.getProperty("ip")!= null ? properties.getProperty("ip") : "";
 	}
 	
 	public static String getPort() {
-		return properties.getProperty("db_port");
+		return properties.getProperty("port")!= null ? properties.getProperty("port") : "";
 	}
 	
 	public static String getUser() {
-		return properties.getProperty("db_user");
+		return properties.getProperty("user")!= null ? properties.getProperty("user"): "";
 	}
 	
 	public static String getPassword() {
-		return properties.getProperty("db_password");
+		return properties.getProperty("password")!=null ? properties.getProperty("password"): "";
 	}
 	
 

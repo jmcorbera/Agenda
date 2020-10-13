@@ -1,4 +1,4 @@
---DROP DATABASE IF EXISTS grupo_8;
+
 CREATE DATABASE IF NOT EXISTS grupo_8;
 USE grupo_8;
 
@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS `personas`
   `contactoPreferente` text NOT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`contactoId`) REFERENCES `tipoContacto`(`nombreContacto`)
-);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS  `paises`
 (
 `id` int (11) NOT NULL AUTO_INCREMENT,
 `nombre` varchar(45) NOT NULL,
 PRIMARY KEY(`id`,`nombre`)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `provincias`
 (
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `provincias`
 `paisId` int (11) NOT NULL,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`paisId`) REFERENCES `paises` (`id`) ON DELETE CASCADE
-);
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `localidades`
 (
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `localidades`
 `provinciaId` int (11) NOT NULL,
 PRIMARY KEY (`id`),
 FOREIGN KEY (`provinciaId`) REFERENCES `provincias` (`id`) ON DELETE CASCADE
-);
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `domicilios`
 (
@@ -60,7 +60,7 @@ FOREIGN KEY (`id`) REFERENCES `personas`(`id`),
 FOREIGN KEY (`provinciaId`) REFERENCES `provincias` (`id`) ON DELETE SET NULL,
 FOREIGN KEY (`localidadId`) REFERENCES `localidades` (`id`) ON DELETE SET NULL,
 FOREIGN KEY (`paisId`) REFERENCES `paises` (`id`) ON DELETE SET NULL
-);
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 
 INSERT IGNORE INTO `tipoContacto` (`nombreContacto`) VALUES ('Amigo');

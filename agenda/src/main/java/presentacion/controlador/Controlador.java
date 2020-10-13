@@ -50,12 +50,12 @@ public class Controlador implements ActionListener {
 	
 	public void iniciar() {
 		if (Conexion.getConexion().conectar()) {
-			this.inicializar();
 			this.inicializarConfiguraciones();
+			JOptionPane.showMessageDialog(null, Mensajes.conexionExitosa);
 		}
 		else {
-			JOptionPane.showMessageDialog(null, "Error al conectarse a la Base de Datos", "ERROR", JOptionPane.ERROR_MESSAGE);
 			ventanaLogin.mostrar();
+			JOptionPane.showMessageDialog(ventanaLogin, Mensajes.noConectado);
 		}
 	}
 	
@@ -65,49 +65,19 @@ public class Controlador implements ActionListener {
 	
 	private void conectarBaseDeDatos()
 	{
-		String ip = this.ventanaLogin.getIp();
-		String puerto = this.ventanaLogin.getPort();
-		String usuario =  this.ventanaLogin.getUser();
-		String contraseña = this.ventanaLogin.getPassword();
-			
-		if(ip.isEmpty() || puerto.isEmpty())
-			JOptionPane.showMessageDialog(this.ventanaLogin, "Debe ingresar la url y puerto de la base de datos a la que desea conectarse.");
+		String ip = this.ventanaLogin.getIp() != null ? this.ventanaLogin.getIp():"";
+		String puerto = this.ventanaLogin.getPort() != null ? this.ventanaLogin.getPort():"";
+		String usuario =  this.ventanaLogin.getUser()!= null ? this.ventanaLogin.getUser():"";
+		String password = this.ventanaLogin.getPassword()!= null ? this.ventanaLogin.getPassword():"";
+		if(ip.isEmpty() || puerto.isEmpty() || usuario.isEmpty() || password.isEmpty())
+			JOptionPane.showMessageDialog(this.ventanaLogin, Mensajes.datosObligatorios);
 		
-		else if (usuario.isEmpty() || contraseña.isEmpty())
-			JOptionPane.showMessageDialog(this.ventanaLogin, "Debe proporcionar el usuario y la contraseña para acceder a la base de datos.");
-		
-		ConfiguracionBD.GuardarConfig(ip, puerto, usuario, contraseña);
+		ConfiguracionBD.GuardarConfig(ip, puerto, usuario, password);
 			
 		this.ventanaLogin.cerrar();
 		
-//		try {
-//			SeedData.EnsureDatabaseTablesCreated();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			JOptionPane.showMessageDialog(null, "La base de datos estaba vacía y no se pudo crear el esquema.");
-//		}
-		
 		this.iniciar();
 	}
-	
-//	private void ingresar() {
-//		
-//	boolean loginCorrecto = Conexion.isCorrectUser(ventanaLogin.getUser()) &&
-//				Conexion.isCorrectPassword(ventanaLogin.getPassword());
-//		if(loginCorrecto) {
-//			JOptionPane.showMessageDialog(ventanaLogin, "Conexión exitosa");
-//			BasicConfigurator.configure();
-//			DAOSQLFactory factory = new DAOSQLFactory();
-//			DBdata.Initialize(factory);
-//			ventanaLogin.cerrar();
-//			ventanaLogin = null;
-//			this.inicializar();	
-//			inicializarConfiguraciones();
-//		}
-//		else
-//			JOptionPane.showMessageDialog(ventanaLogin, "Usuario o contraseña incorrectos!");
-//		
-//	}
 
 	private void inicializarConfiguraciones() {
 		configurarVentanaNacimiento();
@@ -158,6 +128,7 @@ public class Controlador implements ActionListener {
 		this.vista.getMenuItemLocalidad().addActionListener(l -> setControladorUbicacion());
 		this.vista.getMenuItemTipoContacto().addActionListener(t -> ventanaTipoContacto.mostrarVentana());
 		this.vista.getMenuConexion().addActionListener(a->ventanaConfiguracion(a));
+		refrescarTabla();
 	}
 
 	private void setControladorUbicacion() {
@@ -437,10 +408,6 @@ public class Controlador implements ActionListener {
 	private void mostrarReporte() {
 		ReporteAgenda reporte = new ReporteAgenda(agenda.obtenerReportesAgrupadoPorDomicilio());
 		reporte.mostrar();
-	}
-
-	public void inicializar() {
-		this.refrescarTabla();
 	}
 
 	private void refrescarTabla() {

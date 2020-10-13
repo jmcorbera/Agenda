@@ -11,20 +11,22 @@ import org.apache.ibatis.jdbc.ScriptRunner;
 import dto.LocalidadDTO;
 import dto.PaisDTO;
 import dto.ProvinciaDTO;
-import persistencia.conexion.Conexion;
 import persistencia.dao.interfaz.DAOAbstractFactory;
 import persistencia.dao.interfaz.LocalidadDAO;
 import persistencia.dao.interfaz.PaisDAO;
 import persistencia.dao.interfaz.ProvinciaDAO;
 
 public class DataBD {
-	
-	public static void Initialize(DAOAbstractFactory DAOFactory) {
+	private static Connection conn;
+	public static boolean Initialize(DAOAbstractFactory DAOFactory, Connection conn) {
+		DataBD.conn = conn;
 		try {
 			crearTablas(); // Initialize database
 		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
-		
+	
 		// Paises
 		PaisDAO paisDAO = DAOFactory.createPaisDAO();
 		List<PaisDTO> paises = getPaises(paisDAO);
@@ -36,11 +38,11 @@ public class DataBD {
 		// Localidades
 		LocalidadDAO localidadDAO = DAOFactory.createLocalidadDAO();
 		@SuppressWarnings("unused")
-		List<LocalidadDTO> localidades = getLocalidades(localidadDAO, provincias);
+		List<LocalidadDTO> localidades = getLocalidades(localidadDAO, provincias);		
+		return true;
 	}
 
 	public static void crearTablas() throws Exception {
-		Connection conn = Conexion.getConexion().getSQLConexion();
 		ScriptRunner runner = new ScriptRunner(conn);
 		InputStreamReader reader = null;		
         InputStream stream = DataBD.class.getResourceAsStream("/scriptAgenda.sql");
@@ -49,7 +51,6 @@ public class DataBD {
 			reader = new InputStreamReader(stream, "UTF-8");
 			runner.runScript(reader);
 			reader.close();
-			Conexion.getConexion().cerrarConexion();
 		} finally {
 			
 			if (reader != null) {
@@ -87,11 +88,8 @@ public class DataBD {
 		List<ProvinciaDTO> provincias = new ArrayList<ProvinciaDTO>();
 		
 		//todo get json provincias
-		
 		if (!provinciaDAO.ifExist()) {
-			
 			PaisDTO argentina = paises.stream().filter(p -> p.getNombre().equals("Argentina")).findFirst().get();
-			
 			provincias.add(new ProvinciaDTO(0, "CABA", argentina));
 			provincias.add(new ProvinciaDTO(0, "Tierra del Fuego", argentina));
 			provincias.add(new ProvinciaDTO(0, "Buenos Aires", argentina));
@@ -146,8 +144,6 @@ public class DataBD {
 			for (LocalidadDTO localidad : localidades) {
 				localidadDAO.insert(localidad);
 			}
-					
-			System.out.println("Localidades cargadas con éxito.");
 		}
 					
 		return localidadDAO.readAll();	
