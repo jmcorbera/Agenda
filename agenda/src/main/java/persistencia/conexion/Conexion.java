@@ -5,78 +5,72 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Properties;
-
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
 import modelo.ConfiguracionBD;
 import modelo.DataBD;
 import persistencia.dao.mysql.DAOSQLFactory;
-
-
 public class Conexion 
 {
 	public static Conexion INSTANCE;
 	private Connection connection;
+	private ConfiguracionBD configBD = ConfiguracionBD.getInstance();
 	private Logger log = Logger.getLogger(Conexion.class);	
-	private String url = "";
-	private String ip = "";
-	private String puerto = "";
-	private String user = "";
-	private String password = "";
+	private String url;
 	
 	public boolean conectar() {
-		boolean ret = false;
-		try {	
-			if(this.cargarDatosConfiguracion())
-			{
-				BasicConfigurator.configure();
-				this.url = "jdbc:mysql://" + this.ip + ":" + this.puerto + "/grupo_8?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC";	 
+		try {
+			BasicConfigurator.configure();
+			dbExist();
+			
+			url = "jdbc:mysql://"+configBD.obtenerProperty("ip") + ":"+ configBD.obtenerProperty("port") + "/" +"grupo_8" + "?autoReconnect=true&useSSL=false";
+			connection = DriverManager.getConnection(url, configBD.obtenerProperty("user"),configBD.obtenerProperty("password"));
 		
-				if(dbExist())
-				{
-					log.info("Conexión exitosa"); 
-					this.connection = DriverManager.getConnection(this.url, user, password);
-					this.connection.setAutoCommit(false);
-					ret = true;
-					
-					DAOSQLFactory factory = new DAOSQLFactory();
-			    	if(DataBD.Initialize(factory, connection))
-			    		return true;
-			    	else
-			    		return false;
-				}
-	        }
+			this.connection = DriverManager.getConnection(this.url, configBD.obtenerProperty("user"), configBD.obtenerProperty("password"));
+			this.connection.setAutoCommit(false);
+			
+			if(!configBD.existiaConfig()) {
+				DAOSQLFactory factory = new DAOSQLFactory();
+				if(DataBD.Initialize(factory, connection))
+					return true;
+				else
+					return false;
+			}
+			log.info("Conexión exitosa");
+			return true;
 		} catch (Exception e) {
-			log.error("Conexión fallida", e);
+			log.error("Conexión fallida");
 		}
-		return ret;
+		return false;
 	}
 	
 	private boolean dbExist() 
 	{	
-	
-		String url = "jdbc:mysql://" + this.ip + ":" + this.puerto;	
-		Properties properties = new Properties();
-		properties.setProperty("allowPublicKeyRetrieval","true");
-		properties.setProperty("user", this.user);
-		properties.setProperty("password", this.password);
-		properties.setProperty("useSSL", "false");
-		properties.setProperty("serverTimezone", "UTC");
+		try {
+			url = "jdbc:mysql://" +configBD.obtenerProperty("ip")+ ":" + configBD.obtenerProperty("port");	
+			Properties properties = new Properties();
+			properties.setProperty("allowPublicKeyRetrieval","true");
+			properties.setProperty("user", configBD.obtenerProperty("user"));
+			properties.setProperty("password", configBD.obtenerProperty("password"));
+			properties.setProperty("useSSL", "false");
+			properties.setProperty("serverTimezone", "UTC");
 		
-		// SQL command to create a database in MySQL.
-        String sql = "CREATE DATABASE IF NOT EXISTS grupo_8";
+			// SQL command to create a database in MySQL.
+			String sql = "CREATE DATABASE IF NOT EXISTS grupo_8";
 		
-        try (Connection conn = DriverManager.getConnection(url, properties);
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-               stmt.execute();
-               return true;
-           } catch (Exception e) {
-               e.printStackTrace();
+			try {
+				Connection conn = DriverManager.getConnection(url, properties);
+				PreparedStatement stmt = conn.prepareStatement(sql); 
+				stmt.execute();
+				return true;
+			} catch (Exception e) {
                return false;
            }
-        
-      
+		}
+		catch(NullPointerException e) {
+			return false;
+		}
 	}
 	
 	public static Conexion getConexion()   
@@ -107,15 +101,5 @@ public class Conexion
 		INSTANCE = null;
 	}
 	
-	private boolean cargarDatosConfiguracion() {
-		if(ConfiguracionBD.cargarConfiguracion())
-		{
-			this.ip = ConfiguracionBD.getIP();
-			this.puerto = ConfiguracionBD.getPort();
-			this.user = ConfiguracionBD.getUser();
-			this.password = ConfiguracionBD.getPassword();
-			return true;
-		}
-		return false;
-	}
+	
 }

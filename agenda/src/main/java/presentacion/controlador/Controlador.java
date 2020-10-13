@@ -39,7 +39,7 @@ public class Controlador implements ActionListener {
 	private VentanaEditarPersona ventanaEditarPersona;
 	private ControladorUbicacion controladorUbicacion;
 	private VentanaLogin ventanaLogin;
-	
+	private ConfiguracionBD config = ConfiguracionBD.getInstance();
 	public Controlador(Vista vista, Agenda agenda) {
 		this.vista = vista;
 		this.agenda = agenda;
@@ -72,11 +72,17 @@ public class Controlador implements ActionListener {
 		if(ip.isEmpty() || puerto.isEmpty() || usuario.isEmpty() || password.isEmpty())
 			JOptionPane.showMessageDialog(this.ventanaLogin, Mensajes.datosObligatorios);
 		
-		ConfiguracionBD.GuardarConfig(ip, puerto, usuario, password);
-			
+		guardarConfig(ip, puerto, usuario, password);
 		this.ventanaLogin.cerrar();
-		
 		this.iniciar();
+	}
+
+	private void guardarConfig(String ip, String puerto, String usuario, String password) {
+		config.agregar("ip", ip);
+		config.agregar("port",puerto);
+		config.agregar("user",usuario);
+		config.agregar("password",password);
+		config.guardar();
 	}
 
 	private void inicializarConfiguraciones() {
