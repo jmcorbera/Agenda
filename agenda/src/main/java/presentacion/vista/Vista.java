@@ -217,5 +217,11 @@ public class Vista
 	}
 
 
+	public void ocultar() {
+		frmAgenda.setVisible(false);
+		frmAgenda.dispose();
+	}
+
+
 	
 }

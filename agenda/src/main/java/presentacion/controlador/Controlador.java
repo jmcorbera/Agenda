@@ -55,6 +55,7 @@ public class Controlador implements ActionListener {
 			JOptionPane.showMessageDialog(null, Mensajes.conexionExitosa);
 		}
 		else {
+			vista.ocultar();
 			ventanaLogin.mostrar();
 			JOptionPane.showMessageDialog(ventanaLogin, Mensajes.noConectado);
 		}
