@@ -25,7 +25,7 @@ public class Conexion
 			BasicConfigurator.configure();
 			dbExist();
 			
-			url = "jdbc:mysql://"+configBD.obtenerProperty("ip") + ":"+ configBD.obtenerProperty("port") + "/" +"grupo_8" + "?autoReconnect=true&useSSL=false";
+			url = "jdbc:mysql://"+configBD.obtenerProperty("ip") + ":"+ configBD.obtenerProperty("port") + "/" +"grupo_8" + "?autoReconnect=true&useSSL=false&serverTimezone=UTC";
 			connection = DriverManager.getConnection(url, configBD.obtenerProperty("user"),configBD.obtenerProperty("password"));
 		
 			this.connection = DriverManager.getConnection(this.url, configBD.obtenerProperty("user"), configBD.obtenerProperty("password"));
